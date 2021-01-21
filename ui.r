@@ -72,14 +72,14 @@ ui<-fluidPage(
   #          sidebarLayout(
   #            sidebarPanel(
   #              selectInput("CompInput1", "Select Province",
-  #                          choices = c("Alberta","British Columbia","Manitoba","New Brunswick","Newfoundland and labrador",
+  #                          choices = c("Alberta","British Columbia","Manitoba","New Brunswick","Newfoundland and Labrador",
   #                                      "Northwest Territories","Nova Scotia","Nunavut","Ontario","Prince Edward Island",
   #                                      "Quebec","Saskatchewan","Yukon"
   #                          ),
   #                          selected =c("Alberta")
   #              ),
   #              selectInput("CompInput2", "Compare With",
-  #                          choices = c("Alberta","British Columbia","Manitoba","New Brunswick","Newfoundland and labrador",
+  #                          choices = c("Alberta","British Columbia","Manitoba","New Brunswick","Newfoundland and Labrador",
   #                                      "Northwest Territories","Nova Scotia","Nunavut","Ontario","Prince Edward Island",
   #                                      "Quebec","Saskatchewan","Yukon"
   #                          ),
@@ -128,18 +128,18 @@ ui<-fluidPage(
            sidebarLayout(
              sidebarPanel(
                selectInput("ProvinceInput", "Select Jurisdiction",
-                           choices = c("Newfoundland and labrador","Prince Edward Island","Nova Scotia","New Brunswick",
+                           choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
                                        "Yukon", "Northwest Territories","Nunavut"
                              
                            ),
                              
-                           #   c("Alberta","British Columbia","Manitoba","New Brunsick","Newfoundland and labrador",
+                           #   c("Alberta","British Columbia","Manitoba","New Brunsick","Newfoundland and Labrador",
                            #             "Northwest Territories","Nova Scotia","Nunavut","Ontario","Prince Edward Island",
                            #             "Quebec","Saskatchewan","Yukon"
                            # ),
                            
-                           selected =c("Newfoundland and labrador")
+                           selected =c("Newfoundland and Labrador")
                            ),
                sliderInput("YRInput", "Year Range", beginy, endy, c(beginy, endy)
                            ),
@@ -231,12 +231,12 @@ ui<-fluidPage(
            sidebarLayout(
              sidebarPanel(
                selectInput("ProIndInput", "Select Jurisdiction",
-                           choices = c("Newfoundland and labrador","Prince Edward Island","Nova Scotia","New Brunswick",
+                           choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
                                        "Yukon", "Northwest Territories","Nunavut"
                                        
                            ),
-                           selected =c("Newfoundland and labrador")
+                           selected =c("Newfoundland and Labrador")
                ),
                selectInput("IndustryInput", "Select Industry",
                            choices = c("Accommodation and food services","Agriculture, forestry, fishing and hunting","Construction",
@@ -327,15 +327,15 @@ ui<-fluidPage(
            sidebarLayout(
              sidebarPanel(
                selectInput("ProOPInput", "Select Jurisdiction",
-                           choices = c("Newfoundland and labrador","Prince Edward Island","Nova Scotia","New Brunswick",
+                           choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
                                        "Yukon", "Northwest Territories","Nunavut"
                                        
                            ),
-                           selected =c("Newfoundland and labrador")
+                           selected =c("Newfoundland and Labrador")
                            ),
                selectInput("ProTPInput", "Select Target Jurisdiction",
-                           choices = c("Newfoundland and labrador","Prince Edward Island","Nova Scotia","New Brunswick",
+                           choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
                                        "Yukon", "Northwest Territories","Nunavut"
                                        
@@ -382,7 +382,7 @@ ui<-fluidPage(
            sidebarLayout(
              sidebarPanel(
                selectInput("ProAgeInput", "Select Jurisdiction",
-                           choices = c("Newfoundland and labrador","Prince Edward Island","Nova Scotia","New Brunswick",
+                           choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
                                        "Yukon", "Northwest Territories","Nunavut"
                                        
@@ -438,7 +438,7 @@ ui<-fluidPage(
   #          sidebarLayout(
   #            sidebarPanel(
   #              selectInput("table", "Choose a table: ",
-  #                          choices = c("Newfoundland and labrador","Prince Edward Island","Nova Scotia","New Brunswick",
+  #                          choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
   #                                      "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
   #                                      "Yukon", "Northwest Territories","Nunavut"
   #                                      

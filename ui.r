@@ -28,6 +28,10 @@ ui<-fluidPage(
                          choices = c("Male","Female","Both"
                          ),
                          selected =c("Both")),
+               
+               selectInput("SeriesInput", "Select Series",
+                           choices = c("Employees","Income"),
+                           selected=c("Employees")),
              
                selectInput("TypeInput", "Select Employment Type",
                          choices = c("Receiver","Sender"

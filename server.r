@@ -34,20 +34,43 @@ server<-function(input, output){
       ),by = c("PRUID" = "PRUID")) 
     
     #color;
-    pal_count_PR <- createClasses(IJE_table1_filted$count , "Blues", "transparent", 5)
-    geo_labels_PR <- sprintf(
-      "<strong>%s (Number of Employee):  %s </strong>",
-      IJE_table1_filted$province, format(IJE_table1_filted$count, big.mark = ",")) %>%
-      lapply(htmltools::HTML) # add labels 
+    if(input$SeriesInput == "Employees"){
+      seriesvar <- IJE_table1_filted$count
+      seriestitle <- 'Number of Inter-Jurisdictional Employees'
+      
+      pal_count_PR <- createClasses(IJE_table1_filted$count , "Blues", "transparent", 5)
+      
+      geo_labels_PR <- sprintf(
+        "<strong>%s (Employees):  %s </strong>",
+        IJE_table1_filted$province, format(IJE_table1_filted$count, big.mark = ",")) %>%
+        lapply(htmltools::HTML) # add labels 
+      
+    } else if(input$SeriesInput == "Income"){
+      
+      seriesvar <- IJE_table1_filted$income
+      seriestitle <- 'Income of Inter-Jurisdictional Employees'
+      
+      pal_count_PR <- createClasses(IJE_table1_filted$income, "Reds", "transparent", 5)
+      
+      geo_labels_PR <- sprintf(
+        "<strong>%s (Income): %s </strong>",
+        IJE_table1_filted$province, format(IJE_table1_filted$income, big.mark = ",")) %>%
+        lapply(htmltools::HTML) # add labels  
+    }
     
-    labels_inc <- sprintf(
-      "<strong>%s (Income): %s </strong>",
-      IJE_table1_filted$province, format(IJE_table1_filted$income, big.mark = ",")) %>%
-      lapply(htmltools::HTML) # add labels  
+    # geo_labels_PR <- sprintf(
+    #   "<strong>%s (Employees):  %s </strong>",
+    #   IJE_table1_filted$province, format(IJE_table1_filted$count, big.mark = ",")) %>%
+    #   lapply(htmltools::HTML) # add labels 
+    # 
+    # labels_inc <- sprintf(
+    #   "<strong>%s (Income): %s </strong>",
+    #   IJE_table1_filted$province, format(IJE_table1_filted$income, big.mark = ",")) %>%
+    #   lapply(htmltools::HTML) # add labels  
     
     PRcount %>%
       addPolygons( data = IJE_table1_filted,stroke = TRUE, color = "#444444", weight = 1, smoothFactor = 0.5,
-                   opacity = 1.0, fillOpacity = 0.5,fillColor = pal_count_PR$pal( IJE_table1_filted$count),group = "count",
+                   opacity = 1.0, fillOpacity = 0.5,fillColor = pal_count_PR$pal(seriesvar),group = "count",
                    highlightOptions = highlightOptions(color = "white", weight = 2,
                                                        bringToFront = FALSE),
                    label = geo_labels_PR,
@@ -59,13 +82,13 @@ server<-function(input, output){
                                  "Number of Employees: ", format(IJE_table1_filted$count, big.mark = ","), "<br>",
                                  "Income: ", format(IJE_table1_filted$income, big.mark = "," ), "<br>")
       )%>% 
-      addCircles(lng = IJE_table1_filted$lon, lat  = IJE_table1_filted$lat, weight = 2, radius = sqrt(IJE_table1_filted$income)*5,opacity = 1.0, fillOpacity = 0.5, fillColor = "transparent",
-                 color="red", label = labels_inc, highlightOptions = highlightOptions(color = "white", weight = 3,
-                                                                                      bringToFront = TRUE), group="Income")%>%
-      addLegend(position ="topright", pal = pal_count_PR$pal, values = IJE_table1_filted$count,
-                opacity = 1, title = "The Number of Inter-jurisdictional Employment", na.label = "No Data")%>%
-      addLayersControl( overlayGroups = c("Income"),
-                        options = layersControlOptions(collapsed = TRUE, autoZIndex=TRUE)) %>%
+      # addCircles(lng = IJE_table1_filted$lon, lat  = IJE_table1_filted$lat, weight = 2, radius = sqrt(IJE_table1_filted$income)*5,opacity = 1.0, fillOpacity = 0.5, fillColor = "transparent",
+      #            color="red", label = labels_inc, highlightOptions = highlightOptions(color = "white", weight = 3,
+      #                                                                                 bringToFront = TRUE), group="Income")%>%
+      addLegend(position ="topright", pal = pal_count_PR$pal, values = seriesvar,
+                opacity = 1, title = seriestitle, na.label = "No Data")%>%
+      # addLayersControl( overlayGroups = c("Income"),
+      #                   options = layersControlOptions(collapsed = TRUE, autoZIndex=TRUE)) %>%
       addScaleBar(position = "bottomleft", options = scaleBarOptions(imperial = FALSE)) 
     
   })

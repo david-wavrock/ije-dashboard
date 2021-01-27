@@ -278,6 +278,7 @@ server<-function(input, output){
       geom_point(size=3)+
       labs(y = "Inter-Jurisdictional Employment (Number)", x = "Year")+
       scale_colour_manual(name='Role',values = c("aquamarine4", "yellow3"))+
+      scale_x_continuous(breaks=seq(2002,2017,2))+
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
       ggtitle(paste("Inter-Jurisdictional Employment, Yearly"))+
       theme(plot.title = element_text(hjust=0.5, size=16, face = "bold"),
@@ -293,6 +294,7 @@ server<-function(input, output){
       geom_point(size=3)+
       labs(y = "Aggregate T4 Earnings", x = "Year")+
       scale_colour_manual(name='Role',values = c("cyan3", "darkorange2"))+
+      scale_x_continuous(breaks=seq(2002,2017,2))+
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
       ggtitle("Aggregate T4 Earnings for Inter-Jurisdictional Employees")+
       theme(plot.title = element_text(hjust=0.5, size=16, face = "bold"),
@@ -319,6 +321,8 @@ server<-function(input, output){
       geom_bar(mapping = aes(y = count, colour = "Employee"),stat = 'identity', fill= "aquamarine4")+
       #add second dimension
       geom_line(mapping = aes( y = income/35000),group = 1, size = 2,  colour = "cyan3")+
+      scale_x_continuous(breaks=seq(2002,2017,2))+
+      
       #add second y axis
       scale_y_continuous(name = "Number of Receiver", 
                          labels = function(c){paste0(format(c, big.mark = ","))} ,
@@ -354,6 +358,8 @@ server<-function(input, output){
       geom_bar(mapping = aes(y = count, colour = "Employee"),stat = 'identity', fill = "yellow3")+
       #add second dimension
       geom_line(mapping = aes( y = income/35000),group = 1, size = 2,  colour = "darkorange2")+
+      scale_x_continuous(breaks=seq(2002,2017,2))+
+      
       #add second y axis
       scale_y_continuous(name = "Number of Sender", 
                          labels = function(c){paste0(format(c, big.mark = ","))} ,
@@ -438,6 +444,8 @@ server<-function(input, output){
       geom_point(size=3)+
       labs(y = "Inter-Jurisdictional Employment (Number)", x = "Year")+
       scale_colour_manual(name='Role',values = c("aquamarine4", "yellow3"))+
+      scale_x_continuous(breaks=seq(2002,2017,2))+
+      
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
       ggtitle(paste("Inter-Jurisdictional Employment of", input$ProIndInput, "in Specificed Industry"))+
       theme(legend.position =c(0.9,0.9) , 
@@ -452,6 +460,8 @@ server<-function(input, output){
       geom_point(size=3)+
       labs(y = "Aggregate T4 Earnings", x = "Year")+
       scale_colour_manual(name='Role',values = c("cyan3", "darkorange2"))+
+      scale_x_continuous(breaks=seq(2002,2017,2))+
+      
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
       ggtitle(paste("Aggregate T4 Earnings for Inter-Jurisdictional Employees in Specified Industry"))+
       theme(legend.position =c(0.9,0.9),
@@ -475,6 +485,8 @@ server<-function(input, output){
       geom_bar(mapping = aes(y = count, colour = "Employees"),stat = 'identity', fill="aquamarine4")+
       #add second dimension
       geom_line(mapping = aes( y = income/35000, colour = "Income"),group = 1, size = 2)+
+      scale_x_continuous(breaks=seq(2002,2017,2))+
+      
       #add second y axis
       scale_y_continuous(name = "Number of Employees", 
                          labels = function(c){paste0(format(c, big.mark = ","))} ,
@@ -508,6 +520,8 @@ server<-function(input, output){
       geom_bar(mapping = aes(y = count, colour = "Employees"),stat = 'identity', fill="yellow3")+
       #add second dimension
       geom_line(mapping = aes( y = income/35000),group = 1, size = 2,  colour = "darkorange2")+
+      scale_x_continuous(breaks=seq(2002,2017,2))+
+      
       #add second y axis
       scale_y_continuous(name = "Number of Senders", 
                          labels = function(c){paste0(format(c, big.mark = ","))} ,
@@ -598,6 +612,8 @@ server<-function(input, output){
       labs(y = "Inter-Jurisdictional Employment (Number)", x = "Year")+
       # add colour
       scale_colour_manual(name='Role',values = c("aquamarine4", "yellow3"))+
+      scale_x_continuous(breaks=seq(2002,2017,2))+
+      
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
       ggtitle(paste("Inter-Jurisdictional Employment of", input$ProOPInput))+
       theme(legend.position =c(0.9,0.9), plot.title = element_text(hjust = 0.5, size = 12, face = "bold"))
@@ -611,6 +627,8 @@ server<-function(input, output){
       labs(y = "Aggregate T4 Earnings", x = "Year")+
       # add colour
       scale_colour_manual(name='Role',values = c("cyan3", "darkorange2"))+
+      scale_x_continuous(breaks=seq(2002,2017,2))+
+      
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
       ggtitle("Aggregate T4 Earnings for Inter-Jurisdictional Employees")+
       theme(legend.position =c(0.9,0.9), plot.title = element_text(hjust = 0.5, size = 12, face = "bold"))
@@ -640,6 +658,8 @@ server<-function(input, output){
       geom_bar(mapping = aes(y = count, colour = "Employee"),stat = 'identity', fill="aquamarine4")+
       #add second dimension
       geom_line(mapping = aes( y = income/35000, colour = "Income"),group = 1, size = 2)+
+      scale_x_continuous(breaks=seq(2002,2017,2))+
+      
       #add second y axis
       scale_y_continuous(name = "Number of Receiver", 
                          labels = function(c){paste0(format(c, big.mark = ","))} ,
@@ -664,6 +684,8 @@ server<-function(input, output){
       geom_bar(mapping = aes(y = count, colour = "Employee"),stat = 'identity', fill="yellow3")+
       #add second dimension
       geom_line(mapping = aes( y = income/35000, colour = "Income"),group = 1, size = 2)+
+      scale_x_continuous(breaks=seq(2002,2017,2))+
+      
       #add second y axis
       scale_y_continuous(name = "Number of Sender", 
                          labels = function(c){paste0(format(c, big.mark = ","))} ,
@@ -703,6 +725,8 @@ server<-function(input, output){
       geom_line(size=1.2)+
       geom_point(size=3)+
       labs(y = "Number of Employee", x = "Year")+
+      scale_x_continuous(breaks=seq(2002,2017,2))+
+      
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
       scale_color_discrete(name='Age Group') +
       ggtitle("Number of Employees by Age Group")+

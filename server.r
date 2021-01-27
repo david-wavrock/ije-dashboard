@@ -436,10 +436,10 @@ server<-function(input, output){
     ggplot(Ind_filted(), aes(x=year, y = count, group=type, color=type)) + 
       geom_line(size=1.2)+
       geom_point(size=3)+
-      labs(y = "Inter-jurisdictional Employment (Number)", x = "Year")+
+      labs(y = "Inter-Jurisdictional Employment (Number)", x = "Year")+
       scale_colour_manual(name='Role',values = c("aquamarine4", "yellow3"))+
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
-      ggtitle(paste("Inter-jurisdictional Employment of", input$ProIndInput, "in Specificed Industry"))+
+      ggtitle(paste("Inter-Jurisdictional Employment of", input$ProIndInput, "in Specificed Industry"))+
       theme(legend.position =c(0.9,0.9) , 
             plot.title = element_text(hjust=0.5, size=12, face = "bold"),
             axis.title = element_text(size=12))
@@ -472,11 +472,11 @@ server<-function(input, output){
       ) 
     
     ggplot(table_3478_receive,aes(x = year )) +
-      geom_bar(mapping = aes(y = count, colour = "Employee"),stat = 'identity', fill="aquamarine4")+
+      geom_bar(mapping = aes(y = count, colour = "Employees"),stat = 'identity', fill="aquamarine4")+
       #add second dimension
       geom_line(mapping = aes( y = income/35000, colour = "Income"),group = 1, size = 2)+
       #add second y axis
-      scale_y_continuous(name = "Number of Employee", 
+      scale_y_continuous(name = "Number of Employees", 
                          labels = function(c){paste0(format(c, big.mark = ","))} ,
                          sec.axis = sec_axis(~.*35000, name="Aggregate T4 Earnings",
                                              labels = function(b){paste0(format(b, big.mark = ","))}))+
@@ -505,18 +505,18 @@ server<-function(input, output){
       ) 
     
     ggplot(table_3478_send,aes(x = year )) +
-      geom_bar(mapping = aes(y = count, colour = "Employee"),stat = 'identity', fill="yellow3")+
+      geom_bar(mapping = aes(y = count, colour = "Employees"),stat = 'identity', fill="yellow3")+
       #add second dimension
       geom_line(mapping = aes( y = income/35000),group = 1, size = 2,  colour = "darkorange2")+
       #add second y axis
-      scale_y_continuous(name = "Number of Sender", 
+      scale_y_continuous(name = "Number of Senders", 
                          labels = function(c){paste0(format(c, big.mark = ","))} ,
                          sec.axis = sec_axis(~.*35000, name="Aggregate T4 Earnings",
                                              labels = function(b){paste0(format(b, big.mark = ","))}))+
       #define colour
       scale_colour_manual(values = c("yellow3", "darkorange2")) +
-      labs(y = "Number of Sender", x = "Year", colour = "Label") +
-      ggtitle( paste("Sender and Income in Specified Industry"))+
+      labs(y = "Number of Senders", x = "Year", colour = "Label") +
+      ggtitle( paste("Senders and Income in Specified Industry"))+
       #label location
       theme( legend.position = "none", 
              axis.title.y= element_text(color = "yellow3", size=12),

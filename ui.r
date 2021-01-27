@@ -477,7 +477,6 @@ ui<-fluidPage(
            #              tags$style("label{font-family: 'Lobster', cursive;}")), 
            #            h3("Click", downloadLink('downloadGuide','Here'), "to Download user Guide" 
            #              ))
-           #            
            # ),
            # navlistPanel(
            #   tabPanel("Datasets",

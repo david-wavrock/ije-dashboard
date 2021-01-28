@@ -26,7 +26,6 @@ table_56910 <- readRDS('./data/table_56910.RDS')
 table_11 <- readRDS('./data/table_11.RDS')
 
 
-
 createClasses <- function(data, palette, na_color, n) {
   classes <- classIntervals(na.exclude(data), n = n, style = "jenks")
   bins <- classes[["brks"]]

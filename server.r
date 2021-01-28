@@ -268,7 +268,7 @@ server<-function(input, output){
              source %in% input$DSInput,
              gender %in% input$GDInput,
              type != "Resident",
-             case_when(type == "Receiver" ~ income_source == "Inside the Jurisdiction", T ~ income_source == "Outside the Jurisdiction")
+             case_when(type == "Incoming" ~ income_source == "Inside the Jurisdiction", T ~ income_source == "Outside the Jurisdiction")
       )})
   
   #count trend
@@ -313,7 +313,7 @@ server<-function(input, output){
              year<= input$YRInput[2],
              source %in% input$DSInput,
              gender %in% input$GDInput,
-             type == "Receiver",
+             type == "Incoming",
              income_source %in% "Inside the Jurisdiction"
       ) 
     
@@ -350,7 +350,7 @@ server<-function(input, output){
              year<= input$YRInput[2],
              source %in% input$DSInput,
              gender %in% input$GDInput,
-             type == "Sender",
+             type == "Outgoing",
              income_source %in% "Outside the Jurisdiction"
       ) 
     
@@ -478,7 +478,7 @@ server<-function(input, output){
              industry %in% input$IndustryInput,
              year>= input$YRInd[1],
              year<= input$YRInd[2],
-             type == "Receiver"
+             type == "Incoming"
       ) 
     
     ggplot(table_3478_receive,aes(x = year )) +
@@ -513,7 +513,7 @@ server<-function(input, output){
              industry %in% input$IndustryInput,
              year>= input$YRInd[1],
              year<= input$YRInd[2],
-             type == "Sender"
+             type == "Outgoing"
       ) 
     
     ggplot(table_3478_send,aes(x = year )) +
@@ -641,7 +641,7 @@ server<-function(input, output){
              target_prov %in% input$ProTPInput,
              year>= input$YRTP[1],
              year<= input$YRTP[2],
-             type == "Receiver"
+             type == "Incoming"
       )})
   
   table56910_filted_2<- reactive({
@@ -650,7 +650,7 @@ server<-function(input, output){
              target_prov %in% input$ProTPInput,
              year>= input$YRTP[1],
              year<= input$YRTP[2],
-             type == "Sender"
+             type == "Outgoing"
       )}) 
   
   output$TPComp <-renderPlot({

@@ -34,9 +34,9 @@ ui<-fluidPage(
                            selected=c("Employees")),
              
                selectInput("TypeInput", "Select Employment Type",
-                         choices = c("Receiver","Sender"
+                         choices = c("Incoming","Outgoing"
                          ),
-                         selected =c("Receiver")),   
+                         selected =c("Incoming")),   
                selectInput("IncomeSource", "Select Income Source",
                            choices = c("Inside the Jurisdiction","Outside the Jurisdiction"
                            ),
@@ -408,9 +408,9 @@ ui<-fluidPage(
                            selected =c("Both")
                            ),
                selectInput("TAgeInput", "Select Employment Type",
-                           choices = c("Receiver","Sender", "Resident"
+                           choices = c("Incoming","Outgoing", "Resident"
                            ),
-                           selected =c("Receiver")),
+                           selected =c("Incoming")),
                selectInput("tableAge", "Choose a table to download: ",
                            choices = c("Filtered Age Table","Full Age Table")
                ),

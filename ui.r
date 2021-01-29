@@ -243,14 +243,14 @@ ui<-fluidPage(
                            selected =c("Newfoundland and Labrador")
                ),
                selectInput("IndustryInput", "Select Industry",
-                           choices = c("Accommodation and food services","Agriculture, forestry, fishing and hunting","Construction",
-                                       "Education services, health care and social assistance","Information and cultural industries; Finance and insurance; Real estate and rental and leasing; Management of companies and enterprise",
-                                       "Manufacturing","Mining and quarrying (excluding oil and gas)",
-                                       "Oil and gas extraction and support activities","Other services","Professional, scientific and technical services",
-                                       "Public administration", "Utilities","Wholesale and Retail trade","Transportation and warehousing",
-                                       "Unknown"              
+                           choices = c("Agriculture, forestry, fishing and hunting","Oil and gas extraction and support activities",
+                                       "Mining and quarrying (excluding oil and gas)","Utilities","Construction","Manufacturing",
+                                       "Wholesale and Retail trade","Transportation and warehousing",
+                                       "Information and cultural industries; Finance and insurance; Real estate and rental and leasing; Management of companies and enterprise",
+                                       "Professional, scientific and technical services","Education services, health care and social assistance",
+                                       "Accommodation and food services","Other services","Public administration","Unknown"              
                            ),
-                           selected =c("Accommodation and food services")
+                           selected =c("Agriculture, forestry, fishing and hunting")
                ),
                sliderInput("YRInd", "Year Range", beginy, endy, c(beginy, endy)
                ),

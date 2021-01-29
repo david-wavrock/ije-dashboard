@@ -709,6 +709,9 @@ server<-function(input, output){
   
   ################### Age Group 
   
+  agePalette <- paste0('#',c('F8766D','B79F00','00BA38','00BFC4','619CFF','F564E3'))
+  names(agePalette) <- unique(table_11$age_group)
+  
   table11_filted<- reactive({
     table_11 %>%
       filter(age_group %in% input$AgeInput,
@@ -728,7 +731,7 @@ server<-function(input, output){
       scale_x_continuous(breaks=seq(2002,2017,2))+
       
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
-      scale_color_discrete(name='Age Group') +
+      scale_color_manual(name='Age Group',values=agePalette) +
       ggtitle("Number of Employees by Age Group")+
       theme(plot.title = element_text(hjust=0.5, size=16, face = "bold"))
   }) 
@@ -751,8 +754,8 @@ server<-function(input, output){
       geom_histogram(mapping = aes(y = pct_change), position = "dodge",stat = 'identity')+
       labs(y = "Percentage Changes of Employment", x = "Age Groups")+
       scale_y_continuous(labels = scales::percent_format(accuracy = 1))+
-      scale_fill_discrete(name='Age Group') +
-      scale_color_discrete(name='Age Group') +
+      scale_fill_manual(name='Age Group',values=agePalette) +
+      scale_color_manual(name='Age Group',values=agePalette) +
       theme(axis.text.x = element_text(angle = 45, hjust = 1))+
       ggtitle(paste("Percentage Changes of Employment by Age Group from", input$YRAge[1], "to", input$YRAge[2]))+
       theme(plot.title = element_text(hjust=0.5, size=16, face = "bold"))

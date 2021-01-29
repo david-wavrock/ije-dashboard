@@ -16,6 +16,7 @@ library(rgeos)
 # library(rgdal)
 library(htmlwidgets)
 # library(aws.s3)
+library(RColorBrewer)
 
 options(scipen = 999)
 

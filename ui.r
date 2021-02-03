@@ -19,31 +19,30 @@ ui<-fluidPage(
              sidebarPanel( 
                selectInput("YearInput", "Select Year",
                            choices = c(beginy:endy),
-                           selected =c(endy)),  
+                           selected =c(endy)),
+               
+               radioButtons("TypeInput", "Select Employment Type",
+                            choices = c("Incoming","Outgoing"),
+                            selected =c("Incoming")),
+               
+               radioButtons("SeriesInput", "Select Series",
+                            choices = c("Employees","Income"),
+                            selected=c("Employees")),   
+               
+               radioButtons("GenderInput", "Select Gender",
+                         choices = c("Both","Male","Female"),
+                         selected =c("Both")),
+               
+               radioButtons("IncomeSource", "Select Income Source",
+                           choices = c("Inside the Jurisdiction","Outside the Jurisdiction"),
+                           selected =c("Inside the Jurisdiction")),
+               
                radioButtons("SourceInput", "Data Source",
                             choices = c("T1 Personal Master File", "T1 Historical File"),
                             selected = c("T1 Personal Master File")),
                
-               selectInput("GenderInput", "Select Gender",
-                         choices = c("Male","Female","Both"
-                         ),
-                         selected =c("Both")),
-               
-               selectInput("SeriesInput", "Select Series",
-                           choices = c("Employees","Income"),
-                           selected=c("Employees")),
-             
-               selectInput("TypeInput", "Select Employment Type",
-                         choices = c("Incoming","Outgoing"
-                         ),
-                         selected =c("Incoming")),   
-               selectInput("IncomeSource", "Select Income Source",
-                           choices = c("Inside the Jurisdiction","Outside the Jurisdiction"
-                           ),
-                           selected =c("Inside the Jurisdiction")),
                selectInput("tableN", "Choose a table to download: ",
-                           choices = c("Filtered National Table","Full National Table")
-               ),
+                           choices = c("Filtered National Table","Full National Table")),
                downloadButton("downloadNtable", "Download") 
        
              ),
@@ -137,25 +136,20 @@ ui<-fluidPage(
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
                                        "Yukon", "Northwest Territories","Nunavut"),
-                             
-                           #   c("Alberta","British Columbia","Manitoba","New Brunsick","Newfoundland and Labrador",
-                           #             "Northwest Territories","Nova Scotia","Nunavut","Ontario","Prince Edward Island",
-                           #             "Quebec","Saskatchewan","Yukon"
-                           # ),
                            
-                           selected =c("Newfoundland and Labrador")
-                           ),
-               sliderInput("YRInput", "Year Range", beginy, endy, c(beginy, endy)
-                           ),
-               selectInput("GDInput", "Select Gender",
-                           choices = c("Male","Female","Both"
-                           ),
-                           selected =c("Both")
-                           ),
+                           selected =c("Newfoundland and Labrador")),
+               
+               sliderInput("YRInput", "Year Range", 
+                           beginy, endy, c(beginy, endy)),
+               
+               radioButtons("GDInput", "Select Gender",
+                           choices = c("Both","Male","Female"),
+                           selected =c("Both")),
+               
                radioButtons("DSInput", "Data Source",
                             choices = c("T1 Personal Master File", "T1 Historical File"),
-                            selected = c("T1 Personal Master File")
-                            ),
+                            selected = c("T1 Personal Master File")),
+               
                selectInput("tableIn", "Choose a table to download: ",
                            choices = c("Filtered Table","Full Table")
                            ),
@@ -240,6 +234,13 @@ ui<-fluidPage(
                                        "Yukon", "Northwest Territories","Nunavut"),
                            selected =c("Newfoundland and Labrador")),
                
+               sliderInput("YRInd", "Year Range", 
+                           beginy, endy, c(beginy, endy)),
+               
+               radioButtons('IncOutIndustry','Select Employment Type',
+                            choices = c('Incoming','Outgoing'),
+                            selected = c('Incoming')),
+               
                checkboxGroupInput("IndustryInput", "Select Industry (Limit 12)",
                                   choices = c("Agriculture, forestry, fishing and hunting","Oil and gas extraction and support activities",
                                               "Mining and quarrying (excluding oil and gas)","Utilities","Construction","Manufacturing",
@@ -265,15 +266,9 @@ ui<-fluidPage(
                #             selected =c("Agriculture, forestry, fishing and hunting")
                # ),
                
-               radioButtons('IncOutIndustry','Select Employment Type',
-                            choices = c('Incoming','Outgoing'),
-                            selected = c('Incoming')),
-               
-               sliderInput("YRInd", "Year Range", beginy, endy, c(beginy, endy)
-               ),
                selectInput("tableInd", "Choose a table to download: ",
-                           choices = c("Filtered Industry Table","Full Industry Table")
-               ),
+                           choices = c("Filtered Industry Table","Full Industry Table")),
+               
                downloadButton("downloadItable", "Download")   
              ),
              mainPanel(
@@ -358,6 +353,13 @@ ui<-fluidPage(
                                        "Yukon", "Northwest Territories","Nunavut"),
                            selected =c("Newfoundland and Labrador")),
                
+               sliderInput("YRTP", "Year Range", 
+                           beginy, endy, c(beginy, endy)),
+               
+               radioButtons('IncOutTgtJuris','Select Employment Type',
+                            choices = c('Incoming','Outgoing'),
+                            selected = c('Incoming')),
+               
                checkboxGroupInput('ProTPInput','Select Target Jurisdiction',
                                   choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                               "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
@@ -365,10 +367,6 @@ ui<-fluidPage(
                                   selected = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                                "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
                                                "Yukon", "Northwest Territories","Nunavut")),
-               
-               radioButtons('IncOutTgtJuris','Select Employment Type',
-                            choices = c('Incoming','Outgoing'),
-                            selected = c('Incoming')),
              
                # selectInput("ProTPInput", "Select Target Jurisdiction",
                #             choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
@@ -378,11 +376,10 @@ ui<-fluidPage(
                #             ),
                #             selected =c("Prince Edward Island")
                #             ),
-               sliderInput("YRTP", "Year Range", beginy, endy, c(beginy, endy)
-                           ),
+               
                selectInput("tableTP", "Choose a table to download: ",
-                           choices = c("Filtered TP Table","Full TP Table")
-               ),
+                           choices = c("Filtered TP Table","Full TP Table")),
+               
                downloadButton("downloadTPtable", "Download") 
                
              ),
@@ -425,32 +422,29 @@ ui<-fluidPage(
                selectInput("ProAgeInput", "Select Jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
-                                       "Yukon", "Northwest Territories","Nunavut"
-                                       
-                           ),
-                           selected =c("Alberta")
-                           ),
+                                       "Yukon", "Northwest Territories","Nunavut"),
+                           selected =c("Newfoundland and Labrador")),
+               
+               sliderInput("YRAge", "Year Range",
+                           beginy, endy, c(beginy, endy)),
+               
+               radioButtons("TAgeInput", "Select Employment Type",
+                            choices = c("Incoming","Outgoing", "Resident"),
+                            selected =c("Incoming")),
+               
                checkboxGroupInput( "AgeInput", "Select Age Groups",
                            choices = c("18 to 24 years", "25 to 34 years", "35 to 44 years", "45 to 54 years",
-                                       "55 to 64 years", "65 years and older"
-                           ),
+                                       "55 to 64 years", "65 years and older"),
                            selected = c("18 to 24 years", "25 to 34 years", "35 to 44 years", "45 to 54 years",
-                                        "55 to 64 years", "65 years and older")
-                          ),
-               sliderInput("YRAge", "Year Range", beginy, endy, c(beginy, endy)
-                          ),
-               selectInput("GDAgeInput", "Select Gender",
-                           choices = c("Male","Female","Both"
-                           ),
-                           selected =c("Both")
-                           ),
-               selectInput("TAgeInput", "Select Employment Type",
-                           choices = c("Incoming","Outgoing", "Resident"
-                           ),
-                           selected =c("Incoming")),
+                                        "55 to 64 years", "65 years and older")),
+               
+               radioButtons("GDAgeInput", "Select Gender",
+                           choices = c("Both","Male","Female"),
+                           selected =c("Both")),
+               
                selectInput("tableAge", "Choose a table to download: ",
-                           choices = c("Filtered Age Table","Full Age Table")
-               ),
+                           choices = c("Filtered Age Table","Full Age Table")),
+               
                downloadButton("downloadAtable", "Download")  
                
              ),

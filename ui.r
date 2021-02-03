@@ -136,9 +136,7 @@ ui<-fluidPage(
                selectInput("ProvinceInput", "Select Jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
-                                       "Yukon", "Northwest Territories","Nunavut"
-                             
-                           ),
+                                       "Yukon", "Northwest Territories","Nunavut"),
                              
                            #   c("Alberta","British Columbia","Manitoba","New Brunsick","Newfoundland and Labrador",
                            #             "Northwest Territories","Nova Scotia","Nunavut","Ontario","Prince Edward Island",
@@ -239,21 +237,38 @@ ui<-fluidPage(
                selectInput("ProIndInput", "Select Jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
-                                       "Yukon", "Northwest Territories","Nunavut"
-                                       
-                           ),
-                           selected =c("Newfoundland and Labrador")
-               ),
-               selectInput("IndustryInput", "Select Industry",
-                           choices = c("Agriculture, forestry, fishing and hunting","Oil and gas extraction and support activities",
-                                       "Mining and quarrying (excluding oil and gas)","Utilities","Construction","Manufacturing",
-                                       "Wholesale and Retail trade","Transportation and warehousing",
-                                       "Information and cultural industries; Finance and insurance; Real estate and rental and leasing; Management of companies and enterprise",
-                                       "Professional, scientific and technical services","Education services, health care and social assistance",
-                                       "Accommodation and food services","Other services","Public administration","Unknown"              
-                           ),
-                           selected =c("Agriculture, forestry, fishing and hunting")
-               ),
+                                       "Yukon", "Northwest Territories","Nunavut"),
+                           selected =c("Newfoundland and Labrador")),
+               
+               checkboxGroupInput("IndustryInput", "Select Industry (Limit 12)",
+                                  choices = c("Agriculture, forestry, fishing and hunting","Oil and gas extraction and support activities",
+                                              "Mining and quarrying (excluding oil and gas)","Utilities","Construction","Manufacturing",
+                                              "Wholesale and Retail trade","Transportation and warehousing",
+                                              "Information and cultural industries; Finance and insurance;\n Real estate and rental and leasing; Management of companies and enterprise",
+                                              "Professional, scientific and technical services","Education services, health care and social assistance",
+                                              "Accommodation and food services","Other services","Public administration","Unknown"),
+                                  selected = c("Agriculture, forestry, fishing and hunting","Oil and gas extraction and support activities",
+                                               "Mining and quarrying (excluding oil and gas)","Utilities","Construction","Manufacturing",
+                                               "Wholesale and Retail trade","Transportation and warehousing",
+                                               "Information and cultural industries; Finance and insurance;\n Real estate and rental and leasing; Management of companies and enterprise",
+                                               "Professional, scientific and technical services","Education services, health care and social assistance",
+                                               "Accommodation and food services")),
+               
+               # selectInput("IndustryInput", "Select Industry",
+               #             choices = c("Agriculture, forestry, fishing and hunting","Oil and gas extraction and support activities",
+               #                         "Mining and quarrying (excluding oil and gas)","Utilities","Construction","Manufacturing",
+               #                         "Wholesale and Retail trade","Transportation and warehousing",
+               #                         "Information and cultural industries; Finance and insurance; Real estate and rental and leasing; Management of companies and enterprise",
+               #                         "Professional, scientific and technical services","Education services, health care and social assistance",
+               #                         "Accommodation and food services","Other services","Public administration","Unknown"),
+               #             
+               #             selected =c("Agriculture, forestry, fishing and hunting")
+               # ),
+               
+               radioButtons('IncOutIndustry','Select Employment Type',
+                            choices = c('Incoming','Outgoing'),
+                            selected = c('Incoming')),
+               
                sliderInput("YRInd", "Year Range", beginy, endy, c(beginy, endy)
                ),
                selectInput("tableInd", "Choose a table to download: ",
@@ -262,14 +277,19 @@ ui<-fluidPage(
                downloadButton("downloadItable", "Download")   
              ),
              mainPanel(
-               fluidRow(
-                 splitLayout(cellWidths=c("50%","50%"),  plotOutput("Indtrend"),  plotOutput("IndInctrend"))
-               ),
+               plotOutput("IndCount"),
                br(),
-               fluidRow(
-                 splitLayout(cellWidths=c("50%","50%"),  plotOutput("Ind_receiver"),  plotOutput("Ind_sender"))
-               ),
+               plotOutput("IndIncome"),
                br(),
+               
+               # fluidRow(
+               #   splitLayout(cellWidths=c("50%","50%"),  plotOutput("Indtrend"),  plotOutput("IndInctrend"))
+               # ),
+               # br(),
+               # fluidRow(
+               #   splitLayout(cellWidths=c("50%","50%"),  plotOutput("Ind_receiver"),  plotOutput("Ind_sender"))
+               # ),
+               # br(),
                ### add your style inline css values here
                
                ### added a line of code here too `.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover `###

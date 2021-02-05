@@ -912,21 +912,25 @@ server<-function(input, output){
     }
   )
   
-  # output$downloadGuide <- downloadHandler(
-  #   filename = 'Methodological Guide on IJEs-ENGLISH-Dec.2017.pdf',
-  #   
-  #   content = function(infile){
-  #     save_object('david-wavrock/ije/Methodological Guide on IJEs-ENGLISH-Dec.2017.pdf',bucket=minio_filist,use_https=F,region='',file=infile)
-  #   }
-  # )
-  
-  # output$downloadVintage <- downloadHandler(
-  #   filename = 'English_Version.zip',
-  #   
-  #   content = function(infile){
-  #     save_object('david-wavrock/ije/English_Version.zip',bucket=minio_filist,use_https=F,region='',file=infile)
-  #   }
-  #   
-  # )
+  output$downloadGuide <- downloadHandler(
+    filename = 'Methodological Guide on IJEs-ENGLISH-Dec.2017.pdf',
+
+    content = function(infile){
+      file.copy('./data/downloadables/Methodological Guide on IJEs-ENGLISH-Dec.2017.pdf',infile)
+      # save_object('david-wavrock/ije/Methodological Guide on IJEs-ENGLISH-Dec.2017.pdf',bucket=minio_filist,use_https=F,region='',file=infile)
+    }
+  )
+
+  output$downloadVintage <- downloadHandler(
+    filename = 'English_Version.zip',
+
+    content = function(infile){
+      # zip(zipfile=infile,files=list.files('./data/downloadables/English_Version'),flags='-j')
+      file.copy('./data/downloadables/English_Version.zip',infile)
+      # save_object('david-wavrock/ije/English_Version.zip',bucket=minio_filist,use_https=F,region='',file=infile)
+    },
+    contentType = 'application/zip'
+
+  )
   
 }

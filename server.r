@@ -93,7 +93,23 @@ server<-function(input, output){
     
   })
   
-  # output$test_txt <- renderText(input$PRcount_shape_click[[5]])
+  ## reactive based on point clicked in map
+  # 
+  # output$clickpoint <- reactive({st_as_sf(data.frame(x=input$PRcount_shape_click[[4]],
+  #                                                    y=input$PRcount_shape_click[[5]]),
+  #                        coords=c('x','y'),crs=4326)})
+  # 
+  # output$clickprov <- reactive({
+  #   simple_pr_shapefile %>%
+  #     mutate(inprov=apply(X=simple_pr_shapefile,MARGIN=1,
+  #                         FUN=function(x) st_contains(x[3]$geometry,output$clickpoint,sparse=F)[1,1])) %>%
+  #     filter(inprov) %>%
+  #     pull(PRENAME) %>%
+  #     renderText()
+  # })
+  # 
+  # output$point_lat <- renderText(input$PRcount_shape_click[[4]])
+  # output$point_lon <- renderText(input$PRcount_shape_click[[5]])
   
   #PR barplot
   # output$PRbar <-renderPlot({
@@ -912,13 +928,5 @@ server<-function(input, output){
   #   }
   #   
   # )
-  
-  
-  
-  
-  
-  
-  
-  
   
 }

@@ -48,8 +48,10 @@ ui<-fluidPage(
              ),
              mainPanel(
                leafletOutput("PRcount",height=600),
-               # br(),
-               # textOutput("test_txt"),
+               br(),
+               textOutput("clickprov"),
+               textOutput("point_lat"),
+               textOutput("point_lon"),
                br(),
                # plotOutput("PRbar"),
                # br(),

@@ -294,11 +294,11 @@ server<-function(input, output){
     ggplot(trend_filted(), aes(x=year, y = count, group=type, color=type)) + 
       geom_line(size=1.2)+
       geom_point(size=3)+
-      labs(y = "Inter-Jurisdictional Employment (Number)", x = "Year")+
+      labs(y = "Number of IJEs", x = "Year")+
       scale_colour_manual(name='Role',values = c("aquamarine4", "yellow3"))+
       scale_x_continuous(breaks=seq(2002,2017,2))+
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
-      ggtitle(paste("Inter-Jurisdictional Employment, Yearly"))+
+      ggtitle(paste("Incoming vs. Outgoing Inter-Jurisdictional Employment"))+
       theme(plot.title = element_text(hjust=0.5, size=16, face = "bold"),
             axis.title = element_text(size=12))
   }) 
@@ -310,7 +310,7 @@ server<-function(input, output){
     ggplot(trend_filted(), aes(x=year, y = income, group=type, color=type)) + 
       geom_line(size=1.2)+
       geom_point(size=3)+
-      labs(y = "Aggregate T4 Earnings", x = "Year")+
+      labs(y = "Aggregate T4 Earnings ($)", x = "Year")+
       scale_colour_manual(name='Role',values = c("cyan3", "darkorange2"))+
       scale_x_continuous(breaks=seq(2002,2017,2))+
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
@@ -342,7 +342,7 @@ server<-function(input, output){
       scale_x_continuous(breaks=seq(2002,2017,2))+
       
       #add second y axis
-      scale_y_continuous(name = "Number of Receiver", 
+      scale_y_continuous(name = "Incoming IJE", 
                          labels = function(c){paste0(format(c, big.mark = ","))} ,
                          sec.axis = sec_axis(~.*35000, name="Aggregate T4 Earnings",
                                              labels = function(b){paste0(format(b, big.mark = ","))}))+
@@ -355,7 +355,7 @@ server<-function(input, output){
             axis.title.y.right = element_text(color = "cyan3", size=12), 
             plot.title = element_text(hjust=0.5, size=16, face="bold"),
             axis.title = element_text(size=12))+
-      ggtitle("Inter-Jurisdictional Receiver Employees and Aggregate T4 Earnings")
+      ggtitle('Incoming Inter-Jurisdictional Employees and Aggregate T4 Earnings')
     
   }) 
   
@@ -379,7 +379,7 @@ server<-function(input, output){
       scale_x_continuous(breaks=seq(2002,2017,2))+
       
       #add second y axis
-      scale_y_continuous(name = "Number of Sender", 
+      scale_y_continuous(name = "Outgoing IJE", 
                          labels = function(c){paste0(format(c, big.mark = ","))} ,
                          sec.axis = sec_axis(~.*35000, name="Aggregate T4 Earnings",                                                                                 
                                              labels = function(b){paste0(format(b, big.mark = ","))}))+
@@ -391,7 +391,7 @@ server<-function(input, output){
              axis.title.y.right = element_text(color = "darkorange2"), 
              plot.title = element_text(hjust=0.5, size=16, face="bold"),
              axis.title = element_text(size=12))+
-      ggtitle("Inter-Jurisdictional Sender Employees and Aggregate T4 Earnings")
+      ggtitle('Outgoing Inter-Jurisdictional Employees and Aggregate T4 Earnings')
     
   }) 
   
@@ -467,7 +467,7 @@ server<-function(input, output){
       geom_line(size=1.2) + geom_point(size=3) +
       
       ggtitle(paste("Inter-Jurisdictional Employment of", input$ProIndInput, "by Industry")) +
-      labs(y = "Number of Inter-Jurisdictional Employees", x = "Year") +
+      labs(y = "Number of IJEs", x = "Year") +
       
       scale_x_continuous(breaks=seq(2002,2017,2)) + 
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))}) +
@@ -482,7 +482,7 @@ server<-function(input, output){
       geom_line(size=1.2) + geom_point(size=3) +
       
       ggtitle(paste("Inter-Jurisdictional Employment Income of", input$ProIndInput, "by Industry")) +
-      labs(y = "Inter-Jurisdictional Employment Income (Dollars)", x = "Year") +
+      labs(y = "Aggregate T4 Earnings ($)", x = "Year") +
       
       scale_x_continuous(breaks=seq(2002,2017,2)) + 
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))}) +
@@ -674,7 +674,7 @@ server<-function(input, output){
       
       ggtitle(paste("Inter-Jurisdictional Employment of", input$ProOPInput))+
       theme(plot.title = element_text(hjust = 0.5, size = 12, face = "bold")) +
-      labs(x='Year', y='Number of Inter-Jurisdictional Employees') +
+      labs(x='Year', y='Number of IJEs') +
       
       scale_x_continuous(breaks=seq(2002,2017,2))+
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
@@ -687,7 +687,7 @@ server<-function(input, output){
       
       ggtitle(paste("Inter-Jurisdictional Employment Income of", input$ProOPInput))+
       theme(plot.title = element_text(hjust = 0.5, size = 12, face = "bold")) +
-      labs(x='Year', y='Inter-Jurisdictional Earnings (Dollars)') +
+      labs(x='Year', y='Aggregate T4 Earnings ($)') +
       
       scale_x_continuous(breaks=seq(2002,2017,2))+
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
@@ -817,12 +817,12 @@ server<-function(input, output){
     ggplot(table11_filted(), aes(x=year, y = count, group=age_group, color=age_group)) + 
       geom_line(size=1.2)+
       geom_point(size=3)+
-      labs(y = "Number of Employee", x = "Year")+
+      labs(y = "Number of IJEs", x = "Year")+
       scale_x_continuous(breaks=seq(2002,2017,2))+
       
       scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
       scale_color_manual(name='Age Group',values=agePalette) +
-      ggtitle("Number of Employees by Age Group")+
+      ggtitle("Number of IJEs by Age Group")+
       theme(plot.title = element_text(hjust=0.5, size=16, face = "bold"))
   }) 
   
@@ -842,7 +842,7 @@ server<-function(input, output){
     
     ggplot(table11_filted, aes(x=age_group, color=age_group, fill=age_group)) + 
       geom_histogram(mapping = aes(y = pct_change), position = "dodge",stat = 'identity')+
-      labs(y = "Percentage Changes of Employment", x = "Age Groups")+
+      labs(y = "Percentage Change of Employment", x = "Age Groups")+
       scale_y_continuous(labels = scales::percent_format(accuracy = 1))+
       scale_fill_manual(name='Age Group',values=agePalette) +
       scale_color_manual(name='Age Group',values=agePalette) +

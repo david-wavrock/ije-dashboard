@@ -21,13 +21,13 @@ ui<-fluidPage(
                            choices = c(beginy:endy),
                            selected =c(endy)),
                
-               radioButtons("TypeInput", "Select Employment Type",
-                            choices = c("Incoming","Outgoing"),
-                            selected =c("Incoming")),
-               
                radioButtons("SeriesInput", "Select Series",
                             choices = c("Employees","Income"),
-                            selected=c("Employees")),   
+                            selected=c("Employees")),
+               
+               radioButtons("TypeInput", "Select Employment Type",
+                            choices = c("Incoming","Outgoing"),
+                            selected =c("Incoming")),   
                
                radioButtons("GenderInput", "Select Gender",
                          choices = c("Both","Male","Female"),
@@ -208,7 +208,7 @@ ui<-fluidPage(
              helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
              helpText("2. Data from T1 Personal Master File are derived from the T1 and T4 tax files."),
              helpText("3. Data from T1 Historical File are derived from the T1, T4 and the T1 historical personal master file. 
-                       The T1 historical file includes late and re-assessed taxfilers. Because the T1 historical file is only available up to 2014, 
+                       The T1 historical file includes late and re-assessed taxfilers. Because the T1 historical file is only available up to 2015, 
                         the last two years is forecasted using a 5-year average from both the T4-T1 and the T4-T1-T1 historical file series."),
              helpText("4. Incoming IJE are individuals who received T4 earnings from the selected jurisdiction but reported a different
                         jurisdiction of residence on their T1 tax returns."),
@@ -349,7 +349,7 @@ ui<-fluidPage(
   tabPanel("Target Jurisdiction",
            sidebarLayout(
              sidebarPanel(
-               selectInput("ProOPInput", "Select Jurisdiction",
+               selectInput("ProOPInput", "Select Base Jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
                                        "Yukon", "Northwest Territories","Nunavut"),

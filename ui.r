@@ -25,7 +25,7 @@ ui<-fluidPage(
                             choices = c("Employees","Income"),
                             selected=c("Employees")),
                
-               radioButtons("TypeInput", "Select Employment Type",
+               radioButtons("TypeInput", tags$div(HTML(paste0("Select Employment Type",tags$sup('3')))),
                             choices = c("Incoming","Outgoing"),
                             selected =c("Incoming")),   
                
@@ -33,11 +33,11 @@ ui<-fluidPage(
                          choices = c("Both","Male","Female"),
                          selected =c("Both")),
                
-               radioButtons("IncomeSource", "Select Income Source",
+               radioButtons("IncomeSource", tags$div(HTML(paste0("Select Income Source",tags$sup('4')))),
                            choices = c("Inside the Jurisdiction","Outside the Jurisdiction"),
                            selected =c("Inside the Jurisdiction")),
                
-               radioButtons("SourceInput", "Data Source",
+               radioButtons("SourceInput", tags$div(HTML(paste0("Data Source",tags$sup('2')))),
                             choices = c("T1 Personal Master File", "T1 Historical File"),
                             selected = c("T1 Personal Master File")),
                
@@ -56,16 +56,18 @@ ui<-fluidPage(
                # plotOutput("PRbar"),
                # br(),
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
-               helpText("2. Data from T1 Personal Master File are derived from the T1 and T4 tax files."),
-               helpText("3. Data from T1 Historical File are derived from the T1, T4 and the T1 historical personal master file. 
-                       The T1 historical file includes late and re-assessed taxfilers. Because the T1 historical file is only available up to 2014, 
-                        the last two years is forecasted using a 5-year average from both the T4-T1 and the T4-T1-T1 historical file series."),
-               helpText("4. Incoming IJE are individuals who received T4 earnings from the selected jurisdiction but reported a different
-                        jurisdiction of residence on their T1 tax returns."),
-               helpText("5. Outgoing IJE are individuals who identified as residing in the selected jurisdiction but received T4 earnings from
-                        other jurisdictions."),
-               helpText("Notes: Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts 
-                        may also be suppressed if the sum of all suppressed counts is less than 10. Counts are rounded to the nearest 5, and earnings are rounded to the nearest 100."),
+               helpText("2. Data from T1 Personal Master File are derived from the T1 and T4 tax files. Data from T1 Historical File are derived from 
+                        the T1, T4 and the T1 historical personal master file. The T1 historical file includes late and re-assessed tax filers. 
+                        Because the T1 historical file is only available up to 2015, the last two years is forecasted using a 5-year average from both 
+                        the T4-T1 and the T4-T1-T1 historical file series."),
+               helpText("3. Incoming IJE are individuals who received T4 earnings from the selected jurisdiction but reported a different jurisdiction 
+                        of residence on their T1 tax returns. Outgoing IJE are individuals who identified as residing in the selected jurisdiction but 
+                        received T4 earnings from other jurisdictions."),
+               helpText("4. IJEs can make income inside/outside their jurisdiction from different income sources. Selection of income source inside/outside 
+                        the jurisdiction has no effect on data maps when ‘Employees’ is selected as the data series."),
+               helpText("5. Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts may also be 
+                        suppressed if the sum of all suppressed counts is less than 10. Counts are rounded to the nearest 5, and earnings are rounded to 
+                        the nearest 100."),
                helpText("Source: Statistics Canada, Canadian Employer-Employee Dynamics Database.")
              )
              
@@ -148,7 +150,7 @@ ui<-fluidPage(
                            choices = c("Both","Male","Female"),
                            selected =c("Both")),
                
-               radioButtons("DSInput", "Data Source",
+               radioButtons("DSInput", tags$div(HTML(paste0("Data Source",tags$sup('2')))),
                             choices = c("T1 Personal Master File", "T1 Historical File"),
                             selected = c("T1 Personal Master File")),
                
@@ -206,18 +208,17 @@ ui<-fluidPage(
              
              #br(),
              helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
-             helpText("2. Data from T1 Personal Master File are derived from the T1 and T4 tax files."),
-             helpText("3. Data from T1 Historical File are derived from the T1, T4 and the T1 historical personal master file. 
-                       The T1 historical file includes late and re-assessed taxfilers. Because the T1 historical file is only available up to 2015, 
-                        the last two years is forecasted using a 5-year average from both the T4-T1 and the T4-T1-T1 historical file series."),
-             helpText("4. Incoming IJE are individuals who received T4 earnings from the selected jurisdiction but reported a different
-                        jurisdiction of residence on their T1 tax returns."),
-             helpText("5. Outgoing IJE are individuals who identified as residing in the selected jurisdiction but received T4 earnings from
-                        other jurisdictions."),
-             helpText("6. Incoming IJE's earnings are defined as their T4 earnings received from the selected jurisdiction."),
-             helpText("7. Outgoing IJE's earnings are defined as their T4 earnings received from non-residental jurisdictions."),
-             helpText("Notes: Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts 
-                        may also be suppressed if the sum of all suppressed counts is less than 10. Counts are rounded to the nearest 5, and earnings are rounded to the nearest 100."),
+             helpText("2. Data from T1 Personal Master File are derived from the T1 and T4 tax files. Data from T1 Historical File are derived from
+                      the T1, T4 and the T1 historical personal master file. The T1 historical file includes late and re-assessed tax filers. Because
+                      the T1 historical file is only available up to 2015, the last two years is forecasted using a 5-year average from both the T4-T1 
+                      and the T4-T1-T1 historical file series."),
+             helpText("3. Incoming IJE are individuals who received T4 earnings from the selected jurisdiction but reported a different jurisdiction of 
+                      residence on their T1 tax returns. Outgoing IJE are individuals who identified as residing in the selected jurisdiction but received 
+                      T4 earnings from other jurisdictions."),
+             helpText("4. Incoming IJE's earnings are defined as their T4 earnings received from the selected jurisdiction. Outgoing IJE's earnings are 
+                      defined as their T4 earnings received from non-residential jurisdictions."),
+             helpText("5. Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts may also be suppressed 
+                      if the sum of all suppressed counts is less than 10. Counts are rounded to the nearest 5, and earnings are rounded to the nearest 100."),
              helpText("Source: Statistics Canada, Canadian Employer-Employee Dynamics Database.")
              
              
@@ -239,11 +240,11 @@ ui<-fluidPage(
                sliderInput("YRInd", "Year Range", 
                            beginy, endy, c(beginy, endy)),
                
-               radioButtons('IncOutIndustry','Select Employment Type',
+               radioButtons('IncOutIndustry',tags$div(HTML(paste0("Select Employment Type",tags$sup('3')))),
                             choices = c('Incoming','Outgoing'),
                             selected = c('Incoming')),
                
-               checkboxGroupInput("IndustryInput", "Select Industry (Limit 12)",
+               checkboxGroupInput("IndustryInput", tags$div(HTML(paste0("Select Industry",tags$sup('3')," (Limit 12)"))),
                                   choices = c("Agriculture, forestry, fishing and hunting","Oil and gas extraction and support activities",
                                               "Mining and quarrying (excluding oil and gas)","Utilities","Construction","Manufacturing",
                                               "Wholesale and Retail trade","Transportation and warehousing",
@@ -329,17 +330,16 @@ ui<-fluidPage(
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
                helpText("2. These estimates are derived from the T1 and T4 tax files and do not include late and re-assessed 
                         taxfilers from the T1 Historical personal master file."),
-               helpText("3. Incoming IJEs are individuals who received T4 earnings from the selected jurisdiction but reported a different
-                        jurisdiction of residence on their T1 tax returns."),
-               helpText("4. Outgoing IJEs are individuals who identified as residing in the selected jurisdiction but received T4 earnings from
-                        other jurisdictions."),
-               helpText("5. When an employee has T4 earnings in more than one industry, they will be counted in the 
-                        industry of the job in which the employee has the highest T4 earnings."),
-               helpText("6. Indstry categories are derived from the North American Industry Classification System (NAICS)."),
-               helpText("7. Other services include: Administrative and support; Waste management and remediation services; 
-                        Entertainment and recreation; Other services etc."),
-               helpText("Notes: Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts 
-                        may also be suppressed if the sum of all suppressed counts is less than 10. Counts are rounded to the nearest 5, and earnings are rounded to the nearest 100."),
+               helpText("3. Incoming IJEs are individuals who received T4 earnings from the selected jurisdiction but reported a different 
+                        jurisdiction of residence on their T1 tax returns. Outgoing IJEs are individuals who identified as residing in the selected 
+                        jurisdiction but received T4 earnings from other jurisdictions."),
+               helpText("4. When an employee has T4 earnings in more than one industry, they will be counted in the industry of the job in which the 
+                        employee has the highest T4 earnings."),
+               helpText("5. Industry categories are derived from the North American Industry Classification System (NAICS). ‘Other services’ include: 
+                        Administrative and support; Waste management and remediation services; Entertainment and recreation; Other services etc."),
+               helpText("6. Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts may also be 
+                        suppressed if the sum of all suppressed counts is less than 10. Counts are rounded to the nearest 5, and earnings are rounded 
+                        to the nearest 100."),
                helpText("Source: Statistics Canada, Canadian Employer-Employee Dynamics Database.")
                
              )
@@ -358,7 +358,7 @@ ui<-fluidPage(
                sliderInput("YRTP", "Year Range", 
                            beginy, endy, c(beginy, endy)),
                
-               radioButtons('IncOutTgtJuris','Select Employment Type',
+               radioButtons('IncOutTgtJuris',tags$div(HTML(paste0("Select Employment Type",tags$sup('3')))),
                             choices = c('Incoming','Outgoing'),
                             selected = c('Incoming')),
                
@@ -402,14 +402,14 @@ ui<-fluidPage(
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
                helpText("2. These estimates are derived from the T1 and T4 tax files and do not include late and re-assessed 
                         taxfilers from the T1 Historical personal master file."),
-               helpText("3. Incoming IJE are individuals who received T4 earnings from the selected jurisdiction but reported the target
-                        jurisdiction of residence on their T1 tax returns."),
-               helpText("4. Outgoing IJE are individuals who identified as residing in the selected jurisdiction but received T4 earnings from
-                        the target jurisdiction."),
-               helpText("5. When an outgoing IJE has T4 earnings in more than one jurisdiction, he/she will be counted 
-                        in the jurisdiction of the job in which the employee has the highest T4 earnings."),
-               helpText("Notes: Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts 
-                        may also be suppressed if the sum of all suppressed counts is less than 10. Counts are rounded to the nearest 5, and earnings are rounded to the nearest 100."),
+               helpText("3. Incoming IJE are individuals who received T4 earnings from the selected jurisdiction but reported the target 
+                        jurisdiction of residence on their T1 tax returns. Outgoing IJE are individuals who identified as residing in the 
+                        selected jurisdiction but received T4 earnings from the target jurisdiction."),
+               helpText("4. When an outgoing IJE has T4 earnings in more than one jurisdiction, he/she will be counted in the jurisdiction of 
+                        the job in which the employee has the highest T4 earnings."),
+               helpText("5. Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts may 
+                        also be suppressed if the sum of all suppressed counts is less than 10. Counts are rounded to the nearest 5, and earnings 
+                        are rounded to the nearest 100."),
                helpText("Source: Statistics Canada, Canadian Employer-Employee Dynamics Database.")
                
              )
@@ -430,7 +430,7 @@ ui<-fluidPage(
                sliderInput("YRAge", "Year Range",
                            beginy, endy, c(beginy, endy)),
                
-               radioButtons("TAgeInput", "Select Employment Type",
+               radioButtons("TAgeInput", tags$div(HTML(paste0("Select Employment Type",tags$sup('3')))),
                             choices = c("Incoming","Outgoing", "Resident"),
                             selected =c("Incoming")),
                
@@ -458,12 +458,11 @@ ui<-fluidPage(
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
                helpText("2. These estimates are derived from the T1 and T4 tax files and do not include late and re-assessed 
                         taxfilers from the T1 Historical personal master file."),
-               helpText("3. Incoming IJE are individuals who received T4 earnings from the selected jurisdiction but reported a different
-                        jurisdiction of residence on their T1 tax returns."),
-               helpText("4. Outgoing IJE are individuals who identified as residing in the selected jurisdiction but received T4 earnings from
-                        other jurisdictions."),
-               helpText("Notes: Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts 
-                        may also be suppressed if the sum of all suppressed counts is less than 10. Counts are rounded to the nearest 5, and earnings are rounded to the nearest 100."),
+               helpText("3. Incoming IJE are individuals who received T4 earnings from the selected jurisdiction but reported a different jurisdiction 
+                        of residence on their T1 tax returns. Outgoing IJE are individuals who identified as residing in the selected jurisdiction but 
+                        received T4 earnings from other jurisdictions."),
+               helpText("4. Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts may also be suppressed 
+                        if the sum of all suppressed counts is less than 10. Counts are rounded to the nearest 5, and earnings are rounded to the nearest 100."),
                helpText("Source: Statistics Canada, Canadian Employer-Employee Dynamics Database.")
                
              )

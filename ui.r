@@ -6,6 +6,7 @@ library(shinythemes)
 library(dplyr)
 library(leaflet)
 library(DT)
+
 ui<-fluidPage(
   theme=shinytheme("darkly"),
   tags$head(tags$style(HTML('* {font-family: "Arial"} !important'))),
@@ -92,7 +93,8 @@ ui<-fluidPage(
                            selected =c("Newfoundland and Labrador")),
                
                sliderInput("YRInput", "Year Range", 
-                           beginy, endy, c(beginy, endy)),
+                           beginy, endy, c(beginy, endy),
+                           sep=''),
                
                radioButtons("GDInput", "Select Gender",
                            choices = c("Both","Male","Female"),
@@ -108,9 +110,9 @@ ui<-fluidPage(
                downloadButton("downloadPtable", "Download")       
              ),
              mainPanel(
-               plotOutput("PRtrend"),
+               plotlyOutput("PRtrend",height=450),
                br(),
-               plotOutput("PRInctrend"),
+               plotlyOutput("PRInctrend",height=450),
                br(),
                
                ## what does this do??

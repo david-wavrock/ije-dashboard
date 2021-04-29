@@ -218,31 +218,46 @@ server<-function(input, output){
       )})
   
   #count trend
-  output$PRtrend <-renderPlot({
-    ggplot(trend_filted(), aes(x=year, y = count, group=type, color=type)) + 
-      geom_line(size=1.2)+
-      geom_point(size=3)+
-      labs(y = "Number of IJEs", x = "Year")+
-      scale_colour_manual(name='Role',values = c("aquamarine4", "yellow3"))+
-      scale_x_continuous(breaks=seq(2002,2017,2))+
-      scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
-      ggtitle(paste("Incoming vs. Outgoing Inter-Jurisdictional Employment"))+
-      theme(plot.title = element_text(hjust=0.5, size=16, face = "bold"),
-            axis.title = element_text(size=12))
+  output$PRtrend <-renderPlotly({
+    ggplotly(
+      ggplot(trend_filted(), aes(x=year, y = count, group=type, color=type,
+                                 text=sprintf('<b>%s</b><br>Employees:%s',year,format(count,big.mark=',')))) + 
+        geom_line() + geom_point() +
+        
+        labs(title="Incoming vs. Outgoing Inter-Jurisdicitonal Employees") +
+        xlab("Year") + ylab("Employees (x1,000)") +
+        
+        scale_x_continuous(breaks=seq(2002,2017,2),
+                           minor_breaks=seq(2002,2017,1))+
+        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))}) +
+        scale_colour_manual(name='',values = c("aquamarine4", "yellow3")) +
+        
+        theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
+              axis.title = element_text(size=11)),
+      
+      tooltip='text'
+    ) %>% layout(legend=list(x=100,y=0.5))
   }) 
   
   #Income trend
-  output$PRInctrend <-renderPlot({
-    ggplot(trend_filted(), aes(x=year, y = income, group=type, color=type)) + 
-      geom_line(size=1.2)+
-      geom_point(size=3)+
-      labs(y = "Aggregate T4 Earnings ($)", x = "Year")+
-      scale_colour_manual(name='Role',values = c("cyan3", "darkorange2"))+
-      scale_x_continuous(breaks=seq(2002,2017,2))+
-      scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
-      ggtitle("Aggregate T4 Earnings for Inter-Jurisdictional Employees")+
-      theme(plot.title = element_text(hjust=0.5, size=16, face = "bold"),
-            axis.title = element_text(size=12))
+  output$PRInctrend <-renderPlotly({
+    ggplotly(
+      ggplot(trend_filted(), aes(x=year, y = income/1000000, group=type, color=type,
+                                 text=sprintf('<b>%s</b><br>Income:$%sM',year,format(round(income/1000000,1),big.mark=',')))) + 
+        geom_line() + geom_point() +
+        
+        labs(title="Incoming vs. Outgoing Employee Aggregate T4 Earnings") +
+        xlab("Year") + ylab("Aggregate T4 Earnings (Million $)") +
+        
+        scale_x_continuous(breaks=seq(2002,2017,2)) +
+        scale_y_continuous(labels = function(c){paste0('$',format(c, big.mark = ","),'M')}) +
+        scale_colour_manual(name='',values = c("cyan3", "darkorange2")) +
+
+        theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
+              axis.title = element_text(size=11)),
+      
+      tooltip='text'
+    ) %>% layout(legend=list(x=100,y=0.5))
   }) 
   
   ## DEPRECATED GRAPHS 

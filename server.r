@@ -29,7 +29,7 @@ server<-function(input, output){
              income_source %in% input$IncomeSource)
   })
     
-  
+
   output$mainmap <- renderPlotly({
     
     mapdat <- simple_pr_shapefile %>%

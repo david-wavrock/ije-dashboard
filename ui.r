@@ -214,9 +214,9 @@ ui<-fluidPage(
                downloadButton("downloadItable", "Download")   
              ),
              mainPanel(
-               plotOutput("IndCount"),
+               plotlyOutput("IndCount",height=450),
                br(),
-               plotOutput("IndIncome"),
+               plotlyOutput("IndIncome",height=450),
                br(),
                
                ### add your style inline css values here

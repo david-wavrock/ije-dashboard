@@ -379,36 +379,47 @@ server<-function(input, output){
     })
   
   ## count trend
-  
-  output$IndCount <- renderPlot({
-    ggplot(ind_filtered(), aes(x=year, y=count, group=industry, color=industry)) +
-      geom_line(size=1.2) + geom_point(size=3) +
+  output$IndCount <- renderPlotly({
+    ggplotly(
+      ggplot(ind_filtered(), aes(x=year, y=count, group=industry, color=industry,
+                                 text=sprintf("<b>%s</b><br>Industry:%s<br>Employees:%s",
+                                              year,industry,format(count,big.mark=',')))) +
+        geom_line() + geom_point() +
+        
+        labs(title=paste0("Inter-Jurisdictional Employment of ",input$ProIndInput," by Industry")) +
+        xlab("Year") + ylab("Employees (x1,000)") + 
+        
+        scale_x_continuous(breaks=seq(2002,2017,2)) + 
+        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))}) +
+        scale_colour_brewer(name='Industry',palette='Paired') +
+        
+        theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
+              axis.title = element_text(size=11)),
       
-      ggtitle(paste("Inter-Jurisdictional Employment of", input$ProIndInput, "by Industry")) +
-      labs(y = "Number of IJEs", x = "Year") +
-      
-      scale_x_continuous(breaks=seq(2002,2017,2)) + 
-      scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))}) +
-      scale_colour_brewer(name='Industry',palette='Paired') +
-      
-      theme(plot.title = element_text(hjust=0.5, size=12, face = "bold"),
-            axis.title = element_text(size=12))
+      tooltip='text'
+    )
   })
   
   ## income trend
-  output$IndIncome <- renderPlot({
-    ggplot(ind_filtered(), aes(x=year, y=income, group=industry, color=industry)) +
-      geom_line(size=1.2) + geom_point(size=3) +
+  output$IndIncome <- renderPlotly({
+    ggplotly(
+      ggplot(ind_filtered(), aes(x=year, y=income/1000000, group=industry, color=industry,
+                                 text=sprintf("<b>%s</b><br>Industry:%s<br>Income:%s",
+                                              year,industry,paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) +
+        geom_line() + geom_point() +
+        
+        labs(title=paste0("Inter-Jurisdictional Employment Income of ", input$ProIndInput, " by Industry")) +
+        xlab("Year") + ylab("Aggregate T4 Earnings (Million $)") +
+        
+        scale_x_continuous(breaks=seq(2002,2017,2)) + 
+        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))}) +
+        scale_colour_brewer(name='Industry',palette='Paired') +
+        
+        theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
+              axis.title = element_text(size=11)),
       
-      ggtitle(paste("Inter-Jurisdictional Employment Income of", input$ProIndInput, "by Industry")) +
-      labs(y = "Aggregate T4 Earnings ($)", x = "Year") +
-      
-      scale_x_continuous(breaks=seq(2002,2017,2)) + 
-      scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))}) +
-      scale_colour_brewer(name='Industry',palette='Paired') +
-      
-      theme(plot.title = element_text(hjust=0.5, size=12, face = "bold"),
-            axis.title = element_text(size=12))
+      tooltip='text'
+    )
   })
   
   #Industry Trend download tables

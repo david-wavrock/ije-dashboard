@@ -55,11 +55,6 @@ ui<-fluidPage(
                           ),
                
                br(),
-               # verbatimTextOutput('info'),
-               # verbatimTextOutput("clickprov"), ## testing pointer/click response on leaflet
-               # textOutput("point_lat"),
-               # textOutput("point_lon"),
-               br(),
                # plotOutput("PRbar"),
                # br(),
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
@@ -84,62 +79,6 @@ ui<-fluidPage(
            )
            
        ),
-  
-  
-  # tabPanel("Overall Comparison",
-  #          sidebarLayout(
-  #            sidebarPanel(
-  #              selectInput("CompInput1", "Select Province",
-  #                          choices = c("Alberta","British Columbia","Manitoba","New Brunswick","Newfoundland and Labrador",
-  #                                      "Northwest Territories","Nova Scotia","Nunavut","Ontario","Prince Edward Island",
-  #                                      "Quebec","Saskatchewan","Yukon"
-  #                          ),
-  #                          selected =c("Alberta")
-  #              ),
-  #              selectInput("CompInput2", "Compare With",
-  #                          choices = c("Alberta","British Columbia","Manitoba","New Brunswick","Newfoundland and Labrador",
-  #                                      "Northwest Territories","Nova Scotia","Nunavut","Ontario","Prince Edward Island",
-  #                                      "Quebec","Saskatchewan","Yukon"
-  #                          ),
-  #                          selected =c("British Columbia")
-  #              ), 
-  #              
-  #              sliderInput("YRComp", "Year Range", beginy, endy, c(beginy, endy)
-  #              ),
-  #              
-  #              selectInput("GDComp", "Select Gender",
-  #                          choices = c("Male","Female","Both"
-  #                          ),
-  #                          selected =c("Both")
-  #              ),
-  #              selectInput("TypeComp", "Select Employment Type",
-  #                          choices = c("Receiver","Sender","Resident"
-  #                          ),
-  #                          selected =c("Receiver")
-  #              ), 
-  #              
-  #              radioButtons("DSComp", "Data Source",
-  #                           choices = c("T1 Personal Master File", "T1 Historical File"),
-  #                           selected = c("T1 Personal Master File")
-  #              ),
-  #              selectInput("InComp", "Select Income Source",
-  #                          choices = c("Inside","Outside"
-  #                          ),
-  #                          selected =c("Inside")
-  #                          )       
-  #              
-  #            ),
-  #            mainPanel(
-  #              fluidRow(
-  #                splitLayout(cellWidths=c("50%","50%"), plotOutput("PRcomp"), plotOutput("PRcomp_inc"))
-  #              ),            
-  #              br(),
-  #              fluidRow(
-  #                splitLayout(cellWidths=c("50%","50%"), dataTableOutput("CompT1"), dataTableOutput("CompT2"))
-  #              )              
-  #            )
-  #          )
-  # ),
   
   
   tabPanel("Jurisdiction",
@@ -174,15 +113,7 @@ ui<-fluidPage(
                plotOutput("PRInctrend"),
                br(),
                
-               # fluidRow(
-               #   splitLayout(cellWidths=c("50%","50%"),  plotOutput("PRtrend"),  plotOutput("PRInctrend"))
-               # ),
-               # br(),
-               # fluidRow(
-               #   splitLayout(cellWidths=c("50%","50%"),  plotOutput("Income_receiver"),  plotOutput("Income_sender"))
-               # ),
-               # br(),
-               ### add your style inline css values here
+               ## what does this do??
                
                ### added a line of code here too `.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover `###
                tags$style(HTML("
@@ -217,8 +148,8 @@ ui<-fluidPage(
                )
              ),
              
-               
-               DT::dataTableOutput("PRtable"),
+               ## what does this do?
+             DT::dataTableOutput("PRtable"),
              
              #br(),
              helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
@@ -274,17 +205,6 @@ ui<-fluidPage(
                                                "Professional, scientific and technical services","Education services, health care and social assistance",
                                                "Accommodation and food services")),
                
-               # selectInput("IndustryInput", "Select Industry",
-               #             choices = c("Agriculture, forestry, fishing and hunting","Oil and gas extraction and support activities",
-               #                         "Mining and quarrying (excluding oil and gas)","Utilities","Construction","Manufacturing",
-               #                         "Wholesale and Retail trade","Transportation and warehousing",
-               #                         "Information and cultural industries; Finance and insurance; Real estate and rental and leasing; Management of companies and enterprise",
-               #                         "Professional, scientific and technical services","Education services, health care and social assistance",
-               #                         "Accommodation and food services","Other services","Public administration","Unknown"),
-               #             
-               #             selected =c("Agriculture, forestry, fishing and hunting")
-               # ),
-               
                selectInput("tableInd", "Choose a table to download: ",
                            choices = c("Filtered Industry Table","Full Industry Table")),
                
@@ -296,14 +216,6 @@ ui<-fluidPage(
                plotOutput("IndIncome"),
                br(),
                
-               # fluidRow(
-               #   splitLayout(cellWidths=c("50%","50%"),  plotOutput("Indtrend"),  plotOutput("IndInctrend"))
-               # ),
-               # br(),
-               # fluidRow(
-               #   splitLayout(cellWidths=c("50%","50%"),  plotOutput("Ind_receiver"),  plotOutput("Ind_sender"))
-               # ),
-               # br(),
                ### add your style inline css values here
                
                ### added a line of code here too `.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover `###
@@ -388,15 +300,6 @@ ui<-fluidPage(
                                                "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
                                                "Yukon", "Northwest Territories","Nunavut")),
              
-               # selectInput("ProTPInput", "Select Target Jurisdiction",
-               #             choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
-               #                         "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
-               #                         "Yukon", "Northwest Territories","Nunavut"
-               #                         
-               #             ),
-               #             selected =c("Prince Edward Island")
-               #             ),
-               
                selectInput("tableTP", "Choose a table to download: ",
                            choices = c("Filtered TP Table","Full TP Table")),
                
@@ -408,15 +311,7 @@ ui<-fluidPage(
                br(),
                plotOutput("TPincome"),
                br(),
-               # 
-               # fluidRow(
-               #   splitLayout(cellWidths=c("50%","50%"), plotOutput("TPtrend"), plotOutput("TPInctrend"))
-               # ),
-               # br(),
-               # fluidRow(
-               #   splitLayout(cellWidths=c("50%","50%"), plotOutput("TPComp"), plotOutput("TPCompInc"))
-               # ),
-               # br(),
+               
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
                helpText("2. These estimates are derived from the T1 and T4 tax files and do not include late and re-assessed 
                         taxfilers from the T1 Historical personal master file."),
@@ -491,27 +386,6 @@ ui<-fluidPage(
            )
            
           ),
-  
-  # tabPanel("Downloading Table",
-  #          sidebarLayout(
-  #            sidebarPanel(
-  #              selectInput("table", "Choose a table: ",
-  #                          choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
-  #                                      "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
-  #                                      "Yukon", "Northwest Territories","Nunavut"
-  #                                      
-  #                          )
-  #                
-  #              ),
-  #              downloadButton("downloadData", "Download")
-  #            ),
-  #            mainPanel(
-  #              #tableOutput("tableD")
-  #            )
-  #          )
-  #          
-  # ),
-  
   
   tabPanel("Reference",
            navlistPanel(

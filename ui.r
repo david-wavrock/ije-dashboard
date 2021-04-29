@@ -47,11 +47,18 @@ ui<-fluidPage(
        
              ),
              mainPanel(
-               leafletOutput("PRcount",height=600),
+               
+               ## render object occurs here
+               # leafletOutput("PRcount",height=600),
+               plotlyOutput("mainmap",height=600
+                          # ,click='map_click'
+                          ),
+               
                br(),
-               textOutput("clickprov"),
-               textOutput("point_lat"),
-               textOutput("point_lon"),
+               # verbatimTextOutput('info'),
+               # verbatimTextOutput("clickprov"), ## testing pointer/click response on leaflet
+               # textOutput("point_lat"),
+               # textOutput("point_lon"),
                br(),
                # plotOutput("PRbar"),
                # br(),

@@ -6,6 +6,7 @@ library(scales)
 library(ggplot2)
 #library(highcharter)
 options(scipen = 999)
+
 server<-function(input, output){
   
   # define filtered dataset
@@ -19,8 +20,148 @@ server<-function(input, output){
   
   
   #####################PR Map
+  mapfilter <- reactive({
+    table_1_2 %>%
+      filter(year%in% input$YearInput,
+             source %in% input$SourceInput,
+             gender %in% input$GenderInput,
+             type %in% input$TypeInput,
+             income_source %in% input$IncomeSource)
+  })
+    
+  
+  output$mainmap <- renderPlotly({
+    
+    mapdat <- simple_pr_shapefile %>%
+      inner_join(mapfilter(), by='PRUID') %>%
+      
+      mutate(mapformat=sf::st_transform(
+        simple_pr_shapefile$geometry,
+        crs= "+proj=laea +lat_0=56.1304 +lon_0=-86.3468 +ellps=WGS84 +units=m +no_defs "))
+    
+    ## set color scheme for concept (employees in blue, income in red)
+    if(input$SeriesInput == "Employees"){
+      seriesvar <- mapdat$count
+      lowgrad <- '#f1eef6'
+      highgrad <- '#045a8d'
+      # seriestitle <- 'Number of Inter-Jurisdictional Employees'
+      # 
+      # pal_count_PR <- createClasses(mapdat$count , "Blues", "transparent", 5)
+      # 
+      # geo_labels_PR <- sprintf(
+      #   "<strong>%s (Employees):  %s </strong>",
+      #   mapdat$province, format(mapdat$count, big.mark = ",")) %>%
+      #   lapply(htmltools::HTML) # add labels 
+      
+    } else if(input$SeriesInput == "Income"){
+      seriesvar <- mapdat$income
+      lowgrad <- '#fef0d9'
+      highgrad <- '#b30000'
+      # seriestitle <- 'Income of Inter-Jurisdictional Employees'
+      # 
+      # pal_count_PR <- createClasses(mapdat$income, "Reds", "transparent", 5)
+      # 
+      # geo_labels_PR <- sprintf(
+      #   "<strong>%s (Income): %s </strong>",
+      #   mapdat$province, format(mapdat$income, big.mark = ",")) %>%
+      #   lapply(htmltools::HTML) # add labels  
+    }
+    
+    ggplotly(
+      ggplot(mapdat %>% mutate(geometry=mapformat)) +
+        geom_sf(aes(fill=log(seriesvar)/log(10),
+                    text=sprintf("<b>%s</b><br>Employees: %s<br>Income: %s",
+                                 province,
+                                 format(count,big.mark=','),
+                                 paste0('$',format(round(income/1000000,1),big.mark=','),' M'))),
+                
+                color="#444444",
+                alpha=0.75) + theme_bw() +
+        
+        scale_fill_gradient(low=lowgrad,
+                            high=highgrad,
+                            na.value='grey.50') +
+        
+        theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank(),
+              axis.title.x=element_blank(),axis.text.x=element_blank(),axis.ticks.x=element_blank(),
+              axis.title.y=element_blank(),axis.text.y=element_blank(),axis.ticks.y=element_blank(),
+              
+              legend.position='none'),
+      
+      tooltip='text') %>%
+      style(hoveron='all')
+    # 
+    # ggplot() + geom_sf(data=mapdat$mapformat,
+    #                    fill=pal_count_PR$pal(seriesvar),
+    #                    group='count',
+    #                    
+    #                    color='#444444',
+    #                    alpha=0.75) + theme_bw() + 
+    #   
+    #   theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank(),
+    #         axis.title.x=element_blank(),axis.text.x=element_blank(),axis.ticks.x=element_blank(),
+    #         axis.title.y=element_blank(),axis.text.y=element_blank(),axis.ticks.y=element_blank())
+    
+    
+  })
+  
+  #####
+  # output$info <- renderText({
+  #   paste0("x=", input$map_click$x, "\ny=", input$map_click$y)
+  # })
+  
+  
+  ## determine province of click
+  # output$clickpoint <- reactive({st_as_sf(data.frame(x=input$mapclick$x,
+  #                                                    y=input$mapclick$y),
+  #                                         coords=c('x','y'),crs=4326)})
+  
+  # output$clickprov <- renderText(
+  #   reactive({
+  #     placevector <- apply(X=simple_pr_shapefile$geometry,
+  #                          MARGIN=1,
+  #                          FUN=function(x) st_contains(x,
+  #                                                      st_as_sf(data.frame(x=input$mapclick$x,
+  #                                                                          y=input$mapclick$y),
+  #                                                               coords=c('x','y'),crs=4326),
+  #                                                      sparse=F)[1,1])
+  #     # 
+  #     # simple_pr_shapefile %>%
+  #     #   
+  #     #   mutate(inprov=st_contains(geometry,
+  #     #                             st_as_sf(data.frame(x=input$mapclick$x,
+  #     #                                                 y=input$mapclick$y),
+  #     #                                      coords=c('x','y'),crs=4326),
+  #     #                             sparse=F)[1,1]) %>%
+  #     #   
+  #     #   mutate(inprov=apply(X=simple_pr_shapefile,
+  #     #                       MARGIN=1,
+  #     #                       FUN=function(x) st_contains(x[3]$geometry,
+  #     #                                                   st_as_sf(data.frame(x=input$mapclick$x,
+  #     #                                                                       y=input$mapclick$y),
+  #     #                                                            coords=c('x','y'),crs=4326),
+  #     #                                                   sparse=F)[1,1])) %>%
+  #     #   filter(inprov) %>%
+  #     #   pull(PRENAME)
+  #   })
+  # )
+  # 
+  
+  # output$info <- renderText({
+  #   paste0("x=", input$map_click$x, "\ny=", input$map_click$y)
+  # })
+  
+  
+  
+  
+  
+  
+  
+  
+  ##############################################################################################
   output$PRcount <- renderLeaflet({
     
+    #####
     PRcount <- leaflet(table_1_2)#%>%
     # addProviderTiles(providers$OpenStreetMap.BlackAndWhite)
     
@@ -68,6 +209,7 @@ server<-function(input, output){
     #   IJE_table1_filted$province, format(IJE_table1_filted$income, big.mark = ",")) %>%
     #   lapply(htmltools::HTML) # add labels  
     
+    #####
     PRcount %>%
       addPolygons( data = IJE_table1_filted,stroke = TRUE, color = "#444444", weight = 1, smoothFactor = 0.5,
                    opacity = 1.0, fillOpacity = 0.5,fillColor = pal_count_PR$pal(seriesvar),group = "count",
@@ -94,7 +236,7 @@ server<-function(input, output){
   })
   
   ## reactive based on point clicked in map
-  # 
+
   # output$clickpoint <- reactive({st_as_sf(data.frame(x=input$PRcount_shape_click[[4]],
   #                                                    y=input$PRcount_shape_click[[5]]),
   #                        coords=c('x','y'),crs=4326)})

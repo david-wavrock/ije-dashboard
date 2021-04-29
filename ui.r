@@ -187,7 +187,8 @@ ui<-fluidPage(
                            selected =c("Newfoundland and Labrador")),
                
                sliderInput("YRInd", "Year Range", 
-                           beginy, endy, c(beginy, endy)),
+                           beginy, endy, c(beginy, endy),
+                           sep=''),
                
                radioButtons('IncOutIndustry',tags$div(HTML(paste0("Select Employment Type",tags$sup('3')))),
                             choices = c('Incoming','Outgoing'),
@@ -288,7 +289,8 @@ ui<-fluidPage(
                            selected =c("Newfoundland and Labrador")),
                
                sliderInput("YRTP", "Year Range", 
-                           beginy, endy, c(beginy, endy)),
+                           beginy, endy, c(beginy, endy),
+                           sep=''),
                
                radioButtons('IncOutTgtJuris',tags$div(HTML(paste0("Select Employment Type",tags$sup('3')))),
                             choices = c('Incoming','Outgoing'),
@@ -345,7 +347,8 @@ ui<-fluidPage(
                            selected =c("Newfoundland and Labrador")),
                
                sliderInput("YRAge", "Year Range",
-                           beginy, endy, c(beginy, endy)),
+                           beginy, endy, c(beginy, endy),
+                           sep=''),
                
                radioButtons("TAgeInput", tags$div(HTML(paste0("Select Employment Type",tags$sup('3')))),
                             choices = c("Incoming","Outgoing", "Resident"),

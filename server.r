@@ -463,31 +463,49 @@ server<-function(input, output){
   })
   
   ## count
-  output$TPcount <- renderPlot({
-    ggplot(table56910_filtered(), aes(x=year, y= count, group=target_prov, color=target_prov)) + 
-      geom_line(size=1.2) + geom_point(size=3)+
+  output$TPcount <- renderPlotly({
+    ggplotly(
+      ggplot(table56910_filtered(), aes(x=year, y= count, group=target_prov, color=target_prov,
+                                        text=sprintf("<b>%s</b><br>Base Province: %s<br>Target Province: %s<br>Employees:%s",
+                                                     year,input$ProOPInput,target_prov,format(count,big.mark=',')))) + 
+        geom_line() + geom_point()+
+        
+        labs(title=paste("Inter-Jurisdictional Employment of", input$ProOPInput)) +
+        xlab('Year') + ylab('Employees (x1,000)') +
+        
+        scale_x_continuous(breaks=seq(2002,2017,2))+
+        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
+        scale_color_brewer(name='Province',palette='Paired') +
+        
+        theme(plot.title = element_text(hjust = 0.5, size = 12, face = "bold"),
+              axis.title = element_text(size=11)),
       
-      ggtitle(paste("Inter-Jurisdictional Employment of", input$ProOPInput))+
-      theme(plot.title = element_text(hjust = 0.5, size = 12, face = "bold")) +
-      labs(x='Year', y='Number of IJEs') +
-      
-      scale_x_continuous(breaks=seq(2002,2017,2))+
-      scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
-      scale_color_brewer(name='Province',palette='Paired')
+      tooltip='text'
+    )
   })
   
   ## income 
-  output$TPincome <- renderPlot({
-    ggplot(table56910_filtered(), aes(x=year, y= income, group=target_prov, color=target_prov)) + 
-      geom_line(size=1.2) + geom_point(size=3)+
+  output$TPincome <- renderPlotly({
+    ggplotly(
+      ggplot(table56910_filtered(), aes(x=year, y= income/1000000, group=target_prov, color=target_prov,
+                                        text=sprintf("<b>%s</b><br>Base Province: %s<br>Target Province: %s<br>Income:%s",
+                                                     year,input$ProOPInput,target_prov,paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) + 
+        geom_line() + geom_point()+
+        
+        labs(title=paste("Inter-Jurisdictional Employment Income of", input$ProOPInput)) +
+        xlab('Year') + ylab('Aggregate T4 Earnings (Million $)') +
+        
+        
+        scale_x_continuous(breaks=seq(2002,2017,2))+
+        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
+        scale_color_brewer(name='Province',palette='Paired') +
+        
+        theme(plot.title = element_text(hjust = 0.5, size = 12, face = "bold"),
+              axis.title = element_text(size=11)),
       
-      ggtitle(paste("Inter-Jurisdictional Employment Income of", input$ProOPInput))+
-      theme(plot.title = element_text(hjust = 0.5, size = 12, face = "bold")) +
-      labs(x='Year', y='Aggregate T4 Earnings ($)') +
+      tooltip='text'
       
-      scale_x_continuous(breaks=seq(2002,2017,2))+
-      scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
-      scale_color_brewer(name='Province',palette='Paired')
+    )
   })
   
   ## WHERES THE DOWNLOAD?

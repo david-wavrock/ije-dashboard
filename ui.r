@@ -311,9 +311,9 @@ ui<-fluidPage(
                
              ),
              mainPanel(
-               plotOutput("TPcount"),
+               plotlyOutput("TPcount"),
                br(),
-               plotOutput("TPincome"),
+               plotlyOutput("TPincome"),
                br(),
                
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),

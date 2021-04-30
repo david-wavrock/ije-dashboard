@@ -371,9 +371,9 @@ ui<-fluidPage(
                
              ),
              mainPanel(
-               plotOutput("Agetrend"),
+               plotlyOutput("Agetrend"),
                br(),
-               plotOutput("Agechange"),
+               plotlyOutput("Agechange"),
                br(),
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
                helpText("2. These estimates are derived from the T1 and T4 tax files and do not include late and re-assessed 

@@ -477,7 +477,7 @@ server<-function(input, output){
         scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
         scale_color_brewer(name='Province',palette='Paired') +
         
-        theme(plot.title = element_text(hjust = 0.5, size = 12, face = "bold"),
+        theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
               axis.title = element_text(size=11)),
       
       tooltip='text'
@@ -500,7 +500,7 @@ server<-function(input, output){
         scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
         scale_color_brewer(name='Province',palette='Paired') +
         
-        theme(plot.title = element_text(hjust = 0.5, size = 12, face = "bold"),
+        theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
               axis.title = element_text(size=11)),
       
       tooltip='text'
@@ -508,10 +508,31 @@ server<-function(input, output){
     )
   })
   
-  ## WHERES THE DOWNLOAD?
+  ## Download target province table
+  tableTP_down <- reactive ({
+    switch( input$tableTP,
+            "Filtered Industry Table" = table56910_filtered(),
+            "Full Table" = table_56910
+    )
+  })
   
-  ################### Age Group 
+  # Downloadable excel file of selected table
+  output$downloadTPtable <- downloadHandler(
+    filename = function(){
+      paste(input$tableTP, ".csv", sep = "")
+      #paste(input$table)
+    },
+    content = function(file){
+      write.csv(tableTP_down(), file, row.names = FALSE)
+      
+    },
+    contentType = "csv"
+  )  
   
+  #####
+  ## AGE GROUP - Age of IJE over time, relative changes
+  #####
+
   agePalette <- paste0('#',c('F8766D','B79F00','00BA38','00BFC4','619CFF','F564E3'))
   names(agePalette) <- unique(table_11$age_group)
   
@@ -526,22 +547,30 @@ server<-function(input, output){
       )})
   
   #Age Trend 
-  output$Agetrend <-renderPlot({
-    ggplot(table11_filted(), aes(x=year, y = count, group=age_group, color=age_group)) + 
-      geom_line(size=1.2)+
-      geom_point(size=3)+
-      labs(y = "Number of IJEs", x = "Year")+
-      scale_x_continuous(breaks=seq(2002,2017,2))+
+  output$Agetrend <-renderPlotly({
+    ggplotly(
+      ggplot(table11_filted(), aes(x=year, y = count, group=age_group, color=age_group,
+                                   text=sprintf('<b>%s</b><br>Age group: %s<br>Employees: %s',
+                                                year,age_group,format(count,big.mark = ',')))) + 
+        geom_line() + geom_point() +
+        
+        labs(title="Inter-Jurisdictional Employees by Age Group") +
+        xlab("Year") + ylab("Number of Employees (x1,000)") +
+        
+        scale_x_continuous(breaks=seq(2002,2017,2))+
+        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
+        scale_color_manual(name='Age Group',values=agePalette) +
+        
+        theme(plot.title = element_text(hjust=0.5, size=14, face = "bold"),
+              axis.title = element_text(size=11)),
       
-      scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
-      scale_color_manual(name='Age Group',values=agePalette) +
-      ggtitle("Number of IJEs by Age Group")+
-      theme(plot.title = element_text(hjust=0.5, size=16, face = "bold"))
+      tooltip='text'
+    )
   }) 
   
   
   #Age chanages
-  output$Agechange <-renderPlot({
+  output$Agechange <-renderPlotly({
     table11_filted <-
       table_11 %>%
       filter(age_group %in% input$AgeInput,
@@ -553,15 +582,24 @@ server<-function(input, output){
       mutate(pct_change = (lead(count)/count-1)) %>%
       filter(year %in% input$YRAge[1])
     
-    ggplot(table11_filted, aes(x=age_group, color=age_group, fill=age_group)) + 
-      geom_histogram(mapping = aes(y = pct_change), position = "dodge",stat = 'identity')+
-      labs(y = "Percentage Change of Employment", x = "Age Groups")+
-      scale_y_continuous(labels = scales::percent_format(accuracy = 1))+
-      scale_fill_manual(name='Age Group',values=agePalette) +
-      scale_color_manual(name='Age Group',values=agePalette) +
-      theme(axis.text.x = element_text(angle = 45, hjust = 1))+
-      ggtitle(paste("Percentage Changes of Employment by Age Group from", input$YRAge[1], "to", input$YRAge[2]))+
-      theme(plot.title = element_text(hjust=0.5, size=16, face = "bold"))
+    ggplotly(
+      ggplot(table11_filted, aes(x=age_group, color=age_group, fill=age_group,
+                                 text=sprintf('<b>%s</b><br>Percent Change: %s',
+                                              age_group,paste(round(100*(pct_change-1),1),'%')))) + 
+        geom_histogram(mapping = aes(y = pct_change), position = "dodge",stat = 'identity')+
+        
+        labs(title=paste("Percentage Changes of Employment by Age Group from", input$YRAge[1], "to", input$YRAge[2])) +
+        xlab('Age Group') + ylab('Change in Employment (%)') +
+        
+        scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+        scale_color_manual(name='Age Group',values=agePalette) +
+        scale_fill_manual(name='Age Group',values=agePalette) +
+        
+        theme(plot.title = element_text(hjust=0.5, size=16, face = "bold"),
+              axis.text.x = element_text(angle = 45, hjust = 1)),
+      
+      tooltip='text'
+    )
   })  
   
   

@@ -38,9 +38,10 @@ server<-function(input, output){
       seriesvar <- mapdat$count
       lowgrad <- '#f1eef6'
       highgrad <- '#045a8d'
+      seriestitle <- 'Number of Inter-Jurisdictional Employees by Province'
       # seriestitle <- 'Number of Inter-Jurisdictional Employees'
       # 
-      # pal_count_PR <- createClasses(mapdat$count , "Blues", "transparent", 5)
+      pal_count_PR <- createClasses(mapdat$count , "Blues", "transparent", 5)
       # 
       # geo_labels_PR <- sprintf(
       #   "<strong>%s (Employees):  %s </strong>",
@@ -51,15 +52,19 @@ server<-function(input, output){
       seriesvar <- mapdat$income
       lowgrad <- '#fef0d9'
       highgrad <- '#b30000'
+      seriestitle <- 'Total Income of Inter-Jurisdictional Employees by Province'
       # seriestitle <- 'Income of Inter-Jurisdictional Employees'
       # 
-      # pal_count_PR <- createClasses(mapdat$income, "Reds", "transparent", 5)
+      pal_count_PR <- createClasses(mapdat$income, "Reds", "transparent", 5)
       # 
       # geo_labels_PR <- sprintf(
       #   "<strong>%s (Income): %s </strong>",
       #   mapdat$province, format(mapdat$income, big.mark = ",")) %>%
       #   lapply(htmltools::HTML) # add labels  
     }
+    
+    mapdat <- mapdat %>%
+      mutate(pcol=pal_count_PR$pal(seriesvar))
     
     ggplotly(
       ggplot(mapdat %>% mutate(geometry=mapformat)) +
@@ -72,11 +77,15 @@ server<-function(input, output){
                 color="#444444",
                 alpha=0.75) + theme_bw() +
         
+        labs(title=seriestitle) +
+        # scale_fill_manual(values=pcol) +
+        
         scale_fill_gradient(low=lowgrad,
                             high=highgrad,
                             na.value='grey.50') +
         
-        theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank(),
+        theme(plot.title = element_text(vjust=1, hjust=0.5, size=16, face = "bold"),
+              panel.grid.major=element_blank(),panel.grid.minor=element_blank(),
               axis.title.x=element_blank(),axis.text.x=element_blank(),axis.ticks.x=element_blank(),
               axis.title.y=element_blank(),axis.text.y=element_blank(),axis.ticks.y=element_blank(),
               
@@ -220,7 +229,7 @@ server<-function(input, output){
   #count trend
   output$PRtrend <-renderPlotly({
     ggplotly(
-      ggplot(trend_filted(), aes(x=year, y = count, group=type, color=type,
+      ggplot(trend_filted(), aes(x=year, y = count/1000, group=type, color=type,
                                  text=sprintf('<b>%s</b><br>Employees:%s',year,format(count,big.mark=',')))) + 
         geom_line() + geom_point() +
         
@@ -229,14 +238,14 @@ server<-function(input, output){
         
         scale_x_continuous(breaks=seq(2002,2017,2),
                            minor_breaks=seq(2002,2017,1))+
-        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))}) +
+        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","),'k')}) +
         scale_colour_manual(name='',values = c("aquamarine4", "yellow3")) +
         
-        theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
-              axis.title = element_text(size=11)),
+        theme(plot.title = element_text(hjust=0.5,size=14, face = "bold")),
       
       tooltip='text'
-    ) %>% layout(legend=list(x=100,y=0.5))
+    ) %>% layout(margin=list(l=60,r=50,t=50,b=65),
+                 legend=list(x=100,y=0.5))
   }) 
   
   #Income trend
@@ -257,7 +266,8 @@ server<-function(input, output){
               axis.title = element_text(size=11)),
       
       tooltip='text'
-    ) %>% layout(legend=list(x=100,y=0.5))
+    ) %>% layout(margin=list(l=60,r=50,t=50,b=65),
+                 legend=list(x=100,y=0.5))
   }) 
   
   ## DEPRECATED GRAPHS 
@@ -381,23 +391,24 @@ server<-function(input, output){
   ## count trend
   output$IndCount <- renderPlotly({
     ggplotly(
-      ggplot(ind_filtered(), aes(x=year, y=count, group=industry, color=industry,
+      ggplot(ind_filtered(), aes(x=year, y=count/1000, group=industry, color=industry,
                                  text=sprintf("<b>%s</b><br>Industry:%s<br>Employees:%s",
                                               year,industry,format(count,big.mark=',')))) +
         geom_line() + geom_point() +
         
-        labs(title=paste0("Inter-Jurisdictional Employment of ",input$ProIndInput," by Industry")) +
+        labs(title=paste0("Inter-Jurisdictional Employment of <br>",input$ProIndInput," by Industry")) +
         xlab("Year") + ylab("Employees (x1,000)") + 
         
         scale_x_continuous(breaks=seq(2002,2017,2)) + 
-        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))}) +
+        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","),'k')}) +
         scale_colour_brewer(name='Industry',palette='Paired') +
         
         theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
               axis.title = element_text(size=11)),
       
       tooltip='text'
-    )
+    ) %>% layout(margin=list(l=60,r=50,t=75,b=65),
+                 legend=list(x=100,y=0.5))
   })
   
   ## income trend
@@ -408,18 +419,19 @@ server<-function(input, output){
                                               year,industry,paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) +
         geom_line() + geom_point() +
         
-        labs(title=paste0("Inter-Jurisdictional Employment Income of ", input$ProIndInput, " by Industry")) +
+        labs(title=paste0("Inter-Jurisdictional Employment Income of <br>", input$ProIndInput, " by Industry")) +
         xlab("Year") + ylab("Aggregate T4 Earnings (Million $)") +
         
         scale_x_continuous(breaks=seq(2002,2017,2)) + 
-        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))}) +
+        scale_y_continuous(labels = function(c){paste0('$',format(c, big.mark = ","),'M')}) +
         scale_colour_brewer(name='Industry',palette='Paired') +
         
         theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
               axis.title = element_text(size=11)),
       
       tooltip='text'
-    )
+    ) %>% layout(margin=list(l=60,r=50,t=75,b=65),
+                 legend=list(x=100,y=0.5))
   })
   
   #Industry Trend download tables
@@ -465,7 +477,7 @@ server<-function(input, output){
   ## count
   output$TPcount <- renderPlotly({
     ggplotly(
-      ggplot(table56910_filtered(), aes(x=year, y= count, group=target_prov, color=target_prov,
+      ggplot(table56910_filtered(), aes(x=year, y= count/1000, group=target_prov, color=target_prov,
                                         text=sprintf("<b>%s</b><br>Base Province: %s<br>Target Province: %s<br>Employees:%s",
                                                      year,input$ProOPInput,target_prov,format(count,big.mark=',')))) + 
         geom_line() + geom_point()+
@@ -474,14 +486,15 @@ server<-function(input, output){
         xlab('Year') + ylab('Employees (x1,000)') +
         
         scale_x_continuous(breaks=seq(2002,2017,2))+
-        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
+        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","),'k')})+
         scale_color_brewer(name='Province',palette='Paired') +
         
         theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
               axis.title = element_text(size=11)),
       
       tooltip='text'
-    )
+    ) %>% layout(margin=list(l=60,r=50,t=50,b=65),
+                 legend=list(x=100,y=0.5))
   })
   
   ## income 
@@ -497,15 +510,15 @@ server<-function(input, output){
         
         
         scale_x_continuous(breaks=seq(2002,2017,2))+
-        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
+        scale_y_continuous(labels = function(c){paste0('$',format(c, big.mark = ","),'M')})+
         scale_color_brewer(name='Province',palette='Paired') +
         
         theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
               axis.title = element_text(size=11)),
       
       tooltip='text'
-      
-    )
+    ) %>% layout(margin=list(l=60,r=50,t=50,b=65),
+                 legend=list(x=100,y=0.5))
   })
   
   ## Download target province table
@@ -549,7 +562,7 @@ server<-function(input, output){
   #Age Trend 
   output$Agetrend <-renderPlotly({
     ggplotly(
-      ggplot(table11_filted(), aes(x=year, y = count, group=age_group, color=age_group,
+      ggplot(table11_filted(), aes(x=year, y = count/1000, group=age_group, color=age_group,
                                    text=sprintf('<b>%s</b><br>Age group: %s<br>Employees: %s',
                                                 year,age_group,format(count,big.mark = ',')))) + 
         geom_line() + geom_point() +
@@ -558,14 +571,15 @@ server<-function(input, output){
         xlab("Year") + ylab("Number of Employees (x1,000)") +
         
         scale_x_continuous(breaks=seq(2002,2017,2))+
-        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","))})+
+        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","),'k')})+
         scale_color_manual(name='Age Group',values=agePalette) +
         
         theme(plot.title = element_text(hjust=0.5, size=14, face = "bold"),
               axis.title = element_text(size=11)),
       
       tooltip='text'
-    )
+    ) %>% layout(margin=list(l=60,r=50,t=50,b=65),
+                 legend=list(x=100,y=0.5))
   }) 
   
   
@@ -585,7 +599,7 @@ server<-function(input, output){
     ggplotly(
       ggplot(table11_filted, aes(x=age_group, color=age_group, fill=age_group,
                                  text=sprintf('<b>%s</b><br>Percent Change: %s',
-                                              age_group,paste(round(100*(pct_change-1),1),'%')))) + 
+                                              age_group,paste(round(100*(pct_change),1),'%')))) + 
         geom_histogram(mapping = aes(y = pct_change), position = "dodge",stat = 'identity')+
         
         labs(title=paste("Percentage Changes of Employment by Age Group from", input$YRAge[1], "to", input$YRAge[2])) +
@@ -599,7 +613,8 @@ server<-function(input, output){
               axis.text.x = element_text(angle = 45, hjust = 1)),
       
       tooltip='text'
-    )
+    ) %>% layout(margin=list(l=60,r=50,t=50,b=65),
+                 legend=list(x=100,y=0.5))
   })  
   
   

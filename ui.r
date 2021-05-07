@@ -112,6 +112,8 @@ ui<-fluidPage(
              mainPanel(
                plotlyOutput("PRtrend",height=450),
                br(),
+               # plotlyOutput("PRtrend2",height=450),
+               # br(),
                plotlyOutput("PRInctrend",height=450),
                br(),
                
@@ -214,9 +216,9 @@ ui<-fluidPage(
                downloadButton("downloadItable", "Download")   
              ),
              mainPanel(
-               plotlyOutput("IndCount",height=450),
+               plotlyOutput("IndCount",height=600),
                br(),
-               plotlyOutput("IndIncome",height=450),
+               plotlyOutput("IndIncome",height=600),
                br(),
                
                ### add your style inline css values here
@@ -311,9 +313,9 @@ ui<-fluidPage(
                
              ),
              mainPanel(
-               plotlyOutput("TPcount"),
+               plotlyOutput("TPcount",height=600),
                br(),
-               plotlyOutput("TPincome"),
+               plotlyOutput("TPincome",height=600),
                br(),
                
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
@@ -371,9 +373,9 @@ ui<-fluidPage(
                
              ),
              mainPanel(
-               plotlyOutput("Agetrend"),
+               plotlyOutput("Agetrend",height=600),
                br(),
-               plotlyOutput("Agechange"),
+               plotlyOutput("Agechange",height=600),
                br(),
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
                helpText("2. These estimates are derived from the T1 and T4 tax files and do not include late and re-assessed 

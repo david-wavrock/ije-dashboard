@@ -8,8 +8,7 @@ library(leaflet)
 library(DT)
 
 ui<-fluidPage(
-  theme=shinytheme("darkly"),
-  tags$head(tags$style(HTML('* {font-family: "Arial"} !important'))),
+  includeCSS('www/style.css'),
   
   tags$h1("Inter-Jurisdictional Employment (IJE) Dashboard",align="center"),
   tabsetPanel(
@@ -56,6 +55,7 @@ ui<-fluidPage(
                           ),
                
                br(),
+               hr(),
                # plotOutput("PRbar"),
                # br(),
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
@@ -116,44 +116,44 @@ ui<-fluidPage(
                # br(),
                plotlyOutput("PRInctrend",height=450),
                br(),
-               
+               hr(),
                ## what does this do??
                
                ### added a line of code here too `.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover `###
-               tags$style(HTML("
-                    .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-                    color: #ffffff;
-                    }
-                    ### ADD THIS HERE ###
-                    .dataTables_wrapper .dataTables_paginate .paginate_button{box-sizing:border-box;display:inline-block;min-width:1.5em;padding:0.5em 1em;margin-left:2px;text-align:center;text-decoration:none !important;cursor:pointer;*cursor:hand;color:#ffffff !important;border:1px solid transparent;border-radius:2px}
-
-                    ###To change text and background color of the `Select` box ###
-                    .dataTables_length select {
-                           color: #0E334A;
-                           background-color: #0E334A
-                           }
-
-                    ###To change text and background color of the `Search` box ###
-                    .dataTables_filter input {
-                            color: #0E334A;
-                            background-color: #0E334A
-                           }
-
-                    thead {
-                    color: #ffffff;
-                    }
-
-                     tbody {
-                    color: #000000;
-                    }
-
-                   "
-                               
-               )
-             ),
-             
-               ## what does this do?
-             DT::dataTableOutput("PRtable"),
+             #   tags$style(HTML("
+             #        .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+             #        color: #ffffff;
+             #        }
+             #        ### ADD THIS HERE ###
+             #        .dataTables_wrapper .dataTables_paginate .paginate_button{box-sizing:border-box;display:inline-block;min-width:1.5em;padding:0.5em 1em;margin-left:2px;text-align:center;text-decoration:none !important;cursor:pointer;*cursor:hand;color:#ffffff !important;border:1px solid transparent;border-radius:2px}
+             # 
+             #        ###To change text and background color of the `Select` box ###
+             #        .dataTables_length select {
+             #               color: #0E334A;
+             #               background-color: #0E334A
+             #               }
+             # 
+             #        ###To change text and background color of the `Search` box ###
+             #        .dataTables_filter input {
+             #                color: #0E334A;
+             #                background-color: #0E334A
+             #               }
+             # 
+             #        thead {
+             #        color: #ffffff;
+             #        }
+             # 
+             #         tbody {
+             #        color: #000000;
+             #        }
+             # 
+             #       "
+             # 
+             #   )
+             # ),
+             # 
+             #   ## what does this do?
+             # DT::dataTableOutput("PRtable"),
              
              #br(),
              helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
@@ -220,44 +220,44 @@ ui<-fluidPage(
                br(),
                plotlyOutput("IndIncome",height=600),
                br(),
-               
+               hr(),
                ### add your style inline css values here
                
                ### added a line of code here too `.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover `###
-               tags$style(HTML("
-                               .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-                               color: #ffffff;
-                               }
-                               ### ADD THIS HERE ###
-                               .dataTables_wrapper .dataTables_paginate .paginate_button{box-sizing:border-box;display:inline-block;min-width:1.5em;padding:0.5em 1em;margin-left:2px;text-align:center;text-decoration:none !important;cursor:pointer;*cursor:hand;color:#ffffff !important;border:1px solid transparent;border-radius:2px}
-                               
-                               ###To change text and background color of the `Select` box ###
-                               .dataTables_length select {
-                               color: #0E334A;
-                               background-color: #0E334A
-                               }
-                               
-                               ###To change text and background color of the `Search` box ###
-                               .dataTables_filter input {
-                               color: #0E334A;
-                               background-color: #0E334A
-                               }
-                               
-                               thead {
-                               color: #ffffff;
-                               }
-                               
-                               tbody {
-                               color: #000000;
-                               }
-                               
-                               "
-                               
-               )
-               ),
-               
-               
-               DT::dataTableOutput("Indtable"),
+               # tags$style(HTML("
+               #                 .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+               #                 color: #ffffff;
+               #                 }
+               #                 ### ADD THIS HERE ###
+               #                 .dataTables_wrapper .dataTables_paginate .paginate_button{box-sizing:border-box;display:inline-block;min-width:1.5em;padding:0.5em 1em;margin-left:2px;text-align:center;text-decoration:none !important;cursor:pointer;*cursor:hand;color:#ffffff !important;border:1px solid transparent;border-radius:2px}
+               #                 
+               #                 ###To change text and background color of the `Select` box ###
+               #                 .dataTables_length select {
+               #                 color: #0E334A;
+               #                 background-color: #0E334A
+               #                 }
+               #                 
+               #                 ###To change text and background color of the `Search` box ###
+               #                 .dataTables_filter input {
+               #                 color: #0E334A;
+               #                 background-color: #0E334A
+               #                 }
+               #                 
+               #                 thead {
+               #                 color: #ffffff;
+               #                 }
+               #                 
+               #                 tbody {
+               #                 color: #000000;
+               #                 }
+               #                 
+               #                 "
+               #                 
+               # )
+               # ),
+               # 
+               # 
+               # DT::dataTableOutput("Indtable"),
                
                #br(),
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
@@ -313,10 +313,11 @@ ui<-fluidPage(
                
              ),
              mainPanel(
-               plotlyOutput("TPcount",height=600),
+               plotlyOutput("TPcount",height=525),
                br(),
-               plotlyOutput("TPincome",height=600),
+               plotlyOutput("TPincome",height=525),
                br(),
+               hr(),
                
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
                helpText("2. These estimates are derived from the T1 and T4 tax files and do not include late and re-assessed 
@@ -373,10 +374,12 @@ ui<-fluidPage(
                
              ),
              mainPanel(
-               plotlyOutput("Agetrend",height=600),
+               plotlyOutput("Agetrend",height=525),
                br(),
-               plotlyOutput("Agechange",height=600),
+               plotlyOutput("Agechange",height=525),
                br(),
+               hr(),
+               
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
                helpText("2. These estimates are derived from the T1 and T4 tax files and do not include late and re-assessed 
                         taxfilers from the T1 Historical personal master file."),

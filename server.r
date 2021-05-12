@@ -482,7 +482,7 @@ server<-function(input, output){
                                                      year,input$ProOPInput,target_prov,format(count,big.mark=',')))) + 
         geom_line() + geom_point()+
         
-        labs(title=paste("Inter-Jurisdictional Employment of", input$ProOPInput)) +
+        labs(title=paste("Inter-Jurisdictional Employment of<br>", input$ProOPInput)) +
         xlab('Year') + ylab('Employees (x1,000)') +
         
         scale_x_continuous(breaks=seq(2002,2017,2))+
@@ -493,7 +493,7 @@ server<-function(input, output){
               axis.title = element_text(size=11)),
       
       tooltip='text'
-    ) %>% layout(margin=list(l=60,r=50,t=50,b=65),
+    ) %>% layout(margin=list(l=60,r=50,t=75,b=65),
                  legend=list(x=100,y=0.5))
   })
   
@@ -505,7 +505,7 @@ server<-function(input, output){
                                                      year,input$ProOPInput,target_prov,paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) + 
         geom_line() + geom_point()+
         
-        labs(title=paste("Inter-Jurisdictional Employment Income of", input$ProOPInput)) +
+        labs(title=paste("Inter-Jurisdictional Employment Income of<br>", input$ProOPInput)) +
         xlab('Year') + ylab('Aggregate T4 Earnings (Million $)') +
         
         
@@ -517,7 +517,7 @@ server<-function(input, output){
               axis.title = element_text(size=11)),
       
       tooltip='text'
-    ) %>% layout(margin=list(l=60,r=50,t=50,b=65),
+    ) %>% layout(margin=list(l=60,r=50,t=75,b=65),
                  legend=list(x=100,y=0.5))
   })
   

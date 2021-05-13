@@ -84,7 +84,7 @@ server<-function(input, output){
                             high=highgrad,
                             na.value='grey.50') +
         
-        theme(plot.title = element_text(vjust=1, hjust=0.5, size=16, face = "bold"),
+        theme(plot.title = element_text(vjust=1, hjust=0.5, size=14, face = "bold"),
               panel.grid.major=element_blank(),panel.grid.minor=element_blank(),
               axis.title.x=element_blank(),axis.text.x=element_blank(),axis.ticks.x=element_blank(),
               axis.title.y=element_blank(),axis.text.y=element_blank(),axis.ticks.y=element_blank(),
@@ -233,7 +233,7 @@ server<-function(input, output){
                                  text=sprintf('<b>%s</b><br>Employees:%s',year,format(count,big.mark=',')))) + 
         geom_line() + geom_point() +
         
-        labs(title="Incoming vs. Outgoing Inter-Jurisdicitonal Employees") +
+        labs(title=paste0("Incoming vs. Outgoing Inter-Jurisdicitonal Employees<br>for ",input$ProvinceInput)) +
         xlab("Year") + ylab("Employees (x1,000)") +
         
         scale_x_continuous(breaks=seq(2002,2017,2),
@@ -244,7 +244,7 @@ server<-function(input, output){
         theme(plot.title = element_text(hjust=0.5,size=14, face = "bold")),
       
       tooltip='text'
-    ) %>% layout(margin=list(l=60,r=50,t=50,b=65),
+    ) %>% layout(margin=list(l=60,r=50,t=75,b=65),
                  legend=list(x=100,y=0.5))
   }) 
   
@@ -255,7 +255,7 @@ server<-function(input, output){
                                  text=sprintf('<b>%s</b><br>Income:$%sM',year,format(round(income/1000000,1),big.mark=',')))) + 
         geom_line() + geom_point() +
         
-        labs(title="Incoming vs. Outgoing Employee Aggregate T4 Earnings") +
+        labs(title=paste0("Incoming vs. Outgoing Employee Aggregate T4 Earnings<br>for ",input$ProvinceInput)) +
         xlab("Year") + ylab("Aggregate T4 Earnings (Million $)") +
         
         scale_x_continuous(breaks=seq(2002,2017,2)) +
@@ -266,7 +266,7 @@ server<-function(input, output){
               axis.title = element_text(size=11)),
       
       tooltip='text'
-    ) %>% layout(margin=list(l=60,r=50,t=50,b=65),
+    ) %>% layout(margin=list(l=60,r=50,t=75,b=65),
                  legend=list(x=100,y=0.5))
   }) 
   
@@ -396,7 +396,7 @@ server<-function(input, output){
                                               year,industry,format(count,big.mark=',')))) +
         geom_line() + geom_point() +
         
-        labs(title=paste0("Inter-Jurisdictional Employment of <br>",input$ProIndInput," by Industry")) +
+        labs(title=paste0("Inter-Jurisdictional Employment for <br>",input$ProIndInput," by Industry")) +
         xlab("Year") + ylab("Employees (x1,000)") + 
         
         scale_x_continuous(breaks=seq(2002,2017,2)) + 
@@ -419,7 +419,7 @@ server<-function(input, output){
                                               year,industry,paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) +
         geom_line() + geom_point() +
         
-        labs(title=paste0("Inter-Jurisdictional Employment Income of <br>", input$ProIndInput, " by Industry")) +
+        labs(title=paste0("Inter-Jurisdictional Employment Income for <br>", input$ProIndInput, " by Industry")) +
         xlab("Year") + ylab("Aggregate T4 Earnings (Million $)") +
         
         scale_x_continuous(breaks=seq(2002,2017,2)) + 
@@ -482,7 +482,7 @@ server<-function(input, output){
                                                      year,input$ProOPInput,target_prov,format(count,big.mark=',')))) + 
         geom_line() + geom_point()+
         
-        labs(title=paste("Inter-Jurisdictional Employment of<br>", input$ProOPInput)) +
+        labs(title=paste("Inter-Jurisdictional Employment for<br>", input$ProOPInput)) +
         xlab('Year') + ylab('Employees (x1,000)') +
         
         scale_x_continuous(breaks=seq(2002,2017,2))+
@@ -505,7 +505,7 @@ server<-function(input, output){
                                                      year,input$ProOPInput,target_prov,paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) + 
         geom_line() + geom_point()+
         
-        labs(title=paste("Inter-Jurisdictional Employment Income of<br>", input$ProOPInput)) +
+        labs(title=paste("Inter-Jurisdictional Employment Income for<br>", input$ProOPInput)) +
         xlab('Year') + ylab('Aggregate T4 Earnings (Million $)') +
         
         
@@ -567,7 +567,7 @@ server<-function(input, output){
                                                 year,age_group,format(count,big.mark = ',')))) + 
         geom_line() + geom_point() +
         
-        labs(title="Inter-Jurisdictional Employees by Age Group") +
+        labs(title=paste0("Inter-Jurisdictional Employees by Age Group<br>for ",input$ProAgeInput)) +
         xlab("Year") + ylab("Number of Employees (x1,000)") +
         
         scale_x_continuous(breaks=seq(2002,2017,2))+
@@ -578,7 +578,7 @@ server<-function(input, output){
               axis.title = element_text(size=11)),
       
       tooltip='text'
-    ) %>% layout(margin=list(l=60,r=50,t=50,b=65),
+    ) %>% layout(margin=list(l=60,r=50,t=75,b=65),
                  legend=list(x=100,y=0.5))
   }) 
   
@@ -602,18 +602,18 @@ server<-function(input, output){
                                               age_group,paste(round(100*(pct_change),1),'%')))) + 
         geom_histogram(mapping = aes(y = pct_change), position = "dodge",stat = 'identity')+
         
-        labs(title=paste("Percentage Changes of Employment by Age Group from", input$YRAge[1], "to", input$YRAge[2])) +
+        labs(title=paste("Percentage Changes of Employment by Age Group from", input$YRAge[1], "to", input$YRAge[2],"<br>for",input$ProAgeInput)) +
         xlab('Age Group') + ylab('Change in Employment (%)') +
         
         scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
         scale_color_manual(name='Age Group',values=agePalette) +
         scale_fill_manual(name='Age Group',values=agePalette) +
         
-        theme(plot.title = element_text(hjust=0.5, size=16, face = "bold"),
+        theme(plot.title = element_text(hjust=0.5, size=14, face = "bold"),
               axis.text.x = element_text(angle = 45, hjust = 1)),
       
       tooltip='text'
-    ) %>% layout(margin=list(l=60,r=50,t=50,b=65),
+    ) %>% layout(margin=list(l=60,r=50,t=75,b=65),
                  legend=list(x=100,y=0.5))
   })  
   

@@ -13,7 +13,11 @@ ui<-fluidPage(
   tags$h1("Inter-Jurisdictional Employment (IJE) Dashboard",align="center"),
   tabsetPanel(
  
-  
+  tabPanel("Using This App",
+           mainPanel(
+             p("Text goes here")
+           )),
+    
   tabPanel("National", 
            sidebarLayout(
              sidebarPanel( 
@@ -54,7 +58,7 @@ ui<-fluidPage(
                           # ,click='map_click'
                           ),
                
-               br(),
+               # br(),
                hr(),
                # plotOutput("PRbar"),
                # br(),
@@ -115,7 +119,7 @@ ui<-fluidPage(
                # plotlyOutput("PRtrend2",height=450),
                # br(),
                plotlyOutput("PRInctrend",height=450),
-               br(),
+               # br(),
                hr(),
                ## what does this do??
                
@@ -219,7 +223,7 @@ ui<-fluidPage(
                plotlyOutput("IndCount",height=600),
                br(),
                plotlyOutput("IndIncome",height=600),
-               br(),
+               # br(),
                hr(),
                ### add your style inline css values here
                
@@ -316,7 +320,7 @@ ui<-fluidPage(
                plotlyOutput("TPcount",height=525),
                br(),
                plotlyOutput("TPincome",height=525),
-               br(),
+               # br(),
                hr(),
                
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
@@ -377,7 +381,7 @@ ui<-fluidPage(
                plotlyOutput("Agetrend",height=525),
                br(),
                plotlyOutput("Agechange",height=525),
-               br(),
+               # br(),
                hr(),
                
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),

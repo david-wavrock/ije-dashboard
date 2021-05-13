@@ -114,11 +114,11 @@ ui<-fluidPage(
                downloadButton("downloadPtable", "Download")       
              ),
              mainPanel(
-               plotlyOutput("PRtrend",height=450),
+               plotlyOutput("PRtrend",height=525),
                br(),
                # plotlyOutput("PRtrend2",height=450),
                # br(),
-               plotlyOutput("PRInctrend",height=450),
+               plotlyOutput("PRInctrend",height=525),
                # br(),
                hr(),
                ## what does this do??

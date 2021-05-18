@@ -298,7 +298,7 @@ ui<-fluidPage(
                                   choices = provList,
                                   selected = provList),
                
-               checkboxInput("selectAllProv","Select/Deselect All"),
+               checkboxInput("selectAllProv","Select/Deselect All", value=T),
                
                selectInput("tableTP", "Choose a table to download: ",
                            choices = c("Filtered TP Table","Full TP Table")),
@@ -355,7 +355,7 @@ ui<-fluidPage(
                            choices = ageList,
                            selected = ageList),
                
-               checkboxInput('selectAllAge','Select/Deselect All'),
+               checkboxInput('selectAllAge','Select/Deselect All',value=T),
                
                radioButtons("GDAgeInput", "Select Gender",
                            choices = c("Both","Male","Female"),

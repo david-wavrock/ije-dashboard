@@ -373,6 +373,7 @@ server<-function(input, output, session){
   ## INDUSTRY TAB - Graphs by industry for target jurisdiction
   #####
   
+  ## select/deselect all button - observes if the selectAllInd option is selected or not and fills, clears selection accordingly
   observeEvent(
     eventExpr=input$selectAllInd,
     handlerExpr=if(input$selectAllInd){
@@ -382,27 +383,9 @@ server<-function(input, output, session){
     },
     
     ignoreInit=T
-    
-    
-    
-    # if(input$selectAllInd) {
-    #   updateCheckboxGroupInput(inputId='IndustryInput',choices=indList,selected=indList)
-    # } else {
-    #   updateCheckboxGroupInput(input='IndustryInput',choices=indList,selected=indList)
-    # }
-    
-    # updateCheckboxGroupInput(session=session, 'IndustryInput', choices = indList,
-    #                          selected = if (input$selectAllInd) indList)
-    # 
-    # if(input$selectAllInd>0){
-    #   if(input$selectAllInd%%2==0){
-    #     updateCheckboxGroupInput(inputId="IndustryInput",choices=indList,selected=c())
-    #   } else {
-    #     updateCheckboxGroupInput(inputId="IndustryInput",choices=indList,selected=indList)
-    #   }
-    # }
   )
   
+  ## 
   ind_filtered <- reactive({
     table_3478 %>%
       filter(province %in% input$ProIndInput,
@@ -412,6 +395,8 @@ server<-function(input, output, session){
              year<= input$YRInd[2]) %>%
     mutate(industry=factor(industry,levels=indList))
     })
+  
+  getPalette = colorRampPalette(brewer.pal(9, "Set1"))
   
   ## count trend
   output$IndCount <- renderPlotly({
@@ -426,7 +411,7 @@ server<-function(input, output, session){
         
         scale_x_continuous(breaks=seq(2002,2017,2)) + 
         scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","),'k')}) +
-        scale_colour_brewer(name='Industry',palette='Paired') +
+        scale_colour_manual(name='Industry',values=getPalette(length(input$IndustryInput))) +
         
         theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
               axis.title = element_text(size=11)),
@@ -449,7 +434,7 @@ server<-function(input, output, session){
         
         scale_x_continuous(breaks=seq(2002,2017,2)) + 
         scale_y_continuous(labels = function(c){paste0('$',format(c, big.mark = ","),'M')}) +
-        scale_colour_brewer(name='Industry',palette='Paired') +
+        scale_colour_manual(name='Industry',values=getPalette(length(input$IndustryInput))) +
         
         theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
               axis.title = element_text(size=11)),
@@ -486,6 +471,18 @@ server<-function(input, output, session){
   #####
   
   ## TP barplot
+  
+  ## select/deselect all button - observes if the selectAllInd option is selected or not and fills, clears selection accordingly
+  observeEvent(
+    eventExpr=input$selectAllProv,
+    handlerExpr=if(input$selectAllProv){
+      updateCheckboxGroupInput(session=session,inputId='ProTPInput',choices=provList,selected=provList)
+    } else {
+      updateCheckboxGroupInput(session=session,inputId='ProTPInput',choices=provList,selected=c())
+    },
+    
+    ignoreInit=T
+  )
  
   table56910_filtered <- reactive({
     table_56910 %>%
@@ -570,6 +567,18 @@ server<-function(input, output, session){
   #####
   ## AGE GROUP - Age of IJE over time, relative changes
   #####
+  
+  ## select/deselect all button - observes if the selectAllAge option is selected or not and fills, clears selection accordingly
+  observeEvent(
+    eventExpr=input$selectAllAge,
+    handlerExpr=if(input$selectAllAge){
+      updateCheckboxGroupInput(session=session,inputId="AgeInput",choices=ageList,selected=ageList)
+    } else {
+      updateCheckboxGroupInput(session=session,inputId="AgeInput",choices=ageList,selected=c())
+    },
+    
+    ignoreInit=T
+  )
 
   agePalette <- paste0('#',c('F8766D','B79F00','00BA38','00BFC4','619CFF','F564E3'))
   names(agePalette) <- unique(table_11$age_group)

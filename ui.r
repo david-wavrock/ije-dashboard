@@ -200,7 +200,7 @@ ui<-fluidPage(
                             choices = c('Incoming','Outgoing'),
                             selected = c('Incoming')),
                
-               checkboxGroupInput("IndustryInput", tags$div(HTML(paste0("Select Industry",tags$sup('3')," (Limit 12)"))),
+               checkboxGroupInput("IndustryInput", tags$div(HTML(paste0("Select Industry",tags$sup('3')))),
                                   choices = indList,
                                   selected = indList[1:12]),
                
@@ -295,13 +295,11 @@ ui<-fluidPage(
                             selected = c('Incoming')),
                
                checkboxGroupInput('ProTPInput','Select Target Jurisdiction',
-                                  choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
-                                              "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
-                                              "Yukon", "Northwest Territories","Nunavut"),
-                                  selected = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
-                                               "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
-                                               "Yukon", "Northwest Territories","Nunavut")),
-             
+                                  choices = provList,
+                                  selected = provList),
+               
+               checkboxInput("selectAllProv","Select/Deselect All"),
+               
                selectInput("tableTP", "Choose a table to download: ",
                            choices = c("Filtered TP Table","Full TP Table")),
                
@@ -354,10 +352,10 @@ ui<-fluidPage(
                             selected =c("Incoming")),
                
                checkboxGroupInput( "AgeInput", "Select Age Groups",
-                           choices = c("18 to 24 years", "25 to 34 years", "35 to 44 years", "45 to 54 years",
-                                       "55 to 64 years", "65 years and older"),
-                           selected = c("18 to 24 years", "25 to 34 years", "35 to 44 years", "45 to 54 years",
-                                        "55 to 64 years", "65 years and older")),
+                           choices = ageList,
+                           selected = ageList),
+               
+               checkboxInput('selectAllAge','Select/Deselect All'),
                
                radioButtons("GDAgeInput", "Select Gender",
                            choices = c("Both","Male","Female"),

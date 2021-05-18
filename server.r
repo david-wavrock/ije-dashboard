@@ -7,7 +7,7 @@ library(ggplot2)
 #library(highcharter)
 options(scipen = 999)
 
-server<-function(input, output){
+server<-function(input, output, session){
   
   #####
   ## NATIONAL TAB - MAP OF IJE EMPLOYMENT/INCOME
@@ -373,6 +373,36 @@ server<-function(input, output){
   ## INDUSTRY TAB - Graphs by industry for target jurisdiction
   #####
   
+  observeEvent(
+    eventExpr=input$selectAllInd,
+    handlerExpr=if(input$selectAllInd){
+      updateCheckboxGroupInput(session=session,inputId="IndustryInput",choices=indList,selected=indList)
+    } else {
+      updateCheckboxGroupInput(session=session,inputId="IndustryInput",choices=indList,selected=c())
+    },
+    
+    ignoreInit=T
+    
+    
+    
+    # if(input$selectAllInd) {
+    #   updateCheckboxGroupInput(inputId='IndustryInput',choices=indList,selected=indList)
+    # } else {
+    #   updateCheckboxGroupInput(input='IndustryInput',choices=indList,selected=indList)
+    # }
+    
+    # updateCheckboxGroupInput(session=session, 'IndustryInput', choices = indList,
+    #                          selected = if (input$selectAllInd) indList)
+    # 
+    # if(input$selectAllInd>0){
+    #   if(input$selectAllInd%%2==0){
+    #     updateCheckboxGroupInput(inputId="IndustryInput",choices=indList,selected=c())
+    #   } else {
+    #     updateCheckboxGroupInput(inputId="IndustryInput",choices=indList,selected=indList)
+    #   }
+    # }
+  )
+  
   ind_filtered <- reactive({
     table_3478 %>%
       filter(province %in% input$ProIndInput,
@@ -380,12 +410,7 @@ server<-function(input, output){
              type %in% input$IncOutIndustry,
              year>= input$YRInd[1],
              year<= input$YRInd[2]) %>%
-    mutate(industry=factor(industry,levels=c("Agriculture, forestry, fishing and hunting","Oil and gas extraction and support activities",
-                                             "Mining and quarrying (excluding oil and gas)","Utilities","Construction","Manufacturing",
-                                             "Wholesale and Retail trade","Transportation and warehousing",
-                                             "Information and cultural industries; Finance and insurance;\n Real estate and rental and leasing; Management of companies and enterprise",
-                                             "Professional, scientific and technical services","Education services, health care and social assistance",
-                                             "Accommodation and food services","Other services","Public administration","Unknown")))
+    mutate(industry=factor(industry,levels=indList))
     })
   
   ## count trend

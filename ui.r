@@ -201,18 +201,10 @@ ui<-fluidPage(
                             selected = c('Incoming')),
                
                checkboxGroupInput("IndustryInput", tags$div(HTML(paste0("Select Industry",tags$sup('3')," (Limit 12)"))),
-                                  choices = c("Agriculture, forestry, fishing and hunting","Oil and gas extraction and support activities",
-                                              "Mining and quarrying (excluding oil and gas)","Utilities","Construction","Manufacturing",
-                                              "Wholesale and Retail trade","Transportation and warehousing",
-                                              "Information and cultural industries; Finance and insurance;\n Real estate and rental and leasing; Management of companies and enterprise",
-                                              "Professional, scientific and technical services","Education services, health care and social assistance",
-                                              "Accommodation and food services","Other services","Public administration","Unknown"),
-                                  selected = c("Agriculture, forestry, fishing and hunting","Oil and gas extraction and support activities",
-                                               "Mining and quarrying (excluding oil and gas)","Utilities","Construction","Manufacturing",
-                                               "Wholesale and Retail trade","Transportation and warehousing",
-                                               "Information and cultural industries; Finance and insurance;\n Real estate and rental and leasing; Management of companies and enterprise",
-                                               "Professional, scientific and technical services","Education services, health care and social assistance",
-                                               "Accommodation and food services")),
+                                  choices = indList,
+                                  selected = indList[1:12]),
+               
+               checkboxInput("selectAllInd","Select/Deselect All"),
                
                selectInput("tableInd", "Choose a table to download: ",
                            choices = c("Filtered Industry Table","Full Industry Table")),
@@ -399,42 +391,42 @@ ui<-fluidPage(
              )
            )
            
-          ),
+          )#,
   
-  tabPanel("Reference",
-           navlistPanel(
-             tabPanel("Inter-jurisdictional Employees",
-                      tags$head(
-                        tags$style("label{font-family: 'Lobster', cursive;}")), 
-                      h3( "Inter-jurisdictional employees are paid employment of individuals who maintain a permanent residence in a given province/territory while reporting
-                          earnings from a different province/territory"))
-             
-                     ),
-           navlistPanel(
-             tabPanel("Data Source(s)",
-                      tags$head(
-                        tags$style("label{font-family: 'Lobster', cursive;}")), 
-                      h3( "The data source for this project is the Canadian Employer-Employee Dynamics Database
-                        (CEEDD)"))
-           ),
-           
-           navlistPanel(
-             tabPanel("User Guide",
-                      tags$head(
-                        tags$style("label{font-family: 'Lobster', cursive;}")),
-                      h3("Click", downloadLink('downloadGuide','Here'), "to Download user Guide"
-                        ))
-           ),
-           navlistPanel(
-             tabPanel("Datasets",
-                      tags$head(
-                        tags$style("label{font-family: 'Lobster', cursive;}")),
-                      h3("Datasets are avaiable for download from", downloadLink('downloadVintage','Here')
-                      ))
-
-           )
-           
-  )
+  # tabPanel("Reference",
+  #          navlistPanel(
+  #            tabPanel("Inter-jurisdictional Employees",
+  #                     tags$head(
+  #                       tags$style("label{font-family: 'Lobster', cursive;}")), 
+  #                     h3( "Inter-jurisdictional employees are paid employment of individuals who maintain a permanent residence in a given province/territory while reporting
+  #                         earnings from a different province/territory"))
+  #            
+  #                    ),
+  #          navlistPanel(
+  #            tabPanel("Data Source(s)",
+  #                     tags$head(
+  #                       tags$style("label{font-family: 'Lobster', cursive;}")), 
+  #                     h3( "The data source for this project is the Canadian Employer-Employee Dynamics Database
+  #                       (CEEDD)"))
+  #          ),
+  #          
+  #          navlistPanel(
+  #            tabPanel("User Guide",
+  #                     tags$head(
+  #                       tags$style("label{font-family: 'Lobster', cursive;}")),
+  #                     h3("Click", downloadLink('downloadGuide','Here'), "to Download user Guide"
+  #                       ))
+  #          ),
+  #          navlistPanel(
+  #            tabPanel("Datasets",
+  #                     tags$head(
+  #                       tags$style("label{font-family: 'Lobster', cursive;}")),
+  #                     h3("Datasets are avaiable for download from", downloadLink('downloadVintage','Here')
+  #                     ))
+  # 
+  #          )
+  #          
+  # )
   
 
   ) 

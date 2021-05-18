@@ -26,6 +26,14 @@ table_3478 <- readRDS('./data/table_3478.RDS')
 table_56910 <- readRDS('./data/table_56910.RDS')
 table_11 <- readRDS('./data/table_11.RDS')
 
+## define lists for where they're necessary
+indList <- c("Agriculture, forestry, fishing and hunting","Oil and gas extraction and support activities",
+             "Mining and quarrying (excluding oil and gas)","Utilities","Construction","Manufacturing",
+             "Wholesale and Retail trade","Transportation and warehousing",
+             "Information and cultural industries; Finance and insurance;\n Real estate and rental and leasing; Management of companies and enterprise",
+             "Professional, scientific and technical services","Education services, health care and social assistance",
+             "Accommodation and food services","Other services","Public administration","Unknown")
+
 
 createClasses <- function(data, palette, na_color, n) {
   classes <- classIntervals(na.exclude(data), n = n, style = "jenks")

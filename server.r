@@ -14,14 +14,15 @@ server<-function(input, output, session){
   #####
   
   ## reactive filtered table
-  mapfilter <- reactive({
+  mapfilter <- eventReactive(input$NationalGen,{
     table_1_2 %>%
       filter(year%in% input$YearInput,
              source %in% input$SourceInput,
              gender %in% input$GenderInput,
              type %in% input$TypeInput,
              income_source %in% input$IncomeSource)
-  })
+  },
+  ignoreNULL=F)
     
   
   output$mainmap <- renderPlotly({
@@ -215,7 +216,7 @@ server<-function(input, output, session){
   
   ## Jurisdiction Trendplot
   
-  trend_filted<- reactive({
+  trend_filted <- eventReactive(input$JurisdGen,{
     table_1_2 %>%
       filter(province %in% input$ProvinceInput,
              year>= input$YRInput[1],
@@ -224,7 +225,8 @@ server<-function(input, output, session){
              gender %in% input$GDInput,
              type != "Resident",
              case_when(type == "Incoming" ~ income_source == "Inside the Jurisdiction", T ~ income_source == "Outside the Jurisdiction")
-      )})
+      )},
+    ignoreNULL=F)
   
   #count trend
   output$PRtrend <-renderPlotly({
@@ -233,7 +235,7 @@ server<-function(input, output, session){
                                  text=sprintf('<b>%s</b><br>Employees:%s',year,format(count,big.mark=',')))) + 
         geom_line() + geom_point() +
         
-        labs(title=paste0("Incoming vs. Outgoing Inter-Jurisdicitonal Employees<br>for ",input$ProvinceInput)) +
+        labs(title=paste0("Incoming vs. Outgoing Inter-Jurisdicitonal Employees<br>for ",first(trend_filted()$province))) +
         xlab("Year") + ylab("Employees (x1,000)") +
         
         scale_x_continuous(breaks=seq(2002,2017,2),
@@ -255,7 +257,7 @@ server<-function(input, output, session){
                                  text=sprintf('<b>%s</b><br>Income:$%sM',year,format(round(income/1000000,1),big.mark=',')))) + 
         geom_line() + geom_point() +
         
-        labs(title=paste0("Incoming vs. Outgoing Employee Aggregate T4 Earnings<br>for ",input$ProvinceInput)) +
+        labs(title=paste0("Incoming vs. Outgoing Employee Aggregate T4 Earnings<br>for ",first(trend_filted()$province))) +
         xlab("Year") + ylab("Aggregate T4 Earnings (Million $)") +
         
         scale_x_continuous(breaks=seq(2002,2017,2)) +
@@ -386,7 +388,7 @@ server<-function(input, output, session){
   )
   
   ## 
-  ind_filtered <- reactive({
+  ind_filtered <- eventReactive(input$IndustryGen,{
     table_3478 %>%
       filter(province %in% input$ProIndInput,
              industry %in% input$IndustryInput,
@@ -394,7 +396,8 @@ server<-function(input, output, session){
              year>= input$YRInd[1],
              year<= input$YRInd[2]) %>%
     mutate(industry=factor(industry,levels=indList))
-    })
+    },
+    ignoreNULL=F)
   
   getPalette = colorRampPalette(brewer.pal(9, "Set1"))
   
@@ -406,7 +409,7 @@ server<-function(input, output, session){
                                               year,industry,format(count,big.mark=',')))) +
         geom_line() + geom_point() +
         
-        labs(title=paste0("Inter-Jurisdictional Employment for <br>",input$ProIndInput," by Industry")) +
+        labs(title=paste0("Inter-Jurisdictional Employment for <br>",first(ind_filtered()$province)," by Industry")) +
         xlab("Year") + ylab("Employees (x1,000)") + 
         
         scale_x_continuous(breaks=seq(2002,2017,2)) + 
@@ -429,7 +432,7 @@ server<-function(input, output, session){
                                               year,industry,paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) +
         geom_line() + geom_point() +
         
-        labs(title=paste0("Inter-Jurisdictional Employment Income for <br>", input$ProIndInput, " by Industry")) +
+        labs(title=paste0("Inter-Jurisdictional Employment Income for <br>",first(ind_filtered()$province)," by Industry")) +
         xlab("Year") + ylab("Aggregate T4 Earnings (Million $)") +
         
         scale_x_continuous(breaks=seq(2002,2017,2)) + 
@@ -484,7 +487,7 @@ server<-function(input, output, session){
     ignoreInit=T
   )
  
-  table56910_filtered <- reactive({
+  table56910_filtered <- eventReactive(input$TgtJurisdGen,{
     table_56910 %>%
       filter(province %in% input$ProOPInput,
              target_prov %in% input$ProTPInput,
@@ -494,7 +497,8 @@ server<-function(input, output, session){
       mutate(target_prov=factor(target_prov,levels=c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                                      "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
                                                      "Yukon", "Northwest Territories","Nunavut")))
-  })
+  },
+  ignoreNULL=F)
   
   ## count
   output$TPcount <- renderPlotly({
@@ -504,7 +508,7 @@ server<-function(input, output, session){
                                                      year,input$ProOPInput,target_prov,format(count,big.mark=',')))) + 
         geom_line() + geom_point()+
         
-        labs(title=paste("Inter-Jurisdictional Employment for<br>", input$ProOPInput)) +
+        labs(title=paste("Inter-Jurisdictional Employment for<br>", first(table56910_filtered()$province))) +
         xlab('Year') + ylab('Employees (x1,000)') +
         
         scale_x_continuous(breaks=seq(2002,2017,2))+
@@ -527,7 +531,7 @@ server<-function(input, output, session){
                                                      year,input$ProOPInput,target_prov,paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) + 
         geom_line() + geom_point()+
         
-        labs(title=paste("Inter-Jurisdictional Employment Income for<br>", input$ProOPInput)) +
+        labs(title=paste("Inter-Jurisdictional Employment Income for<br>", first(table56910_filtered()$province))) +
         xlab('Year') + ylab('Aggregate T4 Earnings (Million $)') +
         
         
@@ -583,7 +587,7 @@ server<-function(input, output, session){
   agePalette <- paste0('#',c('F8766D','B79F00','00BA38','00BFC4','619CFF','F564E3'))
   names(agePalette) <- unique(table_11$age_group)
   
-  table11_filted<- reactive({
+  table11_filted<- eventReactive(input$AgeGen,{
     table_11 %>%
       filter(age_group %in% input$AgeInput,
              province %in% input$ProAgeInput,
@@ -591,7 +595,8 @@ server<-function(input, output, session){
              type %in% input$TAgeInput,
              year>= input$YRAge[1],
              year<= input$YRAge[2]
-      )})
+      )},
+    ignoreNULL=F)
   
   #Age Trend 
   output$Agetrend <-renderPlotly({
@@ -601,7 +606,7 @@ server<-function(input, output, session){
                                                 year,age_group,format(count,big.mark = ',')))) + 
         geom_line() + geom_point() +
         
-        labs(title=paste0("Inter-Jurisdictional Employees by Age Group<br>for ",input$ProAgeInput)) +
+        labs(title=paste0("Inter-Jurisdictional Employees by Age Group<br>for ",first(table11_filted()$province))) +
         xlab("Year") + ylab("Number of Employees (x1,000)") +
         
         scale_x_continuous(breaks=seq(2002,2017,2))+
@@ -618,9 +623,8 @@ server<-function(input, output, session){
   
   
   #Age chanages
-  output$Agechange <-renderPlotly({
-    table11_filted <-
-      table_11 %>%
+  table11_changes <- eventReactive(input$AgeGen,{
+    table_11 %>%
       filter(age_group %in% input$AgeInput,
              province %in% input$ProAgeInput,
              gender %in% input$GDAgeInput,
@@ -629,14 +633,17 @@ server<-function(input, output, session){
       group_by(age_group) %>%
       mutate(pct_change = (lead(count)/count-1)) %>%
       filter(year %in% input$YRAge[1])
+  },
+  ignoreNULL=F)
     
+  output$Agechange <-renderPlotly({
     ggplotly(
-      ggplot(table11_filted, aes(x=age_group, color=age_group, fill=age_group,
+      ggplot(table11_changes(), aes(x=age_group, color=age_group, fill=age_group,
                                  text=sprintf('<b>%s</b><br>Percent Change: %s',
                                               age_group,paste(round(100*(pct_change),1),'%')))) + 
         geom_histogram(mapping = aes(y = pct_change), position = "dodge",stat = 'identity')+
         
-        labs(title=paste("Percentage Changes of Employment by Age Group from", input$YRAge[1], "to", input$YRAge[2],"<br>for",input$ProAgeInput)) +
+        labs(title=paste("Percentage Changes of Employment by Age Group from", first(table11_filted()$year), "to", last(table11_filted()$year),"<br>for",first(table11_filted()$province))) +
         xlab('Age Group') + ylab('Change in Employment (%)') +
         
         scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +

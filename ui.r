@@ -20,7 +20,7 @@ ui<-fluidPage(
     
   tabPanel("National", 
            sidebarLayout(
-             sidebarPanel( 
+             sidebarPanel(
                selectInput("YearInput", "Select Year",
                            choices = c(beginy:endy),
                            selected =c(endy)),
@@ -43,7 +43,10 @@ ui<-fluidPage(
                
                radioButtons("SourceInput", tags$div(HTML(paste0("Data Source",tags$sup('2')))),
                             choices = c("T1 Personal Master File", "T1 Historical File"),
-                            selected = c("T1 Personal Master File")),
+                            selected = c("T1 Personal Master File")), 
+               
+               actionButton('NationalGen','Refresh Plot'),
+               hr(),
                
                selectInput("tableN", "Choose a table to download: ",
                            choices = c("Filtered National Table","Full National Table")),
@@ -89,6 +92,8 @@ ui<-fluidPage(
   tabPanel("Jurisdiction",
            sidebarLayout(
              sidebarPanel(
+               actionButton('JurisdGen','Refresh Plot'),
+               
                selectInput("ProvinceInput", "Select Jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
@@ -186,6 +191,8 @@ ui<-fluidPage(
   tabPanel("Industry",
            sidebarLayout(
              sidebarPanel(
+               actionButton('IndustryGen','Refresh Plot'),
+               
                selectInput("ProIndInput", "Select Jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
@@ -280,6 +287,8 @@ ui<-fluidPage(
   tabPanel("Target Jurisdiction",
            sidebarLayout(
              sidebarPanel(
+               actionButton('TgtJurisdGen','Refresh Plot'),
+               
                selectInput("ProOPInput", "Select Base Jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
@@ -337,6 +346,8 @@ ui<-fluidPage(
   tabPanel("Age Group",
            sidebarLayout(
              sidebarPanel(
+               actionButton('NationalGen','Refresh Plot'),
+               
                selectInput("ProAgeInput", "Select Jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",

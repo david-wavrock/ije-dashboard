@@ -45,9 +45,9 @@ ui<-fluidPage(
                             choices = c("T1 Personal Master File", "T1 Historical File"),
                             selected = c("T1 Personal Master File")), 
                
-               actionButton('NationalGen','Refresh Plot'),
+               actionButton('NationalGen',HTML('<b>Refresh Plot</b>'),width='100%'),
                hr(),
-               
+
                selectInput("tableN", "Choose a table to download: ",
                            choices = c("Filtered National Table","Full National Table")),
                downloadButton("downloadNtable", "Download") 
@@ -92,8 +92,6 @@ ui<-fluidPage(
   tabPanel("Jurisdiction",
            sidebarLayout(
              sidebarPanel(
-               actionButton('JurisdGen','Refresh Plot'),
-               
                selectInput("ProvinceInput", "Select Jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
@@ -112,6 +110,9 @@ ui<-fluidPage(
                radioButtons("DSInput", tags$div(HTML(paste0("Data Source",tags$sup('2')))),
                             choices = c("T1 Personal Master File", "T1 Historical File"),
                             selected = c("T1 Personal Master File")),
+               
+               actionButton('JurisdGen',HTML('<b>Refresh Plot</b>'),width='100%'),
+               hr(),
                
                selectInput("tableIn", "Choose a table to download: ",
                            choices = c("Filtered Table","Full Table")
@@ -191,8 +192,6 @@ ui<-fluidPage(
   tabPanel("Industry",
            sidebarLayout(
              sidebarPanel(
-               actionButton('IndustryGen','Refresh Plot'),
-               
                selectInput("ProIndInput", "Select Jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
@@ -212,6 +211,9 @@ ui<-fluidPage(
                                   selected = indList[1:12]),
                
                checkboxInput("selectAllInd","Select/Deselect All"),
+               
+               actionButton('IndustryGen',HTML('<b>Refresh Plot</b>'),width='100%'),
+               hr(),
                
                selectInput("tableInd", "Choose a table to download: ",
                            choices = c("Filtered Industry Table","Full Industry Table")),
@@ -287,8 +289,6 @@ ui<-fluidPage(
   tabPanel("Target Jurisdiction",
            sidebarLayout(
              sidebarPanel(
-               actionButton('TgtJurisdGen','Refresh Plot'),
-               
                selectInput("ProOPInput", "Select Base Jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
@@ -308,6 +308,9 @@ ui<-fluidPage(
                                   selected = provList),
                
                checkboxInput("selectAllProv","Select/Deselect All", value=T),
+               
+               actionButton('TgtJurisdGen',HTML('<b>Refresh Plot</b>'),width='100%'),
+               hr(),
                
                selectInput("tableTP", "Choose a table to download: ",
                            choices = c("Filtered TP Table","Full TP Table")),
@@ -346,8 +349,6 @@ ui<-fluidPage(
   tabPanel("Age Group",
            sidebarLayout(
              sidebarPanel(
-               actionButton('NationalGen','Refresh Plot'),
-               
                selectInput("ProAgeInput", "Select Jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
@@ -371,6 +372,9 @@ ui<-fluidPage(
                radioButtons("GDAgeInput", "Select Gender",
                            choices = c("Both","Male","Female"),
                            selected =c("Both")),
+               
+               actionButton('NationalGen',HTML('<b>Refresh Plot</b>'),width='100%'),
+               hr(),
                
                selectInput("tableAge", "Choose a table to download: ",
                            choices = c("Filtered Age Table","Full Age Table")),

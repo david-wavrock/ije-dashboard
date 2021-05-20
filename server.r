@@ -216,6 +216,13 @@ server<-function(input, output, session){
   
   ## Jurisdiction Trendplot
   
+  ## if the province is changed here, it will update the selected province in all other tabs
+  observeEvent(input$ProvinceInput,
+               {
+                 lapply(c('ProIndInput','ProOPInput','ProAgeInput'),
+                        function(x) updateSelectInput(session=session, inputId=x, selected=input$ProvinceInput))
+               })
+  
   trend_filted <- eventReactive(input$JurisdGen,{
     table_1_2 %>%
       filter(province %in% input$ProvinceInput,
@@ -375,6 +382,12 @@ server<-function(input, output, session){
   ## INDUSTRY TAB - Graphs by industry for target jurisdiction
   #####
   
+  observeEvent(input$ProIndInput,
+               {
+                 lapply(c('ProvinceInput','ProOPInput','ProAgeInput'),
+                        function(x) updateSelectInput(session=session, inputId=x, selected=input$ProIndInput))
+               })
+  
   ## select/deselect all button - observes if the selectAllInd option is selected or not and fills, clears selection accordingly
   observeEvent(
     eventExpr=input$selectAllInd,
@@ -473,8 +486,12 @@ server<-function(input, output, session){
   ## TARGET PROVINCE - Income, employment for province pairs by target jurisdiction
   #####
   
-  ## TP barplot
-  
+  observeEvent(input$ProOPInput,
+               {
+                 lapply(c('ProvinceInput','ProIndInput','ProAgeInput'),
+                        function(x) updateSelectInput(session=session, inputId=x, selected=input$ProOPInput))
+               })
+
   ## select/deselect all button - observes if the selectAllInd option is selected or not and fills, clears selection accordingly
   observeEvent(
     eventExpr=input$selectAllProv,
@@ -571,6 +588,12 @@ server<-function(input, output, session){
   #####
   ## AGE GROUP - Age of IJE over time, relative changes
   #####
+  
+  observeEvent(input$ProAgeInput,
+               {
+                 lapply(c('ProvinceInput','ProIndInput','ProOPInput'),
+                        function(x) updateSelectInput(session=session, inputId=x, selected=input$ProAgeInput))
+               })
   
   ## select/deselect all button - observes if the selectAllAge option is selected or not and fills, clears selection accordingly
   observeEvent(

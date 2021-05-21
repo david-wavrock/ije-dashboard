@@ -1,0 +1,24 @@
+{
+    "id": "F597FF3B",
+    "path": "~/git/ije-dashboard/server.r",
+    "project_path": "server.r",
+    "type": "r_source",
+    "hash": "2016179818",
+    "contents": "",
+    "dirty": false,
+    "created": 1621612969362.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "cursorPosition": "28,0",
+        "scrollLine": "12"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1621613018,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1621613018395,
+    "read_only": false,
+    "read_only_alternatives": []
+}

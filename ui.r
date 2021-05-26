@@ -15,7 +15,45 @@ ui<-fluidPage(
  
   tabPanel("Using This App",
            mainPanel(
-             p("Text goes here")
+             h2(HTML('<u>Introduction</u>')),
+             p(HTML("<b>Inter-jurisdictional employees (IJE)</b> are employees who maintain a permanent residence in a province or territory, while reporting 
+                    earnings/income from a different province or territory. Data on IJE are important for federal and provincial governments for a wide range 
+                    of purposes related to tax policy, employment, etc.")),
+             p(HTML("For any given province or territory, inter-jurisdictional labour movements have two directions: <b>incoming</b> and <b>outgoing</b>. For 
+                    example, 'Incoming IJE' for the province of Alberta would refer to individuals who received T4 earnings in Alberta, but who report a 
+                    different province or territory of residence on their T1 tax returns. 'Outgoing IJE' for the province of Alberta however would refer to  
+                    those who listed Alberta as their province of residence on their T1 tax return, but who made earnings in another province or territory 
+                    in the same tax year.")),
+             p(HTML("IJE data are based on the Canadian Employer-Employee Dynamics Database (CEEDD) from the Social Analysis and Modelling Division at Statistics 
+                    Canada. Starting in 2021, SAMD has added this dashboard as a new dissemination and data exploration tool as part of its regular release of  
+                    IJE data to the public and to stakeholders.")),
+             h2(HTML('<u>How to Use This Application</u>')),
+             p(HTML("The IJE Dashboard contains five separate tabs from which users can produce interactive data visualizations of inter-jurisdictional employment 
+                    flows. These tabs can be found at the top of the page, and display information on national level trends; jurisdictional inflows and outflows of  
+                    IJE; and for each province and territory breakdowns of inflows and outflows by industry, province pair and age group.")),
+             # p(HTML('The IJE Dashboard contains five separate tabs from which users can produce interactive data visualizations of inter-jurisdictional employment 
+             #        flows. These tabs can be found at the top of the page, and display information on:<br>
+             #        <ul>
+             #        <li><b>National Trends:</b> A choropleth map of Canada, where provinces and territories are coloured according to the total number of IJE 
+             #        or their total combined income.</li>
+             #        <li><b>Jurisdiction:</b> Line plots over time of the total number of incoming and outgoing IJEs and their income for any province or territory.</li>
+             #        <li><b>Industry:</b> Line plots over time of the total number of IJEs and their income by industry of employment for any province or territory.</li>
+             #        <li><b>Target Jurisdiction:</b> Line plots over time of the total number of IJEs and their income by province pair for any province or territory.</li>
+             #        <li><b>Age Group:</b> Line plots over time of the total number of IJEs by their age group, and the percent change in each group over the specified 
+             #        time period.</li>
+             #        </ul>')),
+             p(HTML("Data selections can be customized in the side bar on any page, and clicking <b>Refresh Plot</b> renders new graphs on the page. All plots in the 
+                    dashboard are fully interactive. Navigation tools for panning/zooming in on visuals can be found in the upper right corner of each plot. Data used 
+                    for each plot can be downloaded in its entirety or based on your filtered criteria by clicking <b>Download</b> in the sidebar on the same page.")),
+             # p(HTML("Data selections can be customized in the side bar on any page. To generate the graphs corresponding with your selections, click the 
+             #        <b>Refresh Plot</b> button towards the bottom of the sidebar. All plots in the dashboard are fully interactive, and contain detailed information 
+             #        on your selections and the values corresponding to each point. Navigation tools are available in the upper right hand corner of each plot as well, 
+             #        and allow for panning and zooming. The data used in each plot can also be directly downloaded from each page by selecting the table of choice in 
+             #        the dropdown menu and clicking <b>Download</b>.")),
+             h2(HTML('<u>IJE Guide & Vintage Files</u>')),
+             p(HTML("For users who would like to know more about the IJE data produced by SAMD, or for users who prefer the vintage data format for IJE data, the 
+                    IJE User Guide and IJE Vintage release for 2020 can be found below:"))
+             
            )),
     
   tabPanel("National", 
@@ -373,7 +411,7 @@ ui<-fluidPage(
                            choices = c("Both","Male","Female"),
                            selected =c("Both")),
                
-               actionButton('NationalGen',HTML('<b>Refresh Plot</b>'),width='100%'),
+               actionButton('AgeGen',HTML('<b>Refresh Plot</b>'),width='100%'),
                hr(),
                
                selectInput("tableAge", "Choose a table to download: ",

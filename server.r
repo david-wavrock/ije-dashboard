@@ -20,10 +20,15 @@ server<-function(input, output, session){
              source %in% input$SourceInput,
              gender %in% input$GenderInput,
              type %in% input$TypeInput,
-             income_source %in% input$IncomeSource)
+             income_source %in% input$IncomeSource) %>%
+      mutate(inp=input$SeriesInput,
+             dispvar=ifelse(inp=='Employees',
+                            format(count,big.mark=','), # if employees, format here, income below
+                            paste0('$',format(round(income/1000000,1),big.mark=','),' M')),
+             prec=ifelse(inp=='Employees','Count of','Total income of'))
   },
   ignoreNULL=F)
-    
+  
   
   output$mainmap <- renderPlotly({
     
@@ -35,11 +40,13 @@ server<-function(input, output, session){
         crs= "+proj=laea +lat_0=56.1304 +lon_0=-86.3468 +ellps=WGS84 +units=m +no_defs "))
     
     ## set color scheme for concept (employees in blue, income in red)
-    if(input$SeriesInput == "Employees"){
+    if(first(mapfilter()$prec) == "Count of"){
       seriesvar <- mapdat$count
       lowgrad <- '#f1eef6'
       highgrad <- '#045a8d'
       seriestitle <- 'Number of Inter-Jurisdictional Employees by Province'
+      
+      
       # seriestitle <- 'Number of Inter-Jurisdictional Employees'
       # 
       pal_count_PR <- createClasses(mapdat$count , "Blues", "transparent", 5)
@@ -49,7 +56,7 @@ server<-function(input, output, session){
       #   mapdat$province, format(mapdat$count, big.mark = ",")) %>%
       #   lapply(htmltools::HTML) # add labels 
       
-    } else if(input$SeriesInput == "Income"){
+    } else if(first(mapfilter()$prec) == "Total income of"){
       seriesvar <- mapdat$income
       lowgrad <- '#fef0d9'
       highgrad <- '#b30000'
@@ -70,10 +77,9 @@ server<-function(input, output, session){
     ggplotly(
       ggplot(mapdat %>% mutate(geometry=mapformat)) +
         geom_sf(aes(fill=log(seriesvar)/log(10),
-                    text=sprintf("<b>%s</b><br>Employees: %s<br>Income: %s",
-                                 province,
-                                 format(count,big.mark=','),
-                                 paste0('$',format(round(income/1000000,1),big.mark=','),' M'))),
+                    text=sprintf("<b>%s, %s</b><br>%s %s %s IJE: %s",
+                                 province,year,
+                                 prec,tolower(gender),tolower(type),dispvar)),
                 
                 color="#444444",
                 alpha=0.75) + theme_bw() +
@@ -94,7 +100,7 @@ server<-function(input, output, session){
       
       tooltip='text') %>%
       style(hoveron='all')
-   
+    
   })
   
   #####
@@ -239,7 +245,10 @@ server<-function(input, output, session){
   output$PRtrend <-renderPlotly({
     ggplotly(
       ggplot(trend_filted(), aes(x=year, y = count/1000, group=type, color=type,
-                                 text=sprintf('<b>%s</b><br>Employees:%s',year,format(count,big.mark=',')))) + 
+                                 text=sprintf('<b>%s, %s</b><br>%s %s employees: %s',
+                                              province,year,
+                                              gender,tolower(type),
+                                              format(count,big.mark=',')))) + 
         geom_line() + geom_point() +
         
         labs(title=paste0("Incoming vs. Outgoing Inter-Jurisdicitonal Employees<br>for ",first(trend_filted()$province))) +
@@ -261,7 +270,10 @@ server<-function(input, output, session){
   output$PRInctrend <-renderPlotly({
     ggplotly(
       ggplot(trend_filted(), aes(x=year, y = income/1000000, group=type, color=type,
-                                 text=sprintf('<b>%s</b><br>Income:$%sM',year,format(round(income/1000000,1),big.mark=',')))) + 
+                                 text=sprintf('<b>%s, %s</b><br>Income of %s %s employees: $%sM',
+                                              province,year,
+                                              tolower(gender),tolower(type),
+                                              format(round(income/1000000,1),big.mark=',')))) + 
         geom_line() + geom_point() +
         
         labs(title=paste0("Incoming vs. Outgoing Employee Aggregate T4 Earnings<br>for ",first(trend_filted()$province))) +
@@ -270,7 +282,7 @@ server<-function(input, output, session){
         scale_x_continuous(breaks=seq(2002,2017,2)) +
         scale_y_continuous(labels = function(c){paste0('$',format(c, big.mark = ","),'M')}) +
         scale_colour_manual(name='',values = c("cyan3", "darkorange2")) +
-
+        
         theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
               axis.title = element_text(size=11)),
       
@@ -408,9 +420,9 @@ server<-function(input, output, session){
              type %in% input$IncOutIndustry,
              year>= input$YRInd[1],
              year<= input$YRInd[2]) %>%
-    mutate(industry=factor(industry,levels=indList))
-    },
-    ignoreNULL=F)
+      mutate(industry=factor(industry,levels=indList))
+  },
+  ignoreNULL=F)
   
   getPalette = colorRampPalette(brewer.pal(9, "Set1"))
   
@@ -418,8 +430,10 @@ server<-function(input, output, session){
   output$IndCount <- renderPlotly({
     ggplotly(
       ggplot(ind_filtered(), aes(x=year, y=count/1000, group=industry, color=industry,
-                                 text=sprintf("<b>%s</b><br>Industry:%s<br>Employees:%s",
-                                              year,industry,format(count,big.mark=',')))) +
+                                 text=sprintf("<b>%s, %s</b><br>Industry: %s<br>%s employees: %s",
+                                              province,year,
+                                              industry,
+                                              type,format(count,big.mark=',')))) +
         geom_line() + geom_point() +
         
         labs(title=paste0("Inter-Jurisdictional Employment for <br>",first(ind_filtered()$province)," by Industry")) +
@@ -427,7 +441,7 @@ server<-function(input, output, session){
         
         scale_x_continuous(breaks=seq(2002,2017,2)) + 
         scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","),'k')}) +
-        scale_colour_manual(name='Industry',values=getPalette(length(input$IndustryInput))) +
+        scale_colour_manual(name='Industry',values=getPalette(length(unique(ind_filtered()$industry)))) +
         
         theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
               axis.title = element_text(size=11)),
@@ -441,8 +455,10 @@ server<-function(input, output, session){
   output$IndIncome <- renderPlotly({
     ggplotly(
       ggplot(ind_filtered(), aes(x=year, y=income/1000000, group=industry, color=industry,
-                                 text=sprintf("<b>%s</b><br>Industry:%s<br>Income:%s",
-                                              year,industry,paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) +
+                                 text=sprintf("<b>%s, %s</b><br>Industry: %s<br>Income of %s employees: %s",
+                                              province,year,
+                                              industry,
+                                              tolower(type),paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) +
         geom_line() + geom_point() +
         
         labs(title=paste0("Inter-Jurisdictional Employment Income for <br>",first(ind_filtered()$province)," by Industry")) +
@@ -450,7 +466,7 @@ server<-function(input, output, session){
         
         scale_x_continuous(breaks=seq(2002,2017,2)) + 
         scale_y_continuous(labels = function(c){paste0('$',format(c, big.mark = ","),'M')}) +
-        scale_colour_manual(name='Industry',values=getPalette(length(input$IndustryInput))) +
+        scale_colour_manual(name='Industry',values=getPalette(length(unique(ind_filtered()$industry)))) +
         
         theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
               axis.title = element_text(size=11)),
@@ -491,7 +507,7 @@ server<-function(input, output, session){
                  lapply(c('ProvinceInput','ProIndInput','ProAgeInput'),
                         function(x) updateSelectInput(session=session, inputId=x, selected=input$ProOPInput))
                })
-
+  
   ## select/deselect all button - observes if the selectAllInd option is selected or not and fills, clears selection accordingly
   observeEvent(
     eventExpr=input$selectAllProv,
@@ -503,7 +519,7 @@ server<-function(input, output, session){
     
     ignoreInit=T
   )
- 
+  
   table56910_filtered <- eventReactive(input$TgtJurisdGen,{
     table_56910 %>%
       filter(province %in% input$ProOPInput,
@@ -513,7 +529,8 @@ server<-function(input, output, session){
              year<= input$YRTP[2]) %>%
       mutate(target_prov=factor(target_prov,levels=c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                                      "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
-                                                     "Yukon", "Northwest Territories","Nunavut")))
+                                                     "Yukon", "Northwest Territories","Nunavut")),
+             direction=ifelse(type=='Incoming','from','to'))
   },
   ignoreNULL=F)
   
@@ -521,8 +538,10 @@ server<-function(input, output, session){
   output$TPcount <- renderPlotly({
     ggplotly(
       ggplot(table56910_filtered(), aes(x=year, y= count/1000, group=target_prov, color=target_prov,
-                                        text=sprintf("<b>%s</b><br>Base Province: %s<br>Target Province: %s<br>Employees:%s",
-                                                     year,input$ProOPInput,target_prov,format(count,big.mark=',')))) + 
+                                        text=sprintf("<b>%s, %s</b><br>%s employees %s %s: %s",
+                                                     province,year,
+                                                     type,direction,target_prov,
+                                                     format(count,big.mark=',')))) + 
         geom_line() + geom_point()+
         
         labs(title=paste("Inter-Jurisdictional Employment for<br>", first(table56910_filtered()$province))) +
@@ -544,8 +563,10 @@ server<-function(input, output, session){
   output$TPincome <- renderPlotly({
     ggplotly(
       ggplot(table56910_filtered(), aes(x=year, y= income/1000000, group=target_prov, color=target_prov,
-                                        text=sprintf("<b>%s</b><br>Base Province: %s<br>Target Province: %s<br>Income:%s",
-                                                     year,input$ProOPInput,target_prov,paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) + 
+                                        text=sprintf("<b>%s, %s</b><br>Income of %s employees %s %s: %s",
+                                                     province,year,
+                                                     tolower(type),direction,target_prov,
+                                                     paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) + 
         geom_line() + geom_point()+
         
         labs(title=paste("Inter-Jurisdictional Employment Income for<br>", first(table56910_filtered()$province))) +
@@ -606,7 +627,7 @@ server<-function(input, output, session){
     
     ignoreInit=T
   )
-
+  
   agePalette <- paste0('#',c('F8766D','B79F00','00BA38','00BFC4','619CFF','F564E3'))
   names(agePalette) <- unique(table_11$age_group)
   
@@ -617,16 +638,18 @@ server<-function(input, output, session){
              gender %in% input$GDAgeInput,
              type %in% input$TAgeInput,
              year>= input$YRAge[1],
-             year<= input$YRAge[2]
-      )},
-    ignoreNULL=F)
+             year<= input$YRAge[2])
+  },
+  ignoreNULL=F)
   
   #Age Trend 
   output$Agetrend <-renderPlotly({
     ggplotly(
       ggplot(table11_filted(), aes(x=year, y = count/1000, group=age_group, color=age_group,
-                                   text=sprintf('<b>%s</b><br>Age group: %s<br>Employees: %s',
-                                                year,age_group,format(count,big.mark = ',')))) + 
+                                   text=sprintf('<b>%s, %s</b><br>%s %s employees aged %s: %s',
+                                                province,year,
+                                                gender,tolower(type),age_group,
+                                                format(count,big.mark = ',')))) + 
         geom_line() + geom_point() +
         
         labs(title=paste0("Inter-Jurisdictional Employees by Age Group<br>for ",first(table11_filted()$province))) +
@@ -655,18 +678,22 @@ server<-function(input, output, session){
              year %in% c(input$YRAge[1], input$YRAge[2])) %>% 
       group_by(age_group) %>%
       mutate(pct_change = (lead(count)/count-1)) %>%
+      ungroup() %>%
+      mutate(yearmin=min(year),yearmax=max(year)) %>%
       filter(year %in% input$YRAge[1])
   },
   ignoreNULL=F)
-    
+  
   output$Agechange <-renderPlotly({
     ggplotly(
       ggplot(table11_changes(), aes(x=age_group, color=age_group, fill=age_group,
-                                 text=sprintf('<b>%s</b><br>Percent Change: %s',
-                                              age_group,paste(round(100*(pct_change),1),'%')))) + 
+                                    text=sprintf('<b>%s</b><br>Percent change in %s %s employees<br>from %s to %s: %s',
+                                                 province,tolower(gender),tolower(type),
+                                                 yearmin,yearmax,
+                                                 paste(round(100*(pct_change),1),'%')))) + 
         geom_histogram(mapping = aes(y = pct_change), position = "dodge",stat = 'identity')+
         
-        labs(title=paste("Percentage Changes of Employment by Age Group from", first(table11_filted()$year), "to", last(table11_filted()$year),"<br>for",first(table11_filted()$province))) +
+        labs(title=paste("Percentage Changes of Employment by Age Group from", first(table11_changes()$yearmin), "to", first(table11_changes()$yearmax),"<br>for",first(table11_filted()$province))) +
         xlab('Age Group') + ylab('Change in Employment (%)') +
         
         scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
@@ -747,23 +774,23 @@ server<-function(input, output, session){
   
   output$downloadGuide <- downloadHandler(
     filename = 'Methodological Guide on IJEs-ENGLISH-Dec.2017.pdf',
-
+    
     content = function(infile){
       file.copy('./data/downloadables/Methodological Guide on IJEs-ENGLISH-Dec.2017.pdf',infile)
       # save_object('david-wavrock/ije/Methodological Guide on IJEs-ENGLISH-Dec.2017.pdf',bucket=minio_filist,use_https=F,region='',file=infile)
     }
   )
-
+  
   output$downloadVintage <- downloadHandler(
     filename = 'English_Version.zip',
-
+    
     content = function(infile){
       # zip(zipfile=infile,files=list.files('./data/downloadables/English_Version'),flags='-j')
       file.copy('./data/downloadables/English_Version.zip',infile)
       # save_object('david-wavrock/ije/English_Version.zip',bucket=minio_filist,use_https=F,region='',file=infile)
     },
     contentType = 'application/zip'
-
+    
   )
   
 }

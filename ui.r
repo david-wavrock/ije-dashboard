@@ -15,7 +15,7 @@ ui<-fluidPage(
  
   tabPanel("Using This App",
            mainPanel(
-             h2(HTML('<u>Introduction</u>')),
+             # h2(HTML('<u>Introduction</u>')),
              p(HTML("<b>Inter-jurisdictional employees (IJE)</b> are employees who maintain a permanent residence in a province or territory, while reporting 
                     earnings/income from a different province or territory. Data on IJE are important for federal and provincial governments for a wide range 
                     of purposes related to tax policy, employment, etc.")),
@@ -24,10 +24,7 @@ ui<-fluidPage(
                     different province or territory of residence on their T1 tax returns. 'Outgoing IJE' for the province of Alberta however would refer to  
                     those who listed Alberta as their province of residence on their T1 tax return, but who made earnings in another province or territory 
                     in the same tax year.")),
-             p(HTML("IJE data are based on the Canadian Employer-Employee Dynamics Database (CEEDD) from the Social Analysis and Modelling Division at Statistics 
-                    Canada. Starting in 2021, SAMD has added this dashboard as a new dissemination and data exploration tool as part of its regular release of  
-                    IJE data to the public and to stakeholders.")),
-             h2(HTML('<u>How to Use This Application</u>')),
+             h4(HTML('<u>How to Use This Application</u>')),
              p(HTML("The IJE Dashboard contains five separate tabs from which users can produce interactive data visualizations of inter-jurisdictional employment 
                     flows. These tabs can be found at the top of the page, and display information on national level trends; jurisdictional inflows and outflows of  
                     IJE; and for each province and territory breakdowns of inflows and outflows by industry, province pair and age group.")),
@@ -50,7 +47,10 @@ ui<-fluidPage(
              #        on your selections and the values corresponding to each point. Navigation tools are available in the upper right hand corner of each plot as well, 
              #        and allow for panning and zooming. The data used in each plot can also be directly downloaded from each page by selecting the table of choice in 
              #        the dropdown menu and clicking <b>Download</b>.")),
-             h2(HTML('<u>IJE Guide & Vintage Files</u>')),
+             h4(HTML('<u>IJE Guide & Vintage Files</u>')),
+             p(HTML("IJE data are based on the Canadian Employer-Employee Dynamics Database (CEEDD) from the Social Analysis and Modelling Division at Statistics 
+                    Canada. Starting in 2021, SAMD has added this dashboard as a new dissemination and data exploration tool as part of its regular release of  
+                    IJE data to the public and to stakeholders.")),
              p(HTML("For users who would like to know more about the IJE data produced by SAMD, or for users who prefer the vintage data format for IJE data, the 
                     IJE User Guide and IJE Vintage release for 2020 can be found below:"))
              

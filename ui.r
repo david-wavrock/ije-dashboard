@@ -72,8 +72,8 @@ ui<-fluidPage(
                             selected =c("Incoming")),   
                
                radioButtons("GenderInput", "Select Gender",
-                         choices = c("Both","Male","Female"),
-                         selected =c("Both")),
+                         choices = c("All","Male","Female"),
+                         selected =c("All")),
                
                radioButtons("IncomeSource", tags$div(HTML(paste0("Select Income Source",tags$sup('4')))),
                            choices = c("Inside the Jurisdiction","Outside the Jurisdiction"),
@@ -142,8 +142,8 @@ ui<-fluidPage(
                            sep=''),
                
                radioButtons("GDInput", "Select Gender",
-                           choices = c("Both","Male","Female"),
-                           selected =c("Both")),
+                           choices = c("All","Male","Female"),
+                           selected =c("All")),
                
                radioButtons("DSInput", tags$div(HTML(paste0("Data Source",tags$sup('2')))),
                             choices = c("T1 Personal Master File", "T1 Historical File"),
@@ -408,8 +408,8 @@ ui<-fluidPage(
                checkboxInput('selectAllAge','Select/Deselect All',value=T),
                
                radioButtons("GDAgeInput", "Select Gender",
-                           choices = c("Both","Male","Female"),
-                           selected =c("Both")),
+                           choices = c("All","Male","Female"),
+                           selected =c("All")),
                
                actionButton('AgeGen',HTML('<b>Refresh Plot</b>'),width='100%'),
                hr(),

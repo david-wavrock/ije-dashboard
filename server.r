@@ -22,10 +22,10 @@ server<-function(input, output, session){
              type %in% input$TypeInput,
              income_source %in% input$IncomeSource) %>%
       mutate(inp=input$SeriesInput,
-             dispvar=ifelse(inp=='Employees',
+             dispvar=ifelse(inp=='Employee Count',
                             format(count,big.mark=','), # if employees, format here, income below
                             paste0('$',format(round(income/1000000,1),big.mark=','),' M')),
-             prec=ifelse(inp=='Employees','Count of','Total income of'))
+             prec=ifelse(inp=='Employee Count','Count of','Total income of'))
   },
   ignoreNULL=F)
   

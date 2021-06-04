@@ -13,6 +13,16 @@ server<-function(input, output, session){
   ## NATIONAL TAB - MAP OF IJE EMPLOYMENT/INCOME
   #####
   
+  ## disables income source selection when type input is equal to resident (null values)
+  observeEvent(input$TypeInput,{
+    if(input$TypeInput=='Resident'){
+      updateRadioButtons(session=session,inputId='IncomeSource',selected='Inside the Jurisdiction')
+      shinyjs::disable('IncomeSource')
+    } else {
+      shinyjs::enable('IncomeSource')
+    }
+  })
+
   ## reactive filtered table
   mapfilter <- eventReactive(input$NationalGen,{
     table_1_2 %>%

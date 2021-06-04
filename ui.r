@@ -8,6 +8,7 @@ library(leaflet)
 library(DT)
 
 ui<-fluidPage(
+  shinyjs::useShinyjs(),
   includeCSS('www/style.css'),
   
   tags$h1("Inter-Jurisdictional Employment (IJE) Dashboard",align="center"),
@@ -129,7 +130,9 @@ ui<-fluidPage(
                # plotOutput("PRbar"),
                # br(),
                helpText("1. IJEs can make income inside/outside their jurisdiction from different income sources. Selection of income source inside/outside
-                        the jurisdiction has no effect on data maps when ‘Employees’ is selected as the data series."),
+                        the jurisdiction has no effect on data maps when ‘Employees’ is selected as the data series. When 'Resident' employment type is 
+                        selected, income source defaults to 'Inside the Jurisdiction', as resident employees by definition do not earn income outside the 
+                        jurisdiction."),
                
                helpText("2. Data from T1 Personal Master File are derived from the T1 and T4 tax files. Data from T1 Historical File are derived from 
                         the T1, T4 and the T1 historical personal master file. The T1 historical file includes late and re-assessed tax filers. 
@@ -450,8 +453,8 @@ ui<-fluidPage(
              ),
              mainPanel(
                plotlyOutput("Agetrend",height=525),
-               br(),
-               plotlyOutput("Agechange",height=525),
+               # br(),
+               # plotlyOutput("Agechange",height=525),
                # br(),
                hr(),
                

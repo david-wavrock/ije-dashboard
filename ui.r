@@ -23,6 +23,7 @@ ui<-fluidPage(
                         <li><b>Inter-Jurisdictional Employees (IJE)</b> report T4 earnings in a different province than their province of residence, as reported in their T1</li>
                         <li><b>Incoming IJE</b> for a given province report T4 earnings in that province, but report a different province on their T1 as their province of residence</li>
                         <li><b>Outgoing IJE</b> for a given province report that province on their T1 as their province of residence, but report T4 earnings elsewhere</li>
+                        <li><b>Resident employment</b> for a given province refers to employees who only reports T4 earnings in their province of residence as reported on their T1</li>
                        </ul>
                        As income can be derived from multiple sources, income can be split accordingly:
                        <ul>

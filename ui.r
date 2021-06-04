@@ -77,7 +77,15 @@ ui<-fluidPage(
                     Canada. Starting in 2021, SAMD has added this dashboard as a new dissemination and data exploration tool as part of its regular release of  
                     IJE data to the public and to stakeholders.")),
                                p(HTML("For users who would like to know more about the IJE data produced by SAMD, or for users who prefer the vintage data format for IJE data, the 
-                    IJE User Guide and IJE Vintage release for 2020 can be found below:"))),
+                    IJE User Guide and IJE Vintage release for 2020 can be found below:")),
+                               br(),
+                               fluidRow(column(6,
+                                               fluidRow(column(4,img(src='pdf-icon-png-2058.png')),
+                                                        column(8,p(downloadLink('downloadGuide','Click here'), "to download the IJE User Guide.")))),
+                                        column(6,
+                                               fluidRow(column(4,img(src='file-zip-icon-6811.png')),
+                                                        column(8,p(downloadLink('downloadVintage', 'Click here'), "to download IJE data in its vintage format.")))))
+                               ),
                         
                         column(4,''))
 

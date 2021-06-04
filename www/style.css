@@ -16,6 +16,11 @@ li {
   margin-bottom: 5px;
 }
 
+img {
+  border: 1;
+  max-width: 100%;
+}
+
 /* modify margin under title panel */
 .col-sm-4 {
   margin-top: 20px;

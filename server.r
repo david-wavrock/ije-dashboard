@@ -781,6 +781,8 @@ server<-function(input, output, session){
   ## DOWNLOAD TABS
   #####
   
+  
+  
   output$downloadGuide <- downloadHandler(
     filename = 'Methodological Guide on IJEs-ENGLISH-Dec.2017.pdf',
     

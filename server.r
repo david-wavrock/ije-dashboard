@@ -480,7 +480,7 @@ server<-function(input, output, session){
   
   tableI_down <- reactive ({
     switch( input$tableInd,
-            "Filtered Industry Table" = Ind_filted(),
+            "Filtered Industry Table" = ind_filtered(),
             "Full Table" = table_3478
     )
   })
@@ -493,7 +493,6 @@ server<-function(input, output, session){
     },
     content = function(file){
       write.csv(tableI_down(), file, row.names = FALSE)
-      
     },
     contentType = "csv"
   )

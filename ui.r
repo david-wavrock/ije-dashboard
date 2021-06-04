@@ -93,7 +93,7 @@ ui<-fluidPage(
                             selected=c("Employee Count")),
                
                radioButtons("TypeInput", "Select Employment Type",
-                            choices = c("Incoming","Outgoing"),
+                            choices = c("Incoming","Outgoing","Resident"),
                             selected =c("Incoming")),   
                
                radioButtons("GenderInput", "Select Gender",
@@ -426,7 +426,7 @@ ui<-fluidPage(
                            sep=''),
                
                radioButtons("TAgeInput", "Select Employment Type",
-                            choices = c("Incoming","Outgoing", "Resident"),
+                            choices = c("Incoming","Outgoing"),
                             selected =c("Incoming")),
                
                checkboxGroupInput( "AgeInput", "Select Age Groups",

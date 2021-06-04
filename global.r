@@ -3,7 +3,6 @@ beginy = quote(2002)
 endy = quote(2017)
 #install.packages( pkgs = c("classInt"),type="binary", repos = "file:////fld6filer/packagerepo-depotprogiciel/miniCRAN" )
 library(shiny)
-library(tidyverse)
 library(sf)
 # library(rmapshaper)
 library(leaflet)
@@ -17,6 +16,16 @@ library(rgeos)
 library(htmlwidgets)
 # library(aws.s3)
 library(RColorBrewer)
+library(plotly)
+library(tidyverse)
+
+
+## necessary for shinyapps.io deployment
+library(BH)
+library(cpp11)
+library(Rcpp)
+
+# setwd('~/ije-shiny-2020/ije-dashboard/')
 
 options(scipen = 999)
 

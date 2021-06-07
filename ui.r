@@ -20,15 +20,15 @@ ui<-fluidPage(
                h4(HTML("<u>Definitions</u>")),
                p(HTML("<ul>
                         <li><b>Jurisdiction</b> refers to a Canadian province or territory</li>
-                        <li><b>Inter-Jurisdictional Employees (IJE)</b> report T4 earnings in a different province than their province of residence, as reported in their T1</li>
-                        <li><b>Incoming IJE</b> for a given province report T4 earnings in that province, but report a different province on their T1 as their province of residence</li>
-                        <li><b>Outgoing IJE</b> for a given province report that province on their T1 as their province of residence, but report T4 earnings elsewhere</li>
-                        <li><b>Resident employment</b> for a given province refers to employees who only reports T4 earnings in their province of residence as reported on their T1</li>
+                        <li><b>Inter-Jurisdictional Employees (IJE)</b> report T4 earnings in a different province or territory than their jurisdiction of residence, as reported in their T1</li>
+                        <li><b>Incoming IJE</b> for a given jurisdiction report T4 earnings in that province or territory, but report a different one on their T1 as their jurisdiction of residence</li>
+                        <li><b>Outgoing IJE</b> for a given jurisdiction report that province or territory on their T1 as their jurisdiction of residence, but report T4 earnings elsewhere</li>
+                        <li><b>Resident employment</b> for a given jurisdiction refers to employees who only reports T4 earnings in their province or territory of residence as reported on their T1</li>
                        </ul>
                        As income can be derived from multiple sources, income can be split accordingly:
                        <ul>
-                        <li><b>Income Inside the Jurisdiction</b> for a selected province refers to T4 income earned within that jurisdiciton for both incoming and outgoing employees</li>
-                        <li><b>Income Outside the Jurisdiction</b> for a selected province refers to T4 income earned outside that jurisdiction for both incoming and outgoing employees</li>
+                        <li><b>Income Inside the Jurisdiction</b> for a selected jurisdiction refers to T4 income earned within that jurisdiciton for both incoming and outgoing employees</li>
+                        <li><b>Income Outside the Jurisdiction</b> for a selected jurisdiction refers to T4 income earned outside that jurisdiction for both incoming and outgoing employees</li>
                        </ul>"))
                       #  On the National and Jurisdiction tabs, data can be selected from one of two files:
                       # <ul>

@@ -55,7 +55,8 @@ server<-function(input, output, session){
       lowgrad <- '#f1eef6'
       highgrad <- '#045a8d'
       seriestitle <- 'Number of Inter-Jurisdictional Employees by Province'
-      
+      legtitle <- 'Count (log 10 scale)'
+      leglabfn <- function(s){format(s,big.mark=',')} 
       
       # seriestitle <- 'Number of Inter-Jurisdictional Employees'
       # 
@@ -71,6 +72,8 @@ server<-function(input, output, session){
       lowgrad <- '#fef0d9'
       highgrad <- '#b30000'
       seriestitle <- 'Total Income of Inter-Jurisdictional Employees by Province'
+      legtitle <- 'Income (log 10 scale)'
+      leglabfn <- function(s){paste0('$',format(round(s/1000000,1),big.mark=','),'M')}
       # seriestitle <- 'Income of Inter-Jurisdictional Employees'
       # 
       pal_count_PR <- createClasses(mapdat$income, "Reds", "transparent", 5)
@@ -86,7 +89,7 @@ server<-function(input, output, session){
     
     ggplotly(
       ggplot(mapdat %>% mutate(geometry=mapformat)) +
-        geom_sf(aes(fill=log(seriesvar)/log(10),
+        geom_sf(aes(fill=seriesvar,
                     text=sprintf("<b>%s, %s</b><br>%s %s %s IJE: %s",
                                  province,year,
                                  prec,tolower(gender),tolower(type),dispvar)),
@@ -97,16 +100,23 @@ server<-function(input, output, session){
         labs(title=seriestitle) +
         # scale_fill_manual(values=pcol) +
         
-        scale_fill_gradient(low=lowgrad,
-                            high=highgrad,
-                            na.value='grey.50') +
+        scale_fill_gradient(name=legtitle,
+          low=lowgrad,high=highgrad,na.value='grey.50',
+                            breaks=c(min(seriesvar),
+                                     median(seriesvar),
+                                     max(seriesvar)),
+                            labels=c(paste0('Min: ',leglabfn(min(seriesvar)),'\n(',
+                                            first(filter(mapdat,seriesvar==min(seriesvar))$province),')\n\n'),
+                                     paste0('Med: ',leglabfn(median(seriesvar)),'\n(',
+                                            first(filter(mapdat,seriesvar==median(seriesvar))$province),')'),
+                                     paste0('\n\nMax: ',leglabfn(max(seriesvar)),'\n(',
+                                            first(filter(mapdat,seriesvar==max(seriesvar))$province),')')),
+                            trans='log') +
         
         theme(plot.title = element_text(vjust=1, hjust=0.5, size=14, face = "bold"),
               panel.grid.major=element_blank(),panel.grid.minor=element_blank(),
               axis.title.x=element_blank(),axis.text.x=element_blank(),axis.ticks.x=element_blank(),
-              axis.title.y=element_blank(),axis.text.y=element_blank(),axis.ticks.y=element_blank(),
-              
-              legend.position='none'),
+              axis.title.y=element_blank(),axis.text.y=element_blank(),axis.ticks.y=element_blank()),
       
       tooltip='text') %>%
       style(hoveron='all')

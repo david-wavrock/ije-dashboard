@@ -290,15 +290,16 @@ server<-function(input, output, session){
   output$PRInctrend <-renderPlotly({
     ggplotly(
       ggplot(trend_filted(), aes(x=year, y = income/1000000, group=type, color=type,
-                                 text=sprintf('<b>%s, %s</b><br>Income of %s %s employees: $%sM',
+                                 text=sprintf('<b>%s, %s</b><br>Income of %s %s employees<br>%sside the jurisdiction: $%sM',
                                               province,year,
                                               tolower(gender),tolower(type),
+                                              str_extract(tolower(type),'.*(?=coming|going)'),
                                               format(round(income/1000000,1),big.mark=',')))) + 
         geom_line() + geom_point() +
         
         labs(title=paste0("Incoming vs. Outgoing Employee Aggregate T4 Earnings<br>for ",first(trend_filted()$province))) +
         xlab("Year") + ylab("Aggregate T4 Earnings (Million $)") +
-        
+
         scale_x_continuous(breaks=seq(2002,2017,2)) +
         scale_y_continuous(labels = function(c){paste0('$',format(c, big.mark = ","),'M')}) +
         scale_colour_manual(name='',values = c("cyan3", "darkorange2")) +
@@ -411,113 +412,6 @@ server<-function(input, output, session){
   )
   
   #####
-  ## INDUSTRY TAB - Graphs by industry for target jurisdiction
-  #####
-  
-  observeEvent(input$ProIndInput,
-               {
-                 lapply(c('ProvinceInput','ProOPInput','ProAgeInput'),
-                        function(x) updateSelectInput(session=session, inputId=x, selected=input$ProIndInput))
-               })
-  
-  ## select/deselect all button - observes if the selectAllInd option is selected or not and fills, clears selection accordingly
-  observeEvent(
-    eventExpr=input$selectAllInd,
-    handlerExpr=if(input$selectAllInd){
-      updateCheckboxGroupInput(session=session,inputId="IndustryInput",choices=indList,selected=indList)
-    } else {
-      updateCheckboxGroupInput(session=session,inputId="IndustryInput",choices=indList,selected=c())
-    },
-    
-    ignoreInit=T
-  )
-  
-  ## 
-  ind_filtered <- eventReactive(input$IndustryGen,{
-    table_3478 %>%
-      filter(province %in% input$ProIndInput,
-             industry %in% input$IndustryInput,
-             type %in% input$IncOutIndustry,
-             year>= input$YRInd[1],
-             year<= input$YRInd[2]) %>%
-      mutate(industry=factor(industry,levels=indList))
-  },
-  ignoreNULL=F)
-  
-  getPalette = colorRampPalette(brewer.pal(9, "Set1"))
-  
-  ## count trend
-  output$IndCount <- renderPlotly({
-    ggplotly(
-      ggplot(ind_filtered(), aes(x=year, y=count/1000, group=industry, color=industry,
-                                 text=sprintf("<b>%s, %s</b><br>Industry: %s<br>%s employees: %s",
-                                              province,year,
-                                              industry,
-                                              type,format(count,big.mark=',')))) +
-        geom_line() + geom_point() +
-        
-        labs(title=paste0("Inter-Jurisdictional Employment for <br>",first(ind_filtered()$province)," by Industry")) +
-        xlab("Year") + ylab("Employees (x1,000)") + 
-        
-        scale_x_continuous(breaks=seq(2002,2017,2)) + 
-        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","),'k')}) +
-        scale_colour_manual(name='Industry',values=getPalette(length(unique(ind_filtered()$industry)))) +
-        
-        theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
-              axis.title = element_text(size=11)),
-      
-      tooltip='text'
-    ) %>% layout(margin=list(l=60,r=50,t=75,b=65),
-                 legend=list(x=100,y=0.5))
-  })
-  
-  ## income trend
-  output$IndIncome <- renderPlotly({
-    ggplotly(
-      ggplot(ind_filtered(), aes(x=year, y=income/1000000, group=industry, color=industry,
-                                 text=sprintf("<b>%s, %s</b><br>Industry: %s<br>Income of %s employees: %s",
-                                              province,year,
-                                              industry,
-                                              tolower(type),paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) +
-        geom_line() + geom_point() +
-        
-        labs(title=paste0("Inter-Jurisdictional Employment Income for <br>",first(ind_filtered()$province)," by Industry")) +
-        xlab("Year") + ylab("Aggregate T4 Earnings (Million $)") +
-        
-        scale_x_continuous(breaks=seq(2002,2017,2)) + 
-        scale_y_continuous(labels = function(c){paste0('$',format(c, big.mark = ","),'M')}) +
-        scale_colour_manual(name='Industry',values=getPalette(length(unique(ind_filtered()$industry)))) +
-        
-        theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
-              axis.title = element_text(size=11)),
-      
-      tooltip='text'
-    ) %>% layout(margin=list(l=60,r=50,t=75,b=65),
-                 legend=list(x=100,y=0.5))
-  })
-  
-  #Industry Trend download tables
-  
-  tableI_down <- reactive ({
-    switch( input$tableInd,
-            "Filtered Industry Table" = ind_filtered(),
-            "Full Table" = table_3478
-    )
-  })
-  
-  # Downloadable excel file of selected table
-  output$downloadItable <- downloadHandler(
-    filename = function(){
-      paste(input$tableInd, ".csv", sep = "")
-      #paste(input$table)
-    },
-    content = function(file){
-      write.csv(tableI_down(), file, row.names = FALSE)
-    },
-    contentType = "csv"
-  )
-  
-  #####
   ## TARGET PROVINCE - Income, employment for province pairs by target jurisdiction
   #####
   
@@ -549,7 +443,7 @@ server<-function(input, output, session){
       mutate(target_prov=factor(target_prov,levels=c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                                      "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
                                                      "Yukon", "Northwest Territories","Nunavut")),
-             direction=ifelse(type=='Incoming','from','to'))
+             direction=ifelse(type=='Incoming','from','in'))
   },
   ignoreNULL=F)
   
@@ -623,7 +517,116 @@ server<-function(input, output, session){
       
     },
     contentType = "csv"
-  )  
+  )
+  
+  #####
+  ## INDUSTRY TAB - Graphs by industry for target jurisdiction
+  #####
+  
+  observeEvent(input$ProIndInput,
+               {
+                 lapply(c('ProvinceInput','ProOPInput','ProAgeInput'),
+                        function(x) updateSelectInput(session=session, inputId=x, selected=input$ProIndInput))
+               })
+  
+  ## select/deselect all button - observes if the selectAllInd option is selected or not and fills, clears selection accordingly
+  observeEvent(
+    eventExpr=input$selectAllInd,
+    handlerExpr=if(input$selectAllInd){
+      updateCheckboxGroupInput(session=session,inputId="IndustryInput",choices=indList,selected=indList)
+    } else {
+      updateCheckboxGroupInput(session=session,inputId="IndustryInput",choices=indList,selected=c())
+    },
+    
+    ignoreInit=T
+  )
+  
+  ## 
+  ind_filtered <- eventReactive(input$IndustryGen,{
+    table_3478 %>%
+      filter(province %in% input$ProIndInput,
+             industry %in% input$IndustryInput,
+             type %in% input$IncOutIndustry,
+             year>= input$YRInd[1],
+             year<= input$YRInd[2]) %>%
+      mutate(industry=factor(industry,levels=indList))
+  },
+  ignoreNULL=F)
+  
+  getPalette = colorRampPalette(brewer.pal(9, "Set1"))
+  
+  ## count trend
+  output$IndCount <- renderPlotly({
+    ggplotly(
+      ggplot(ind_filtered(), aes(x=year, y=count/1000, group=industry, color=industry,
+                                 text=sprintf("<b>%s, %s</b><br>Industry: %s<br>%s employees: %s",
+                                              province,year,
+                                              industry,
+                                              type,format(count,big.mark=',')))) +
+        geom_line() + geom_point() +
+        
+        labs(title=paste0("Inter-Jurisdictional Employment for <br>",first(ind_filtered()$province)," by Industry")) +
+        xlab("Year") + ylab("Employees (x1,000)") + 
+        
+        scale_x_continuous(breaks=seq(2002,2017,2)) + 
+        scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","),'k')}) +
+        scale_colour_manual(name='Industry',values=getPalette(length(unique(ind_filtered()$industry)))) +
+        
+        theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
+              axis.title = element_text(size=11)),
+      
+      tooltip='text'
+    ) %>% layout(margin=list(l=60,r=50,t=75,b=65),
+                 legend=list(x=100,y=0.5))
+  })
+  
+  ## income trend
+  output$IndIncome <- renderPlotly({
+    ggplotly(
+      ggplot(ind_filtered(), aes(x=year, y=income/1000000, group=industry, color=industry,
+                                 text=sprintf("<b>%s, %s</b><br>Industry: %s<br>Income of %s employees %sside the jurisdiction: %s",
+                                              province,year,
+                                              industry,tolower(type),
+                                              str_extract(tolower(type),'.*(?=coming|going)'),
+                                              paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) +
+        geom_line() + geom_point() +
+        
+        labs(title=paste0("Inter-Jurisdictional Employment Income for <br>",first(ind_filtered()$province)," by Industry")) +
+        xlab("Year") + ylab("Aggregate T4 Earnings (Million $)") +
+        
+        scale_x_continuous(breaks=seq(2002,2017,2)) + 
+        scale_y_continuous(labels = function(c){paste0('$',format(c, big.mark = ","),'M')}) +
+        scale_colour_manual(name='Industry',values=getPalette(length(unique(ind_filtered()$industry)))) +
+        
+        theme(plot.title = element_text(hjust=0.5,size=14, face = "bold"),
+              axis.title = element_text(size=11)),
+      
+      tooltip='text'
+    ) %>% layout(margin=list(l=60,r=50,t=75,b=65),
+                 legend=list(x=100,y=0.5))
+  })
+  
+  #Industry Trend download tables
+  
+  tableI_down <- reactive ({
+    switch( input$tableInd,
+            "Filtered Industry Table" = ind_filtered(),
+            "Full Table" = table_3478
+    )
+  })
+  
+  # Downloadable excel file of selected table
+  output$downloadItable <- downloadHandler(
+    filename = function(){
+      paste(input$tableInd, ".csv", sep = "")
+      #paste(input$table)
+    },
+    content = function(file){
+      write.csv(tableI_down(), file, row.names = FALSE)
+    },
+    contentType = "csv"
+  )
+  
   
   #####
   ## AGE GROUP - Age of IJE over time, relative changes

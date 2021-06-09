@@ -2,6 +2,7 @@
 beginy = quote(2002)
 endy = quote(2017)
 #install.packages( pkgs = c("classInt"),type="binary", repos = "file:////fld6filer/packagerepo-depotprogiciel/miniCRAN" )
+
 library(shiny)
 library(sf)
 # library(rmapshaper)
@@ -18,7 +19,6 @@ library(htmlwidgets)
 library(RColorBrewer)
 library(plotly)
 library(tidyverse)
-
 
 ## necessary for shinyapps.io deployment
 library(BH)

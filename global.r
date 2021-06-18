@@ -21,9 +21,9 @@ library(plotly)
 library(tidyverse)
 
 ## necessary for shinyapps.io deployment
-library(BH)
-library(cpp11)
-library(Rcpp)
+# library(BH)
+# library(cpp11)
+# library(Rcpp)
 
 # setwd('~/ije-shiny-2020/ije-dashboard/')
 

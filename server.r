@@ -123,6 +123,26 @@ server<-function(input, output, session){
     
   })
   
+  ## table output
+  output$national_table <- renderDataTable(mapfilter() %>%
+                                         select(year,type,gender,income_source,source,province,prn,count,income) %>%
+                                         mutate(year=as.character(year),
+                                                count=format(count,big.mark=','),
+                                                income=paste0('$',format(income,big.mark=',')),
+                                                province=paste0(province,' (',prn,')')) %>%
+                                         select(-prn) %>%
+                                         rename(Year=year,
+                                                Type=type,
+                                                Gender=gender,
+                                                `Income Source`=income_source,
+                                                `Data Source`=source,
+                                                `Province`=province,
+                                                `Employee Count`=count,
+                                                `Employee Income`=income),
+                                         
+                                         options=list(pageLength=13,lengthChange=F,dom='ltr'),
+                                         rownames=F)
+  
   #####
   ## DEPRECATED - LEAFLET STYLE TABLE
   #####
@@ -312,6 +332,27 @@ server<-function(input, output, session){
                  legend=list(x=100,y=0.5))
   }) 
   
+  
+  ## table output
+  output$jurisd_table <- renderDataTable(trend_filted() %>%
+                                             select(year,type,gender,income_source,source,province,prn,count,income) %>%
+                                             mutate(year=as.character(year),
+                                                    count=format(count,big.mark=','),
+                                                    income=paste0('$',format(income,big.mark=',')),
+                                                    province=paste0(province,' (',prn,')')) %>%
+                                             select(-prn) %>%
+                                             rename(Year=year,
+                                                    Type=type,
+                                                    Gender=gender,
+                                                    `Income Source`=income_source,
+                                                    `Data Source`=source,
+                                                    `Province`=province,
+                                                    `Employee Count`=count,
+                                                    `Employee Income`=income),
+                                           
+                                           options=list(dom='ltipr'),
+                                           rownames=F)
+  
   ## DEPRECATED GRAPHS 
   
   #Income receiver and Income Sender trend
@@ -498,6 +539,25 @@ server<-function(input, output, session){
                  legend=list(x=100,y=0.5))
   })
   
+  ## table output
+  output$tgtjurisd_table <- renderDataTable(table56910_filtered() %>%
+                                              select(year,type,province,prn,target_prov,TPRN,count,income) %>%
+                                              mutate(year=as.character(year),
+                                                     count=format(count,big.mark=','),
+                                                     income=paste0('$',format(income,big.mark=',')),
+                                                     province=paste0(province,' (',prn,')'),
+                                                     target_prov=paste0(target_prov,' (',TPRN,')')) %>%
+                                              select(-prn,-TPRN) %>%
+                                              rename(Year=year,
+                                                     Type=type,
+                                                     `Province`=province,
+                                                     `Target Province`=target_prov,
+                                                     `Employee Count`=count,
+                                                     `Employee Income`=income),
+                                            
+                                            options=list(dom='lftipr'),
+                                            rownames=F)
+  
   ## Download target province table
   tableTP_down <- reactive ({
     switch( input$tableTP,
@@ -605,6 +665,24 @@ server<-function(input, output, session){
     ) %>% layout(margin=list(l=60,r=50,t=75,b=65),
                  legend=list(x=100,y=0.5))
   })
+  
+  ## table output
+  output$industry_table <- renderDataTable(ind_filtered() %>%
+                                             select(year,type,province,prn,industry,count,income) %>%
+                                             mutate(year=as.character(year),
+                                                    count=format(count,big.mark=','),
+                                                    income=paste0('$',format(income,big.mark=',')),
+                                                    province=paste0(province,' (',prn,')')) %>%
+                                             select(-prn) %>%
+                                             rename(Year=year,
+                                                    Type=type,
+                                                    `Province`=province,
+                                                    Industry=industry,
+                                                    `Employee Count`=count,
+                                                    `Employee Income`=income),
+                                           
+                                           options=list(dom='lftipr'),
+                                           rownames=F)
   
   #Industry Trend download tables
   
@@ -730,6 +808,22 @@ server<-function(input, output, session){
                  legend=list(x=100,y=0.5))
   })  
   
+  ## table output
+  output$age_table <- renderDataTable(table11_filted() %>% 
+                                        select(year,type,province,prn,age_group,gender,count) %>%
+                                        mutate(year=as.character(year),
+                                               count=format(count,big.mark=','),
+                                               province=paste0(province,' (',prn,')')) %>%
+                                        select(-prn) %>%
+                                        rename(Year=year,
+                                               Type=type,
+                                               `Province`=province,
+                                               `Age Group`=age_group,
+                                               Gender=gender,
+                                               `Employee Count`=count),
+                                      
+                                      options=list(dom='lftipr'),
+                                      rownames=F)
   
   #Age Group Trend download tables
   tableA_down <- reactive ({

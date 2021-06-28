@@ -142,7 +142,8 @@ ui<-fluidPage(
                plotlyOutput("mainmap",height=600
                           # ,click='map_click'
                           ),
-               
+               br(),
+               dataTableOutput('national_table'),
                # br(),
                hr(),
                # plotOutput("PRbar"),
@@ -210,7 +211,8 @@ ui<-fluidPage(
                # plotlyOutput("PRtrend2",height=450),
                # br(),
                plotlyOutput("PRInctrend",height=525),
-               # br(),
+               br(),
+               dataTableOutput('jurisd_table'),
                hr(),
                ## what does this do??
                
@@ -309,7 +311,8 @@ ui<-fluidPage(
                plotlyOutput("TPcount",height=525),
                br(),
                plotlyOutput("TPincome",height=525),
-               # br(),
+               br(),
+               dataTableOutput('tgtjurisd_table'),
                hr(),
                helpText("1. When an outgoing IJE has T4 earnings in more than one jurisdiction, they will be counted in the jurisdiction of the job in which 
                         the employee has the highest T4 earnings. When 'Incoming' IJEs is selected, the target jurisdiction is the person's jurisdiction of residence. When 
@@ -369,7 +372,8 @@ ui<-fluidPage(
                plotlyOutput("IndCount",height=600),
                br(),
                plotlyOutput("IndIncome",height=600),
-               # br(),
+               br(),
+               dataTableOutput('industry_table'),
                hr(),
                ### add your style inline css values here
                
@@ -474,7 +478,8 @@ ui<-fluidPage(
                plotlyOutput("Agetrend",height=525),
                # br(),
                # plotlyOutput("Agechange",height=525),
-               # br(),
+               br(),
+               dataTableOutput('age_table'),
                hr(),
                
                helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),

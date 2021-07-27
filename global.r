@@ -6,7 +6,7 @@ endy = quote(2017)
 library(shiny)
 library(sf)
 # library(rmapshaper)
-library(leaflet)
+# library(leaflet)
 # library(dplyr)
 library(spData)
 library(classInt)
@@ -18,6 +18,7 @@ library(htmlwidgets)
 # library(aws.s3)
 library(RColorBrewer)
 library(plotly)
+library(scales)
 library(tidyverse)
 
 ## necessary for shinyapps.io deployment
@@ -60,7 +61,7 @@ createClasses <- function(data, palette, na_color, n) {
   return <- list("pal" = pal, "bins" = bins)
 }
 
-pal <- colorNumeric("viridis", NULL)
+# pal <- colorNumeric("viridis", NULL)
 
 # CREATE VARIABLE THAT STORES ALL DATA VALUES FOR DETERMINING BINNING AND PALETTE FOR CHOROPLETH MAP
 

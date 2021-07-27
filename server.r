@@ -1,7 +1,7 @@
 #setwd('F:/IJE/code/shiny/')
 library(shiny)
-library(dplyr)
-library(leaflet)
+# library(dplyr)
+# library(leaflet)
 library(scales)
 library(ggplot2)
 #library(highcharter)
@@ -54,13 +54,13 @@ server<-function(input, output, session){
       seriesvar <- mapdat$count
       lowgrad <- '#f1eef6'
       highgrad <- '#045a8d'
-      seriestitle <- 'Number of Inter-Jurisdictional Employees by Province'
+      seriestitle <- 'Number of inter-jurisdictional employees by province'
       legtitle <- 'Count (log 10 scale)'
       leglabfn <- function(s){format(s,big.mark=',')} 
       
       # seriestitle <- 'Number of Inter-Jurisdictional Employees'
       # 
-      pal_count_PR <- createClasses(mapdat$count , "Blues", "transparent", 5)
+      # pal_count_PR <- createClasses(mapdat$count , "Blues", "transparent", 5)
       # 
       # geo_labels_PR <- sprintf(
       #   "<strong>%s (Employees):  %s </strong>",
@@ -71,12 +71,12 @@ server<-function(input, output, session){
       seriesvar <- mapdat$income
       lowgrad <- '#fef0d9'
       highgrad <- '#b30000'
-      seriestitle <- 'Total Income of Inter-Jurisdictional Employees by Province'
+      seriestitle <- 'Total income of inter-jurisdictional employees by province'
       legtitle <- 'Income (log 10 scale)'
       leglabfn <- function(s){paste0('$',format(round(s/1000000,1),big.mark=','),'M')}
       # seriestitle <- 'Income of Inter-Jurisdictional Employees'
       # 
-      pal_count_PR <- createClasses(mapdat$income, "Reds", "transparent", 5)
+      # pal_count_PR <- createClasses(mapdat$income, "Reds", "transparent", 5)
       # 
       # geo_labels_PR <- sprintf(
       #   "<strong>%s (Income): %s </strong>",
@@ -84,8 +84,8 @@ server<-function(input, output, session){
       #   lapply(htmltools::HTML) # add labels  
     }
     
-    mapdat <- mapdat %>%
-      mutate(pcol=pal_count_PR$pal(seriesvar))
+    # mapdat <- mapdat %>%
+    #   mutate(pcol=pal_count_PR$pal(seriesvar))
     
     ggplotly(
       ggplot(mapdat %>% mutate(geometry=mapformat)) +
@@ -134,11 +134,11 @@ server<-function(input, output, session){
                                          rename(Year=year,
                                                 Type=type,
                                                 Gender=gender,
-                                                `Income Source`=income_source,
-                                                `Data Source`=source,
+                                                `Income source`=income_source,
+                                                `Data source`=source,
                                                 `Province`=province,
-                                                `Employee Count`=count,
-                                                `Employee Income`=income),
+                                                `Employee count`=count,
+                                                `Employee income`=income),
                                          
                                          options=list(pageLength=13,lengthChange=F,dom='ltr'),
                                          rownames=F)
@@ -291,8 +291,8 @@ server<-function(input, output, session){
                                               format(count,big.mark=',')))) + 
         geom_line() + geom_point() +
         
-        labs(title=paste0("Incoming vs. Outgoing Inter-Jurisdicitonal Employees<br>for ",first(trend_filted()$province))) +
-        xlab("Year") + ylab("Employees (x1,000)") +
+        labs(title=paste0("Incoming vs. outgoing inter-jurisdicitonal employees<br>for ",first(trend_filted()$province))) +
+        xlab("Year") + ylab("Employees") +
         
         scale_x_continuous(breaks=seq(2002,2017,2),
                            minor_breaks=seq(2002,2017,1))+
@@ -317,8 +317,8 @@ server<-function(input, output, session){
                                               format(round(income/1000000,1),big.mark=',')))) + 
         geom_line() + geom_point() +
         
-        labs(title=paste0("Incoming vs. Outgoing Employee Aggregate T4 Earnings<br>for ",first(trend_filted()$province))) +
-        xlab("Year") + ylab("Aggregate T4 Earnings (Million $)") +
+        labs(title=paste0("Incoming vs. outgoing employee aggregate T4 earnings<br>for ",first(trend_filted()$province))) +
+        xlab("Year") + ylab("Aggregate T4 earnings") +
 
         scale_x_continuous(breaks=seq(2002,2017,2)) +
         scale_y_continuous(labels = function(c){paste0('$',format(c, big.mark = ","),'M')}) +
@@ -344,11 +344,11 @@ server<-function(input, output, session){
                                              rename(Year=year,
                                                     Type=type,
                                                     Gender=gender,
-                                                    `Income Source`=income_source,
-                                                    `Data Source`=source,
+                                                    `Income source`=income_source,
+                                                    `Data source`=source,
                                                     `Province`=province,
-                                                    `Employee Count`=count,
-                                                    `Employee Income`=income),
+                                                    `Employee count`=count,
+                                                    `Employee income`=income),
                                            
                                            options=list(dom='ltipr'),
                                            rownames=F)
@@ -498,8 +498,8 @@ server<-function(input, output, session){
                                                      format(count,big.mark=',')))) + 
         geom_line() + geom_point()+
         
-        labs(title=paste("Inter-Jurisdictional Employment for<br>", first(table56910_filtered()$province))) +
-        xlab('Year') + ylab('Employees (x1,000)') +
+        labs(title=paste("Inter-jurisdictional employment<br>for", first(table56910_filtered()$province))) +
+        xlab('Year') + ylab('Employees') +
         
         scale_x_continuous(breaks=seq(2002,2017,2))+
         scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","),'k')})+
@@ -523,8 +523,8 @@ server<-function(input, output, session){
                                                      paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) + 
         geom_line() + geom_point()+
         
-        labs(title=paste("Inter-Jurisdictional Employment Income for<br>", first(table56910_filtered()$province))) +
-        xlab('Year') + ylab('Aggregate T4 Earnings (Million $)') +
+        labs(title=paste("Inter-jurisdictional employment income<br>for", first(table56910_filtered()$province))) +
+        xlab('Year') + ylab('Aggregate T4 earnings') +
         
         
         scale_x_continuous(breaks=seq(2002,2017,2))+
@@ -551,9 +551,9 @@ server<-function(input, output, session){
                                               rename(Year=year,
                                                      Type=type,
                                                      `Province`=province,
-                                                     `Target Province`=target_prov,
-                                                     `Employee Count`=count,
-                                                     `Employee Income`=income),
+                                                     `Target province`=target_prov,
+                                                     `Employee count`=count,
+                                                     `Employee income`=income),
                                             
                                             options=list(dom='lftipr'),
                                             rownames=F)
@@ -625,8 +625,8 @@ server<-function(input, output, session){
                                               type,format(count,big.mark=',')))) +
         geom_line() + geom_point() +
         
-        labs(title=paste0("Inter-Jurisdictional Employment for <br>",first(ind_filtered()$province)," by Industry")) +
-        xlab("Year") + ylab("Employees (x1,000)") + 
+        labs(title=paste0("Inter-jurisdictional employment<br>for ",first(ind_filtered()$province)," by industry")) +
+        xlab("Year") + ylab("Employees") + 
         
         scale_x_continuous(breaks=seq(2002,2017,2)) + 
         scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","),'k')}) +
@@ -651,8 +651,8 @@ server<-function(input, output, session){
                                               paste0('$',format(round(income/1000000,1),big.mark=','),'M')))) +
         geom_line() + geom_point() +
         
-        labs(title=paste0("Inter-Jurisdictional Employment Income for <br>",first(ind_filtered()$province)," by Industry")) +
-        xlab("Year") + ylab("Aggregate T4 Earnings (Million $)") +
+        labs(title=paste0("Inter-jurisdictional employment income<br>for ",first(ind_filtered()$province)," by industry")) +
+        xlab("Year") + ylab("Aggregate T4 earnings") +
         
         scale_x_continuous(breaks=seq(2002,2017,2)) + 
         scale_y_continuous(labels = function(c){paste0('$',format(c, big.mark = ","),'M')}) +
@@ -678,8 +678,8 @@ server<-function(input, output, session){
                                                     Type=type,
                                                     `Province`=province,
                                                     Industry=industry,
-                                                    `Employee Count`=count,
-                                                    `Employee Income`=income),
+                                                    `Employee count`=count,
+                                                    `Employee income`=income),
                                            
                                            options=list(dom='lftipr'),
                                            rownames=F)
@@ -752,12 +752,12 @@ server<-function(input, output, session){
                                                 format(count,big.mark = ',')))) + 
         geom_line() + geom_point() +
         
-        labs(title=paste0("Inter-Jurisdictional Employees by Age Group<br>for ",first(table11_filted()$province))) +
-        xlab("Year") + ylab("Number of Employees (x1,000)") +
+        labs(title=paste0("Inter-jurisdictional employees by age group<br>for ",first(table11_filted()$province))) +
+        xlab("Year") + ylab("Number of employees") +
         
         scale_x_continuous(breaks=seq(2002,2017,2))+
         scale_y_continuous(labels = function(c){paste0(format(c, big.mark = ","),'k')})+
-        scale_color_manual(name='Age Group',values=agePalette) +
+        scale_color_manual(name='Age group',values=agePalette) +
         
         theme(plot.title = element_text(hjust=0.5, size=14, face = "bold"),
               axis.title = element_text(size=11)),
@@ -793,12 +793,12 @@ server<-function(input, output, session){
                                                  paste(round(100*(pct_change),1),'%')))) + 
         geom_histogram(mapping = aes(y = pct_change), position = "dodge",stat = 'identity')+
         
-        labs(title=paste("Percentage Changes of Employment by Age Group from", first(table11_changes()$yearmin), "to", first(table11_changes()$yearmax),"<br>for",first(table11_filted()$province))) +
-        xlab('Age Group') + ylab('Change in Employment (%)') +
+        labs(title=paste("Percentage changes of employment by age group from", first(table11_changes()$yearmin), "to", first(table11_changes()$yearmax),"<br>for",first(table11_filted()$province))) +
+        xlab('Age group') + ylab('Change in employment (%)') +
         
         scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-        scale_color_manual(name='Age Group',values=agePalette) +
-        scale_fill_manual(name='Age Group',values=agePalette) +
+        scale_color_manual(name='Age group',values=agePalette) +
+        scale_fill_manual(name='Age group',values=agePalette) +
         
         theme(plot.title = element_text(hjust=0.5, size=14, face = "bold"),
               axis.text.x = element_text(angle = 45, hjust = 1)),
@@ -818,9 +818,9 @@ server<-function(input, output, session){
                                         rename(Year=year,
                                                Type=type,
                                                `Province`=province,
-                                               `Age Group`=age_group,
+                                               `Age group`=age_group,
                                                Gender=gender,
-                                               `Employee Count`=count),
+                                               `Employee count`=count),
                                       
                                       options=list(dom='lftipr'),
                                       rownames=F)

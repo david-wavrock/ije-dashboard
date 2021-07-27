@@ -3,32 +3,32 @@
 
 library(shiny)
 library(shinythemes)
-library(dplyr)
-library(leaflet)
+# library(dplyr)
+# library(leaflet)
 library(DT)
 
 ui<-fluidPage(
   shinyjs::useShinyjs(),
   includeCSS('www/style.css'),
   
-  tags$h1("Inter-Jurisdictional Employment (IJE) Dashboard",align="center"),
+  tags$h1("Inter-jurisdictional employment (IJE) dashboard",align="center"),
   tabsetPanel(
  
   tabPanel("Using This App",
            sidebarLayout(
              sidebarPanel(
-               h4(HTML("<u>Definitions</u>")),
+               h2(HTML("Definitions")),
                p(HTML("<ul>
                         <li><b>Jurisdiction</b> refers to a Canadian province or territory</li>
-                        <li><b>Inter-Jurisdictional Employees (IJE)</b> report T4 earnings in a different province or territory than their jurisdiction of residence, as reported on their T1</li>
+                        <li><b>Inter-jurisdictional employees (IJE)</b> report T4 earnings in a different province or territory than their jurisdiction of residence, as reported on their T1</li>
                         <li><b>Incoming IJE</b> for a given jurisdiction report T4 earnings in that province or territory, but report a different one on their T1 as their jurisdiction of residence</li>
                         <li><b>Outgoing IJE</b> for a given jurisdiction report that province or territory on their T1 as their jurisdiction of residence, but report T4 earnings elsewhere</li>
                         <li><b>Resident employment</b> for a given jurisdiction refers to employees who only reports T4 earnings in their province or territory of residence as reported on their T1</li>
                        </ul>
                        As income can be derived from multiple sources, income can be split accordingly:
                        <ul>
-                        <li><b>Income Inside the Jurisdiction</b> for a selected jurisdiction refers to T4 income earned within that jurisdiciton for both incoming and outgoing employees</li>
-                        <li><b>Income Outside the Jurisdiction</b> for a selected jurisdiction refers to T4 income earned outside that jurisdiction for both incoming and outgoing employees</li>
+                        <li><b>Income inside the jurisdiction</b> for a selected jurisdiction refers to T4 income earned within that jurisdiciton for both incoming and outgoing employees</li>
+                        <li><b>Income outside the jurisdiction</b> for a selected jurisdiction refers to T4 income earned outside that jurisdiction for both incoming and outgoing employees</li>
                        </ul>"))
                       #  On the National and Jurisdiction tabs, data can be selected from one of two files:
                       # <ul>
@@ -39,7 +39,7 @@ ui<-fluidPage(
              
              mainPanel(
                fluidRow(column(8,
-                               h4(HTML('<u>About</u>')),
+                               h2(HTML('About')),
                                p(HTML("<b>Inter-jurisdictional employees (IJE)</b> are employees who maintain a permanent residence in a province or territory, while reporting 
                     earnings/income from a different province or territory. Data on IJE are important for federal and provincial governments for a wide range 
                     of purposes related to tax policy, employment, funding for public programs, and more.")),
@@ -47,7 +47,7 @@ ui<-fluidPage(
                     example, 'Incoming IJE' for the province of Alberta would refer to individuals who received T4 earnings in Alberta, but who report a 
                     different province or territory of residence on their T1 tax returns. 'Outgoing IJE' for the province of Alberta would refer to those who listed Alberta 
                     as their province of residence on their T1 tax return, but who made earnings in another province or territory in the same tax year.")),
-                               h4(HTML('<u>How to Use This Application</u>')),
+                               h2(HTML('How to use this application')),
                                p(HTML("The IJE Dashboard contains five separate tabs from which users can produce interactive data visualizations of inter-jurisdictional employment 
                     flows. These tabs can be found at the top of the page, and display information on national level trends; jurisdictional inflows and outflows of  
                     IJE; and for each province and territory, breakdowns of inflows and outflows by province pair, industry, and age group.")),
@@ -70,7 +70,7 @@ ui<-fluidPage(
                                #        on your selections and the values corresponding to each point. Navigation tools are available in the upper right hand corner of each plot as well, 
                                #        and allow for panning and zooming. The data used in each plot can also be directly downloaded from each page by selecting the table of choice in 
                                #        the dropdown menu and clicking <b>Download</b>.")),
-                               h4(HTML('<u>IJE Guide & Release Files</u>')),
+                               h2(HTML('IJE guide & release files')),
                                p(HTML("IJE data developed by Social Analysis and Modelling Division (SAMD) are based on the Canadian Employer-Employee Dynamics Database (CEEDD) at Statistics 
                     Canada. Starting in 2021, SAMD has added this dashboard as a new dissemination and data exploration tool as part of its regular release of  
                     IJE data to the public and to stakeholders.")),
@@ -162,11 +162,11 @@ ui<-fluidPage(
                #          received T4 earnings from other jurisdictions. When 'Incoming' is selected, the base jurisdiction is the province or territory in 
                #          which they work and the target jurisdiction is their jurisdiction of residence (where they file T1 Genral), with the opposite being 
                #          true when 'Outgoing' is selected."),
-               helpText("3. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
-               helpText("4. Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts may also be 
+               helpText(HTML("<b>Note:</b> Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included.")),
+               helpText("Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts may also be 
                         suppressed if the sum of all suppressed counts is less than 10. Counts are rounded to the nearest 5, and earnings are rounded to 
                         the nearest 100."),
-               helpText("Source: Statistics Canada, Canadian Employer-Employee Dynamics Database.")
+               helpText(HTML("<b>Source:</b> Statistics Canada, Canadian Employer-Employee Dynamics Database."))
              )
              
              
@@ -257,18 +257,18 @@ ui<-fluidPage(
                       the T1, T4 and the T1 historical personal master file. The T1 historical file includes late and re-assessed tax filers. Because
                       the T1 historical file is only available up to 2015, the last two years is forecasted using a 5-year average from both the T4-T1 
                       and the T4-T1-T1 historical file series."),
-             helpText("2. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
+             helpText(HTML("<B>Note:</b> Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included.")),
              
              # helpText("3. Incoming IJE are individuals who received T4 earnings from the selected jurisdiction but reported a different jurisdiction 
              #            of residence on their T1 tax returns. Outgoing IJE are individuals who identified as residing in the selected jurisdiction but 
              #            received T4 earnings from other jurisdictions. When 'Incoming' is selected, the base jurisdiction is the province or territory in 
              #            which they work and the target jurisdiction is their jurisdiction of residence (where they file T1 Genral), with the opposite being 
              #            true when 'Outgoing' is selected."),
-             helpText("3. Incoming IJE's earnings are defined as their T4 earnings received from the selected jurisdiction. Outgoing IJE's earnings are
+             helpText("Incoming IJE's earnings are defined as their T4 earnings received from the selected jurisdiction. Outgoing IJE's earnings are
                       defined as their T4 earnings received from non-residential jurisdictions (i.e., outside the selected jurisdiction)."),
-             helpText("4. Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts may also be suppressed 
+             helpText("Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts may also be suppressed 
                       if the sum of all suppressed counts is less than 10. Counts are rounded to the nearest 5, and earnings are rounded to the nearest 100."),
-             helpText("Source: Statistics Canada, Canadian Employer-Employee Dynamics Database.")
+             helpText(HTML("<b>Source:</b> Statistics Canada, Canadian Employer-Employee Dynamics Database."))
              
              
              )
@@ -317,20 +317,19 @@ ui<-fluidPage(
                helpText("1. When an outgoing IJE has T4 earnings in more than one jurisdiction, they will be counted in the jurisdiction of the job in which 
                         the employee has the highest T4 earnings. When 'Incoming' IJEs is selected, the target jurisdiction is the person's jurisdiction of residence. When 
                         'Outgoing' IJEs is selected, the target jurisdiction refers to the persons province of employment."),
-               helpText("2. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
-               helpText("3. When 'Incoming' IJEs are selected, incomes reflect the income made inside the selected jurisdiction. When 'Outgoing' IJEs are selected, income reflects the 
+               helpText(HTML("<b>Note:</b> Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included.")),
+               helpText("When 'Incoming' IJEs are selected, incomes reflect the income made inside the selected jurisdiction. When 'Outgoing' IJEs are selected, income reflects the 
                         income made outside the selected jurisdiction for residents of the selected jurisdiction."),
-               helpText("4. These estimates are derived from the T1 and T4 tax files and do not include late and re-assessed 
-                        taxfilers from the T1 Historical personal master file."),
+               helpText("These estimates are derived from the T1 and T4 tax files and do not include late and re-assessed taxfilers from the T1 Historical personal master file."),
                # helpText("3. Incoming IJE are individuals who received T4 earnings from the selected jurisdiction but reported a different jurisdiction 
                #          of residence on their T1 tax returns. Outgoing IJE are individuals who identified as residing in the selected jurisdiction but 
                #          received T4 earnings from other jurisdictions. When 'Incoming' is selected, the base jurisdiction is the province or territory in 
                #          which they work and the target jurisdiction is their jurisdiction of residence (where they file T1 Genral), with the opposite being 
                #          true when 'Outgoing' is selected."),
-               helpText("5. Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts may 
+               helpText("Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts may 
                         also be suppressed if the sum of all suppressed counts is less than 10. Counts are rounded to the nearest 5, and earnings 
                         are rounded to the nearest 100."),
-               helpText("Source: Statistics Canada, Canadian Employer-Employee Dynamics Database.")
+               helpText(HTML("<b>Source:</b> Statistics Canada, Canadian Employer-Employee Dynamics Database."))
                
              )
            )
@@ -416,11 +415,11 @@ ui<-fluidPage(
                #br(),
                helpText("1. When an employee has T4 earnings in more than one industry, they will be counted in the industry of the job in which the 
                         employee has the highest T4 earnings."),
-               helpText("2. Industry categories are derived from the North American Industry Classification System (NAICS). 'IFRM' includes: Information and cultural industries; 
-                        Finance and insurance; Real estate and rental and leasing; Management of companies and enterprises. ‘Other services’ include: Administrative and support; 
-                        Waste management and remediation services; Entertainment and recreation; Other services etc."),
-               helpText("3. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
-               helpText("4. Estimates on this tab are derived from the T1 and T4 tax files and do not include late and re-assessed taxfilers from the T1 Historical personal master file. 
+               helpText("2. Industry categories are derived from the North American Industry Classification System (NAICS)."),
+               helpText(HTML("<b>IFRM:</b> Information and cultural industries; Finance and insurance; Real estate and rental and leasing; Management of companies and enterprises. 
+                        ‘Other services’ include: Administrative and support; Waste management and remediation services; Entertainment and recreation; Other services etc.")),
+               helpText(HTML("<b>Note:</b> Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included.")),
+               helpText("Estimates on this tab are derived from the T1 and T4 tax files and do not include late and re-assessed taxfilers from the T1 Historical personal master file. 
                         When 'Incoming' IJEs are selected, incomes reflect the income made inside the selected jurisdiction. When 'Outgoing' IJEs are selected, income reflects the 
                         income made outside the selected jurisdiction for residents of the selected jurisdiction."),
                # helpText("3. Incoming IJE are individuals who received T4 earnings from the selected jurisdiction but reported a different jurisdiction 
@@ -429,10 +428,10 @@ ui<-fluidPage(
                #          which they work and the target jurisdiction is their jurisdiction of residence (where they file T1 Genral), with the opposite being 
                #          true when 'Outgoing' is selected."),
                
-               helpText("5. Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts may also be 
+               helpText("Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts may also be 
                         suppressed if the sum of all suppressed counts is less than 10. Counts are rounded to the nearest 5, and earnings are rounded 
                         to the nearest 100."),
-               helpText("Source: Statistics Canada, Canadian Employer-Employee Dynamics Database.")
+               helpText(HTML("<b>Source:</b> Statistics Canada, Canadian Employer-Employee Dynamics Database."))
                
              )
            )
@@ -482,17 +481,17 @@ ui<-fluidPage(
                dataTableOutput('age_table'),
                hr(),
                
-               helpText("1. Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included."),
-               helpText("2. These estimates are derived from the T1 and T4 tax files and do not include late and re-assessed 
+               helpText(HTML("<b>Note:</b> Only employees aged 18 or older who earned more than $1,000 (in 2016 constant dollars) are included.")),
+               helpText("These estimates are derived from the T1 and T4 tax files and do not include late and re-assessed 
                         taxfilers from the T1 Historical personal master file."),
                # helpText("3. Incoming IJE are individuals who received T4 earnings from the selected jurisdiction but reported a different jurisdiction 
                #          of residence on their T1 tax returns. Outgoing IJE are individuals who identified as residing in the selected jurisdiction but 
                #          received T4 earnings from other jurisdictions. When 'Incoming' is selected, the base jurisdiction is the province or territory in 
                #          which they work and the target jurisdiction is their jurisdiction of residence (where they file T1 Genral), with the opposite being 
                #          true when 'Outgoing' is selected."),
-               helpText("3. Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts may also be suppressed 
+               helpText("Numbers may not add up to totals because of rounding. Counts less than 10 are suppressed. Additional counts may also be suppressed 
                         if the sum of all suppressed counts is less than 10. Counts are rounded to the nearest 5, and earnings are rounded to the nearest 100."),
-               helpText("Source: Statistics Canada, Canadian Employer-Employee Dynamics Database.")
+               helpText(HTML("<b>Source:</b> Statistics Canada, Canadian Employer-Employee Dynamics Database."))
                
              )
            )

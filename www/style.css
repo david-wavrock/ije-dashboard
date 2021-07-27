@@ -21,6 +21,12 @@ img {
   max-width: 100%;
 }
 
+/* can cut out this part if size of font is desirable to be made normal*/
+/*
+body {
+  font-size: 20px !important;
+}*/
+
 /* modify margin under title panel */
 .col-sm-4 {
   margin-top: 20px;

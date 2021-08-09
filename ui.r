@@ -103,31 +103,31 @@ ui<-fluidPage(
   tabPanel("National", 
            sidebarLayout(
              sidebarPanel(
-               selectInput("YearInput", "Select Year",
+               selectInput("YearInput", "Select year",
                            choices = c(beginy:endy),
                            selected =c(endy)),
                
-               radioButtons("SeriesInput", "Select Series",
+               radioButtons("SeriesInput", "Select series",
                             choices = c("Employee Count","Employee Income"),
                             selected=c("Employee Count")),
                
-               radioButtons("TypeInput", "Select Employment Type",
+               radioButtons("TypeInput", "Select employment type",
                             choices = c("Incoming","Outgoing","Resident"),
                             selected =c("Incoming")),   
                
-               radioButtons("GenderInput", "Select Gender",
+               radioButtons("GenderInput", "Select gender",
                          choices = c("All","Male","Female"),
                          selected =c("All")),
                
-               radioButtons("IncomeSource", tags$div(HTML(paste0("Select Income Source",tags$sup('1')))),
+               radioButtons("IncomeSource", tags$div(HTML(paste0("Select income source",tags$sup('1')))),
                            choices = c("Inside the Jurisdiction","Outside the Jurisdiction"),
                            selected =c("Inside the Jurisdiction")),
                
-               radioButtons("SourceInput", tags$div(HTML(paste0("Select Data Source",tags$sup('2')))),
+               radioButtons("SourceInput", tags$div(HTML(paste0("Select data source",tags$sup('2')))),
                             choices = c("T1 Personal Master File", "T1 Historical File"),
                             selected = c("T1 Personal Master File")), 
                
-               actionButton('NationalGen',HTML('<b>Refresh Plot</b>'),width='100%'),
+               actionButton('NationalGen',HTML('<b>Refresh plot</b>'),width='100%'),
                hr(),
 
                selectInput("tableN", "Choose a table to download: ",
@@ -178,26 +178,26 @@ ui<-fluidPage(
   tabPanel("Jurisdiction",
            sidebarLayout(
              sidebarPanel(
-               selectInput("ProvinceInput", "Select Jurisdiction",
+               selectInput("ProvinceInput", "Select jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
                                        "Yukon", "Northwest Territories","Nunavut"),
                            
                            selected =c("Newfoundland and Labrador")),
                
-               sliderInput("YRInput", "Year Range", 
+               sliderInput("YRInput", "Year range", 
                            beginy, endy, c(beginy, endy),
                            sep=''),
                
-               radioButtons("GDInput", "Select Gender",
+               radioButtons("GDInput", "Select gender",
                            choices = c("All","Male","Female"),
                            selected =c("All")),
                
-               radioButtons("DSInput", tags$div(HTML(paste0("Select Data Source",tags$sup('1')))),
+               radioButtons("DSInput", tags$div(HTML(paste0("Select data source",tags$sup('1')))),
                             choices = c("T1 Personal Master File", "T1 Historical File"),
                             selected = c("T1 Personal Master File")),
                
-               actionButton('JurisdGen',HTML('<b>Refresh Plot</b>'),width='100%'),
+               actionButton('JurisdGen',HTML('<b>Refresh plot</b>'),width='100%'),
                hr(),
                
                selectInput("tableIn", "Choose a table to download: ",
@@ -278,27 +278,27 @@ ui<-fluidPage(
   tabPanel("Target Jurisdiction",
            sidebarLayout(
              sidebarPanel(
-               selectInput("ProOPInput", "Select Base Jurisdiction",
+               selectInput("ProOPInput", "Select base jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
                                        "Yukon", "Northwest Territories","Nunavut"),
                            selected =c("Newfoundland and Labrador")),
                
-               sliderInput("YRTP", "Year Range", 
+               sliderInput("YRTP", "Year range", 
                            beginy, endy, c(beginy, endy),
                            sep=''),
                
-               radioButtons('IncOutTgtJuris',"Select Employment Type",
+               radioButtons('IncOutTgtJuris',"Select employment type",
                             choices = c('Incoming','Outgoing'),
                             selected = c('Incoming')),
                
-               checkboxGroupInput('ProTPInput',tags$div(HTML(paste0("Select Target Jurisdiction",tags$sup('1')))),
+               checkboxGroupInput('ProTPInput',tags$div(HTML(paste0("Select target jurisdiction",tags$sup('1')))),
                                   choices = provList,
                                   selected = provList),
                
-               checkboxInput("selectAllProv","Select/Deselect All", value=T),
+               checkboxInput("selectAllProv","Select/deselect all", value=T),
                
-               actionButton('TgtJurisdGen',HTML('<b>Refresh Plot</b>'),width='100%'),
+               actionButton('TgtJurisdGen',HTML('<b>Refresh plot</b>'),width='100%'),
                hr(),
                
                selectInput("tableTP", "Choose a table to download: ",
@@ -339,27 +339,27 @@ ui<-fluidPage(
   tabPanel("Industry",
            sidebarLayout(
              sidebarPanel(
-               selectInput("ProIndInput", "Select Jurisdiction",
+               selectInput("ProIndInput", "Select jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
                                        "Yukon", "Northwest Territories","Nunavut"),
                            selected =c("Newfoundland and Labrador")),
                
-               sliderInput("YRInd", "Year Range", 
+               sliderInput("YRInd", "Year range", 
                            beginy, endy, c(beginy, endy),
                            sep=''),
                
-               radioButtons('IncOutIndustry',"Select Employment Type",
+               radioButtons('IncOutIndustry',"Select employment type",
                             choices = c('Incoming','Outgoing'),
                             selected = c('Incoming')),
                
-               checkboxGroupInput("IndustryInput", tags$div(HTML(paste0("Select Industry",tags$sup('1,2')))),
+               checkboxGroupInput("IndustryInput", tags$div(HTML(paste0("Select industry",tags$sup('1,2')))),
                                   choices = indList,
                                   selected = indList[1:12]),
                
-               checkboxInput("selectAllInd","Select/Deselect All"),
+               checkboxInput("selectAllInd","Select/deselect all"),
                
-               actionButton('IndustryGen',HTML('<b>Refresh Plot</b>'),width='100%'),
+               actionButton('IndustryGen',HTML('<b>Refresh plot</b>'),width='100%'),
                hr(),
                
                selectInput("tableInd", "Choose a table to download: ",
@@ -440,31 +440,31 @@ ui<-fluidPage(
   tabPanel("Age Group",
            sidebarLayout(
              sidebarPanel(
-               selectInput("ProAgeInput", "Select Jurisdiction",
+               selectInput("ProAgeInput", "Select jurisdiction",
                            choices = c("Newfoundland and Labrador","Prince Edward Island","Nova Scotia","New Brunswick",
                                        "Quebec", "Ontario", "Manitoba","Saskatchewan","Alberta","British Columbia",
                                        "Yukon", "Northwest Territories","Nunavut"),
                            selected =c("Newfoundland and Labrador")),
                
-               sliderInput("YRAge", "Year Range",
+               sliderInput("YRAge", "Year range",
                            beginy, endy, c(beginy, endy),
                            sep=''),
                
-               radioButtons("TAgeInput", "Select Employment Type",
+               radioButtons("TAgeInput", "Select employment type",
                             choices = c("Incoming","Outgoing"),
                             selected =c("Incoming")),
                
-               checkboxGroupInput( "AgeInput", "Select Age Groups",
+               checkboxGroupInput( "AgeInput", "Select age groups",
                            choices = ageList,
                            selected = ageList),
                
-               checkboxInput('selectAllAge','Select/Deselect All',value=T),
+               checkboxInput('selectAllAge','Select/deselect all',value=T),
                
-               radioButtons("GDAgeInput", "Select Gender",
+               radioButtons("GDAgeInput", "Select gender",
                            choices = c("All","Male","Female"),
                            selected =c("All")),
                
-               actionButton('AgeGen',HTML('<b>Refresh Plot</b>'),width='100%'),
+               actionButton('AgeGen',HTML('<b>Refresh plot</b>'),width='100%'),
                hr(),
                
                selectInput("tableAge", "Choose a table to download: ",
